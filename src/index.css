@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;800&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* 
+  Re-adding base styles here since we can use standard CSS or @layer base 
+  if we want, but global classes on body are also fine.
+*/
+@layer base {
+    body {
+        background-color: #1A1D23;
+        /* fallback for bg-dagger-dark */
+        color: #E5E7EB;
+    }
+}
