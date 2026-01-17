@@ -472,8 +472,8 @@ function App() {
             setSelectedAdversary(null);
             setCustomizeModalOpen(false);
           }}
-          isEncounterBuilderActive={activeTab === 'edit'}
-          onAddToEncounter={activeTab === 'edit' ? handleAddToEncounter : undefined}
+          isEncounterBuilderActive={false}
+          onAddToEncounter={undefined}
         />
       )}
 

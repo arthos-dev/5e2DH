@@ -102,7 +102,7 @@ function parseDamageDice(damageDice: string): { dice: number; dieType: number; m
  * Rule: add tierDelta dice and tierDelta * 2 to modifier
  * Note: For T3, the modifier calculation might be high per the guide
  */
-export function scaleDamageDice(damageDice: string, tierDelta: number, role: string): string {
+export function scaleDamageDice(damageDice: string, tierDelta: number, _role: string): string {
     if (tierDelta === 0) {
         return damageDice;
     }
