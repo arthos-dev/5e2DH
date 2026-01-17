@@ -56,8 +56,6 @@ export const EncounterInstanceCard: React.FC<Props> = ({
     const displayName = instance.customName || adversary.name;
     const scaledStats = calculateScaledStats(adversary, instance.upscaling);
     const effectiveTier = getEffectiveTier(adversary.tier, instance.upscaling);
-    const thresholdMajor = instance.thresholdMajor;
-    const thresholdSevere = instance.thresholdSevere;
     const adjustments = instance.upscaling !== 0 ? calculateStatAdjustments(adversary.stats, scaledStats) : null;
 
     return (
