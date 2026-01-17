@@ -8,6 +8,8 @@ interface Props {
     allAdversaries: Adversary[];
     onClose: () => void;
     onEditInstance?: (instanceId: string) => void;
+    onNavigateToManage?: () => void;
+    onNavigateToEdit?: () => void;
 }
 
 export const RunningEncounterView: React.FC<Props> = ({
@@ -15,6 +17,8 @@ export const RunningEncounterView: React.FC<Props> = ({
     allAdversaries,
     onClose,
     onEditInstance,
+    onNavigateToManage,
+    onNavigateToEdit,
 }) => {
     const [instances, setInstances] = useState<EncounterInstance[]>(runningEncounter.instances);
 
@@ -39,18 +43,30 @@ export const RunningEncounterView: React.FC<Props> = ({
                         <div className="text-lg font-serif font-bold text-dagger-gold uppercase tracking-widest">
                             {runningEncounter.name}
                         </div>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
                             <button
-                                onClick={onClose}
-                                className="px-4 py-2 text-sm font-serif font-bold tracking-widest uppercase text-dagger-gold hover:text-white border border-dagger-gold/30 hover:border-dagger-gold rounded transition-colors"
+                                onClick={() => {
+                                    if (onNavigateToManage) {
+                                        onNavigateToManage();
+                                    } else {
+                                        onClose();
+                                    }
+                                }}
+                                className="px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center bg-dagger-gold text-dagger-dark border-dagger-gold"
                             >
                                 MANAGE
                             </button>
                             <button
-                                onClick={onClose}
-                                className="px-4 py-2 text-sm font-serif font-bold tracking-widest uppercase bg-dagger-gold/20 text-dagger-gold border border-dagger-gold/50 rounded hover:bg-dagger-gold/30 transition-colors"
+                                onClick={() => {
+                                    if (onNavigateToEdit) {
+                                        onNavigateToEdit();
+                                    } else {
+                                        onClose();
+                                    }
+                                }}
+                                className="px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center bg-dagger-gold/20 text-dagger-gold border-dagger-gold/50 hover:bg-dagger-gold/30"
                             >
-                                EDIT ENCOUNTER
+                                EDIT
                             </button>
                         </div>
                     </div>

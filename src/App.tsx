@@ -286,6 +286,18 @@ function App() {
     setRunningEncounter(null);
   };
 
+  const handleNavigateToManage = () => {
+    setIsRunningEncounter(false);
+    setRunningEncounter(null);
+    setActiveTab('manage');
+  };
+
+  const handleNavigateToEdit = () => {
+    setIsRunningEncounter(false);
+    setRunningEncounter(null);
+    setActiveTab('edit');
+  };
+
   const handleShareEncounter = async () => {
     if (currentEncounter.adversaries.length === 0) {
       showToast('Cannot share an empty encounter', 'error');
@@ -335,6 +347,8 @@ function App() {
         runningEncounter={runningEncounter}
         allAdversaries={allAdversaries}
         onClose={handleStopRunningEncounter}
+        onNavigateToManage={handleNavigateToManage}
+        onNavigateToEdit={handleNavigateToEdit}
       />
     );
   }
@@ -358,7 +372,7 @@ function App() {
           <div className="flex items-center gap-2 mb-2">
             <button
               onClick={() => setActiveTab('manage')}
-              className={`px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 ${
+              className={`px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center ${
                 activeTab === 'manage'
                   ? 'bg-dagger-gold text-dagger-dark border-dagger-gold'
                   : 'bg-dagger-panel text-dagger-gold border-dagger-gold/30 hover:border-dagger-gold hover:bg-dagger-surface'
@@ -368,7 +382,7 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('edit')}
-              className={`px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 ${
+              className={`px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center ${
                 activeTab === 'edit'
                   ? 'bg-dagger-gold text-dagger-dark border-dagger-gold'
                   : 'bg-dagger-panel text-dagger-gold border-dagger-gold/30 hover:border-dagger-gold hover:bg-dagger-surface'
@@ -437,7 +451,7 @@ function App() {
                         </button>
                         <button
                           onClick={() => handleLoadEncounter(encounter.savedEncounterId!)}
-                          className="px-4 py-2 bg-blue-600/20 text-blue-400 border border-blue-600/30 rounded hover:bg-blue-600/40 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
+                          className="w-10 h-10 flex items-center justify-center bg-blue-600/20 text-blue-400 border border-blue-600/30 rounded hover:bg-blue-600/40 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
                           title="Edit"
                         >
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -446,7 +460,7 @@ function App() {
                         </button>
                         <button
                           onClick={() => handleDeleteSavedEncounter(encounter.savedEncounterId!)}
-                          className="px-4 py-2 bg-red-600/20 text-red-400 border border-red-600/30 rounded hover:bg-red-600/40 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
+                          className="w-10 h-10 flex items-center justify-center bg-red-600/20 text-red-400 border border-red-600/30 rounded hover:bg-red-600/40 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
                           title="Delete"
                         >
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
