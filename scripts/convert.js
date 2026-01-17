@@ -588,6 +588,14 @@ function convertDnDTerminology(text) {
     return newText;
 }
 
+// Convert markdown bold syntax to HTML bold tags
+function convertMarkdownToHTML(text) {
+    if (!text) return "";
+    
+    // Convert **text** to <strong>text</strong>
+    return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
 function addRoleSpecificFeatures(features, role, cr, tier) {
     const roleUpper = role.toUpperCase();
     const newFeatures = [];
@@ -615,13 +623,13 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
         if (!hasFeature("momentum")) {
             newFeatures.push({
                 name: "Momentum",
-                description: "*Reaction:* When this adversary makes a successful attack against a PC, you gain a Fear."
+                description: convertMarkdownToHTML("**Reaction:** When this adversary makes a successful attack against a PC, you gain a Fear.")
             });
         }
         if (cr >= 5 && !hasFeature("ramp up") && !hasFeature("heavy hitter")) {
             newFeatures.push({
                 name: "Heavy Hitter",
-                description: "*Reaction:* When this adversary deals damage with a standard attack, you can spend a Fear to gain a +2 bonus to the damage roll."
+                description: convertMarkdownToHTML("**Reaction:** When this adversary deals damage with a standard attack, you can spend a Fear to gain a +2 bonus to the damage roll.")
             });
         }
     }
@@ -631,13 +639,13 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
         if (!hasFeature("momentum")) {
             newFeatures.push({
                 name: "Momentum",
-                description: "*Reaction:* When this adversary makes a successful attack against a PC, you gain a Fear."
+                description: convertMarkdownToHTML("**Reaction:** When this adversary makes a successful attack against a PC, you gain a Fear.")
             });
         }
         if (!hasFeature("tactician")) {
             newFeatures.push({
                 name: "Tactician",
-                description: "*Action:* Mark a Stress to spotlight this adversary and two allies within Close range."
+                description: convertMarkdownToHTML("**Action:** Mark a Stress to spotlight this adversary and two allies within Close range.")
             });
         }
     }
@@ -649,7 +657,7 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
             const minionValue = tier === 1 ? 3 : tier === 2 ? 5 : tier === 3 ? 7 : 9;
             newFeatures.push({
                 name: `Minion (${minionValue})`,
-                description: `*Passive:* This adversary is defeated when it takes any damage. For every ${minionValue} damage a PC deals to this adversary, defeat an additional Minion within range that the attack would hit.`
+                description: convertMarkdownToHTML(`**Passive:** This adversary is defeated when it takes any damage. For every ${minionValue} damage a PC deals to this adversary, defeat an additional Minion within range that the attack would hit.`)
             });
         }
     }
@@ -659,7 +667,7 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
         if (!hasFeature("disrupt") && !hasFeature("harry")) {
             newFeatures.push({
                 name: "Harass",
-                description: "*Action:* Mark a Stress to force a PC within Close range to make a test against this adversary's Difficulty or mark a Stress."
+                description: convertMarkdownToHTML("**Action:** Mark a Stress to force a PC within Close range to make a test against this adversary's Difficulty or mark a Stress.")
             });
         }
     }
@@ -670,7 +678,7 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
             const relentlessValue = cr >= 20 ? 3 : 2;
             newFeatures.push({
                 name: `Relentless (${relentlessValue})`,
-                description: `*Passive:* This adversary can be spotlighted up to ${relentlessValue} times per conflict. Spend Fear as usual to spotlight them.`
+                description: convertMarkdownToHTML(`**Passive:** This adversary can be spotlighted up to ${relentlessValue} times per conflict. Spend Fear as usual to spotlight them.`)
             });
         }
     }
@@ -684,7 +692,7 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
         }
         // Also add to Traits if they're passives
         newFeatures.forEach(feat => {
-            if (feat.description.startsWith("*Passive:*")) {
+            if (feat.description.includes("<strong>Passive:</strong>")) {
                 let traitsSection = features.find(f => f.name === "Traits");
                 if (!traitsSection) {
                     traitsSection = { name: "Traits", entries: [] };
@@ -783,7 +791,7 @@ function convertMultiattack(group, role, cr, tier) {
     
     return {
         name,
-        description: `*Action:* ${description}`
+        description: convertMarkdownToHTML(`**Action:** ${description}`)
     };
 }
 
@@ -970,19 +978,19 @@ function convertSingleAction(name, description, role, cr, tier) {
     }
     
     // Add action type prefix if not present
-    if (!converted.startsWith('*')) {
+    if (!converted.startsWith('**')) {
         if (needsFear || needsStress) {
             actionType = "Action";
         } else {
             actionType = classifyFeature(converted);
         }
-        converted = `*${actionType}:* ${converted}`;
+        converted = `**${actionType}:** ${converted}`;
     }
     
     // Never return null - always return a converted action
     return {
         name,
-        description: converted
+        description: convertMarkdownToHTML(converted)
     };
 }
 
@@ -1261,13 +1269,13 @@ function parseFeatureText(text) {
             
             // Classify feature and add proper tag if not already present
             const featureType = classifyFeature(description);
-            if (!description.startsWith("*Passive:*") && 
-                !description.startsWith("*Action:*") && 
-                !description.startsWith("*Reaction:*")) {
-                description = `*${featureType}:* ${description}`;
+            if (!description.startsWith("**Passive:**") && 
+                !description.startsWith("**Action:**") && 
+                !description.startsWith("**Reaction:**")) {
+                description = `**${featureType}:** ${description}`;
             }
             
-            return { name, description };
+            return { name, description: convertMarkdownToHTML(description) };
         } else {
             // Fallback for lines without a period
             let description = line.trim();
@@ -1276,13 +1284,13 @@ function parseFeatureText(text) {
             
             // Classify feature and add proper tag if not already present
             const featureType = classifyFeature(description);
-            if (!description.startsWith("*Passive:*") && 
-                !description.startsWith("*Action:*") && 
-                !description.startsWith("*Reaction:*")) {
-                description = `*${featureType}:* ${description}`;
+            if (!description.startsWith("**Passive:**") && 
+                !description.startsWith("**Action:**") && 
+                !description.startsWith("**Reaction:**")) {
+                description = `**${featureType}:** ${description}`;
             }
             
-            return { name: "", description };
+            return { name: "", description: convertMarkdownToHTML(description) };
         }
     });
 }
