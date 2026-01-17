@@ -120,12 +120,6 @@ function App() {
   }, [selectedAdversary, customizeModalOpen]);
 
   // Encounter Builder Handlers
-  const handleAddToEncounter = () => {
-    if (selectedAdversary) {
-      setCustomizeModalOpen(true);
-    }
-  };
-
   const handleCustomizeSubmit = (quantity: number, upscaling: number, customName: string) => {
     if (!selectedAdversary) return;
 
