@@ -7,7 +7,43 @@ import path from 'path';
 // Constants
 // ============================================================================
 const csvPath = path.resolve('./Bestiary.csv');
+const spellsPath = path.resolve('./Spells.csv');
 const outputPath = path.resolve('./src/data/adversaries.json');
+
+// ============================================================================
+// Spell Database
+// ============================================================================
+let spellDatabase = new Map(); // Key: normalized spell name (lowercase), Value: spell data object
+
+// Load spells database
+function loadSpellsDatabase() {
+    if (!fs.existsSync(spellsPath)) {
+        console.warn(`Spells.csv not found at ${spellsPath}`);
+        return;
+    }
+    
+    const spellsContent = fs.readFileSync(spellsPath, 'utf8');
+    const spellsResult = Papa.parse(spellsContent, { header: true });
+    
+    for (const spell of spellsResult.data) {
+        if (spell.Name && spell.Name.trim()) {
+            const normalizedName = spell.Name.toLowerCase().trim();
+            spellDatabase.set(normalizedName, {
+                name: spell.Name,
+                level: spell.Level || '',
+                castingTime: spell['Casting Time'] || '',
+                duration: spell.Duration || '',
+                school: spell.School || '',
+                range: spell.Range || '',
+                components: spell.Components || '',
+                text: spell.Text || '',
+                atHigherLevels: spell['At Higher Levels'] || ''
+            });
+        }
+    }
+    
+    console.log(`Loaded ${spellDatabase.size} spells from Spells.csv`);
+}
 
 // ============================================================================
 // Role-specific stat tables based on "Making Custom Adversaries" guide
@@ -589,11 +625,121 @@ function convertDnDTerminology(text) {
 }
 
 // Convert markdown bold syntax to HTML bold tags
+// Also handles bullet points and multi-line formatting for spell descriptions
 function convertMarkdownToHTML(text) {
     if (!text) return "";
     
-    // Convert **text** to <strong>text</strong>
-    return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // First, convert **text** to <strong>text</strong>
+    let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert markdown bullet points (-) to HTML lists
+    // Split by lines to process bullet points
+    const lines = html.split('\n');
+    const result = [];
+    let inList = false;
+    let listItems = [];
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const trimmed = line.trim();
+        
+        // Check if this line is a bullet point (starts with - after optional whitespace)
+        const bulletMatch = line.match(/^(\s*)(-)\s+(.+)$/);
+        
+        if (bulletMatch) {
+            // If we weren't in a list, start one
+            if (!inList) {
+                inList = true;
+                listItems = [];
+            }
+            
+            const indent = bulletMatch[1].length;
+            const content = bulletMatch[3];
+            
+            // Handle indented content (spell descriptions) - collect following indented lines
+            let itemContent = content;
+            let j = i + 1;
+            const itemLines = [content];
+            
+            // Collect following indented lines that are part of this bullet item
+            while (j < lines.length) {
+                const nextLine = lines[j];
+                const nextTrimmed = nextLine.trim();
+                
+                // Stop if we hit another bullet at same or less indent
+                const nextBullet = nextLine.match(/^(\s*)(-)\s+/);
+                if (nextBullet) {
+                    const nextIndent = nextBullet[1].length;
+                    if (nextIndent <= indent) break;
+                } else if (nextTrimmed && !nextLine.match(/^\s{2,}/)) {
+                    // Stop if we hit a non-indented non-empty line (unless it's a header like "**At will:**")
+                    // Headers with bold text are okay
+                    if (nextTrimmed.length > 0 && !nextTrimmed.startsWith('<strong>')) break;
+                }
+                
+                // Include indented lines or empty lines as part of this item
+                if (!nextTrimmed || nextLine.match(/^\s{2,}/)) {
+                    itemLines.push(nextTrimmed || '');
+                    j++;
+                } else {
+                    break;
+                }
+            }
+            
+            // Join item content, preserving structure for UI to convert \n to <br/>
+            // The UI component will convert \n to <br/>, so we keep newlines for now
+            itemContent = itemLines.join('\n');
+            
+            listItems.push(`<li>${itemContent}</li>`);
+            
+            // Skip lines we've processed (they're already included in the list item)
+            // j is the first line we didn't process, so skip to j-1 and let the loop increment to j
+            if (j > i + 1) {
+                i = j - 1; // Next iteration will be j, which is correct
+            }
+        } else {
+            // Not a bullet point
+            // Check if this is an empty line that might be followed by another bullet
+            // If so, don't close the list yet - let empty lines pass through as list separators
+            if (!trimmed) {
+                // Empty line - check if next non-empty line is a bullet
+                let nextNonEmptyIsBullet = false;
+                for (let k = i + 1; k < lines.length; k++) {
+                    const nextLine = lines[k];
+                    const nextTrimmed = nextLine.trim();
+                    if (nextTrimmed) {
+                        nextNonEmptyIsBullet = /^\s*(-)\s+/.test(nextLine);
+                        break;
+                    }
+                }
+                
+                // If next non-empty line is a bullet and we're in a list, keep the list open
+                if (nextNonEmptyIsBullet && inList) {
+                    // Add empty line as-is (it will be inside list items via newlines)
+                    result.push(line);
+                    continue;
+                }
+            }
+            
+            // If we were in a list and this is not an empty line that continues the list, close it
+            if (inList && trimmed) {
+                result.push(`<ul>${listItems.join('')}</ul>`);
+                listItems = [];
+                inList = false;
+            }
+            
+            // Add the line as-is (UI will handle \n to <br/> conversion)
+            result.push(line);
+        }
+    }
+    
+    // Close any open list
+    if (inList && listItems.length > 0) {
+        result.push(`<ul>${listItems.join('')}</ul>`);
+    }
+    
+    // Join result - preserve newlines for UI to convert
+    return result.join('\n');
 }
 
 function addRoleSpecificFeatures(features, role, cr, tier) {
@@ -798,6 +944,12 @@ function convertMultiattack(group, role, cr, tier) {
 function convertSingleAction(name, description, role, cr, tier) {
     const descLower = description.toLowerCase();
     let converted = description;
+    
+    // Check if this is a Spellcasting action (handles both "Spellcasting" and "Innate Spellcasting")
+    // and enhance it with spell details
+    if (isSpellcastingAction(name)) {
+        converted = enhanceSpellcastingAction(name, converted, description);
+    }
     
     // Convert D&D terminology first
     converted = convertDnDTerminology(converted);
@@ -1148,6 +1300,334 @@ function getSpellAction(description) {
 }
 
 // ============================================================================
+// Spell Parsing and Enhancement Functions
+// ============================================================================
+
+// Extract functional/mechanical text from spell description, excluding narrative
+function extractFunctionalSpellText(spellText) {
+    if (!spellText) return '';
+    
+    let text = spellText;
+    
+    // Split into sentences and filter for mechanical content
+    const sentences = text.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
+    const functionalSentences = [];
+    
+    for (let sentence of sentences) {
+        const sLower = sentence.toLowerCase();
+        
+        // Skip purely narrative sentences
+        if (sLower.startsWith('you ') && !sLower.includes('damage') && !sLower.includes('saving throw') && 
+            !sLower.includes('condition') && !/\d+d\d+/.test(sentence) && !/\d+\s+foot/.test(sentence)) {
+            // Check if it has mechanical content later in the sentence
+            if (!sLower.includes('must') && !sLower.includes('makes') && !sLower.includes('takes')) {
+                continue; // Skip narrative-only sentences
+            }
+        }
+        
+        // Keep sentences with mechanical content
+        if (sLower.includes('damage') || 
+            sLower.includes('saving throw') || 
+            sLower.includes('condition') ||
+            sLower.includes('range') ||
+            sLower.includes('radius') ||
+            sLower.includes('cube') ||
+            sLower.includes('line') ||
+            sLower.includes('cone') ||
+            sLower.includes('sphere') ||
+            sLower.includes('emanation') ||
+            /\d+d\d+/.test(sentence) ||
+            /\d+\s+foot/.test(sentence) ||
+            /\d+\s+feet/.test(sentence) ||
+            sLower.includes('must') ||
+            sLower.includes('makes') ||
+            sLower.includes('takes') ||
+            sLower.includes('fails') ||
+            sLower.includes('succeeds') ||
+            sLower.includes('half')) {
+            
+            // Clean up sentence - remove narrative openings
+            sentence = sentence.replace(/^(You|A|An|The|This spell|Choose|Target)\s+/i, '');
+            functionalSentences.push(sentence);
+        }
+    }
+    
+    if (functionalSentences.length > 0) {
+        return functionalSentences.join('. ').trim();
+    }
+    
+    // Fallback: return cleaned version of text, removing obvious narrative
+    text = text.replace(/^(You|A|An|The|This spell)\s+/i, '');
+    return text.trim();
+}
+
+// Clean spell description while preserving full text content
+// Only removes leading narrative pronouns for better readability in stat blocks
+function cleanSpellDescription(spellText) {
+    if (!spellText) return '';
+    
+    let text = spellText.trim();
+    
+    // Remove leading narrative pronouns at the start of the text for better flow in stat blocks
+    // This makes "You create..." become "create..." which reads better in adversary descriptions
+    text = text.replace(/^(You|A|An|The|This spell)\s+/i, '');
+    
+    // Capitalize the first letter if it's lowercase
+    if (text.length > 0 && text[0] === text[0].toLowerCase()) {
+        text = text[0].toUpperCase() + text.slice(1);
+    }
+    
+    // Preserve all other content including full descriptions, mechanics, and narrative
+    return text;
+}
+
+// Clean spell name by removing damage annotations in parentheses
+// Removes patterns like "(2d8 damage)", "(8d6 damage)", etc.
+// Also removes trailing digits that might be part of frequency markers (e.g., "prestidigitation2" -> "prestidigitation")
+function cleanSpellName(spellName) {
+    if (!spellName) return '';
+    
+    // Remove parenthetical damage expressions like "(2d8 damage)", "(8d6 damage)", "(XdY damage)"
+    // Pattern matches: ( followed by optional digits, then d, then digits, then optional +modifier, then "damage")
+    let cleaned = spellName.replace(/\s*\(\d+d\d+(?:\s*\+\s*\d+)?\s+damage\)/gi, '');
+    
+    // Also remove any other parenthetical expressions that look like damage (e.g., "(2d8)", "(8d6)")
+    // This catches cases where "damage" might be missing
+    cleaned = cleaned.replace(/\s*\(\d+d\d+(?:\s*\+\s*\d+)?\)/gi, '');
+    
+    // Remove trailing digits that might be part of frequency markers
+    // Pattern: word followed by digits at the end (e.g., "prestidigitation2" -> "prestidigitation")
+    // But only if followed by "/day" pattern (handled by preprocessing, but be safe)
+    cleaned = cleaned.replace(/([a-z])(\d+)$/i, '$1');
+    
+    // Trim whitespace
+    return cleaned.trim();
+}
+
+// Look up a spell in the database (case-insensitive)
+function lookupSpell(spellName) {
+    if (!spellName || !spellName.trim()) return null;
+    
+    // Clean the spell name first (removes damage annotations, etc.) as a fallback
+    const cleaned = cleanSpellName(spellName);
+    const normalized = cleaned.toLowerCase().trim();
+    
+    // Try exact match first
+    if (spellDatabase.has(normalized)) {
+        return spellDatabase.get(normalized);
+    }
+    
+    // Try fuzzy matching - handle common variations
+    for (const [key, spell] of spellDatabase.entries()) {
+        // Check if the key contains the normalized name or vice versa
+        if (key.includes(normalized) || normalized.includes(key)) {
+            return spell;
+        }
+    }
+    
+    return null;
+}
+
+// Split a spell list string by commas, but don't split on commas inside parentheses
+// This handles cases like "Shapechange (Beast or Humanoid form only, no Temporary Hit Points...)"
+function splitSpellList(spellListText) {
+    if (!spellListText) return [];
+    
+    const spells = [];
+    let current = '';
+    let depth = 0; // Track nesting level of parentheses
+    
+    for (let i = 0; i < spellListText.length; i++) {
+        const char = spellListText[i];
+        
+        if (char === '(') {
+            depth++;
+            current += char;
+        } else if (char === ')') {
+            depth--;
+            current += char;
+        } else if (char === ',' && depth === 0) {
+            // Only split on commas that are not inside parentheses
+            const trimmed = current.trim();
+            if (trimmed) {
+                spells.push(trimmed);
+            }
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    
+    // Add the last spell
+    const trimmed = current.trim();
+    if (trimmed) {
+        spells.push(trimmed);
+    }
+    
+    // Filter out obvious non-spell names (phrases that don't look like spell names)
+    return spells.filter(spell => {
+        const lower = spell.toLowerCase().trim();
+        // Filter out phrases that start with common non-spell words
+        if (lower.startsWith('no ') || 
+            lower.startsWith('and ') || 
+            lower.startsWith('or ') ||
+            lower.length < 2 ||
+            /^(the|a|an)\s+/i.test(spell)) {
+            return false;
+        }
+        return true;
+    });
+}
+
+// Parse spell names from Spellcasting text
+// Works for both regular "Spellcasting" and "Innate Spellcasting" - both use the same spell list format
+function parseSpellNames(spellcastingText) {
+    if (!spellcastingText) return [];
+    
+    const spells = [];
+    let text = spellcastingText;
+    
+    // Preprocessing: Normalize text by adding spaces before frequency markers when missing
+    // This handles cases like "prestidigitation2/day each:" -> "prestidigitation 2/day each:"
+    // Match a letter (not just lowercase, and handle word boundaries) followed by a digit and "/day" pattern
+    // This handles both single words ("prestidigitation2/day") and multi-word spells ("mage armor1/day")
+    // Use word boundary to ensure we're matching at the end of a word
+    text = text.replace(/([a-zA-Z])(\d+\/day)/g, '$1 $2');
+    
+    // Pattern 1: "At will: Spell1, Spell2, Spell3"
+    // Updated to use lookahead to properly stop at frequency markers even without spaces
+    const atWillMatch = text.match(/at will[:\s]+([^0-9\n]+?)(?=\d+\/day|$)/i);
+    if (atWillMatch) {
+        // Split by comma, but be smart about commas inside parentheses
+        const spellList = splitSpellList(atWillMatch[1]);
+        spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: 'At will' })));
+    }
+    
+    // Pattern 2: "Cantrips (at will): spell1, spell2"
+    const cantripsMatch = text.match(/cantrips?\s*\([^)]*at will[^)]*\)[:\s]+([^0-9\n]+?)(?:\d+\/day|\d+st level|$)/i);
+    if (cantripsMatch) {
+        // Split by comma, but be smart about commas inside parentheses
+        const spellList = splitSpellList(cantripsMatch[1]);
+        spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: 'At will' })));
+    }
+    
+    // Pattern 3: "1/day: Spell1, Spell2" or "1/day each: Spell1, Spell2"
+    // Updated pattern to handle damage annotations in parentheses like "thunderwave (2d8 damage)"
+    const dailyMatches = text.matchAll(/(\d+)\/day(?:\s+each)?[:\s]+((?:[^,\d]|\([^)]*\))+?)(?=\d+\/day|\d+(?:st|nd|rd|th)\s+level|$)/gi);
+    for (const match of dailyMatches) {
+        const count = match[1];
+        // Split by comma, but be smart about commas inside parentheses
+        const spellList = splitSpellList(match[2]);
+        spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: `${count}/day` })));
+    }
+    
+    // Pattern 4: "1st level (4 slots): spell1, spell2"
+    const levelMatches = text.matchAll(/(\d+)(?:st|nd|rd|th)\s+level\s*\([^)]*\)[:\s]+([^0-9\n]+?)(?:\d+st level|$)/gi);
+    for (const match of levelMatches) {
+        const level = match[1];
+        // Split by comma, but be smart about commas inside parentheses
+        const spellList = splitSpellList(match[2]);
+        spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: `${level}st level` })));
+    }
+    
+    // Pattern 5: Standalone spell names (for reactions, etc.)
+    // This is a fallback for spells mentioned individually
+    const standaloneSpells = text.match(/(?:casts?|cast)\s+([A-Z][a-zA-Z\s]+?)(?:\s+in response|\s+as|\s+using|$)/i);
+    if (standaloneSpells && spells.length === 0) {
+        spells.push({ name: cleanSpellName(standaloneSpells[1].trim()), frequency: '1/day' });
+    }
+    
+    return spells;
+}
+
+// Check if an action/trait name is a Spellcasting action (handles both "Spellcasting" and "Innate Spellcasting")
+function isSpellcastingAction(name) {
+    if (!name) return false;
+    const nameLower = name.toLowerCase();
+    // Matches both "Spellcasting" and "Innate Spellcasting"
+    return nameLower.includes('spellcasting');
+}
+
+// Enhance Spellcasting action description with spell details
+// Handles both regular "Spellcasting" and "Innate Spellcasting" - both types are enhanced the same way
+function enhanceSpellcastingAction(actionName, actionDescription, spellcastingText) {
+    // Use spellcastingText if provided, otherwise use actionDescription
+    const textToParse = spellcastingText || actionDescription;
+    
+    if (!textToParse || !textToParse.toLowerCase().includes('spell')) {
+        return actionDescription; // Not a spellcasting action
+    }
+    
+    const parsedSpells = parseSpellNames(textToParse);
+    if (parsedSpells.length === 0) {
+        return actionDescription; // No spells found
+    }
+    
+    // Group spells by frequency
+    const spellsByFrequency = {};
+    for (const spellInfo of parsedSpells) {
+        if (!spellsByFrequency[spellInfo.frequency]) {
+            spellsByFrequency[spellInfo.frequency] = [];
+        }
+        spellsByFrequency[spellInfo.frequency].push(spellInfo.name);
+    }
+    
+    // Look up each spell and format details
+    let enhancedDescription = actionDescription;
+    
+    // Build spell details section
+    const spellDetails = [];
+    for (const [frequency, spellNames] of Object.entries(spellsByFrequency)) {
+        const frequencyHeader = `**${frequency}:**`;
+        const spellEntries = [];
+        
+        for (const spellName of spellNames) {
+            const spell = lookupSpell(spellName);
+            if (spell) {
+                // Use full spell description with minimal cleaning
+                const spellDescription = cleanSpellDescription(spell.text);
+                const spellEntry = `- **${spell.name}** (${spell.level}, ${spell.castingTime}, ${spell.duration}, ${spell.school}, ${spell.range})`;
+                
+                // Always include the spell description when found
+                if (spellDescription) {
+                    // Format with proper indentation and preserve newlines for UI rendering
+                    // Normalize whitespace but keep newlines so UI can convert them to <br/> tags
+                    let formattedDescription = spellDescription
+                        .replace(/\n\n+/g, '\n\n')  // Normalize multiple newlines to double newlines
+                        .replace(/[ \t]+/g, ' ')     // Normalize spaces and tabs (but keep newlines)
+                        .trim();
+                    
+                    // Ensure description starts with a capital letter
+                    if (formattedDescription.length > 0 && formattedDescription[0] === formattedDescription[0].toLowerCase()) {
+                        formattedDescription = formattedDescription[0].toUpperCase() + formattedDescription.slice(1);
+                    }
+                    
+                    // Add a line break and proper spacing for readability
+                    // Use single newline after spell entry header, then indented description
+                    spellEntries.push(`${spellEntry}\n  ${formattedDescription}`);
+                } else {
+                    // Fallback if description is empty (shouldn't happen, but be safe)
+                    spellEntries.push(spellEntry);
+                }
+            } else {
+                // Spell not found in database, just include the name
+                console.warn(`Spell not found in database: ${spellName}`);
+                spellEntries.push(`- **${spellName}**`);
+            }
+        }
+        
+        spellDetails.push(`${frequencyHeader}\n${spellEntries.join('\n\n')}`);
+    }
+    
+    // Append spell details to the action description
+    if (spellDetails.length > 0) {
+        enhancedDescription += '\n\n' + spellDetails.join('\n\n');
+    }
+    
+    return enhancedDescription;
+}
+
+// ============================================================================
 // Main Conversion Functions
 // ============================================================================
 
@@ -1263,6 +1743,12 @@ function parseFeatureText(text) {
             const name = line.substring(0, firstPeriodIndex).trim();
             let description = line.substring(firstPeriodIndex + 1).trim();
             
+            // Check if this is a Spellcasting trait (handles both "Spellcasting" and "Innate Spellcasting")
+            // and enhance it with spell details
+            if (isSpellcastingAction(name)) {
+                description = enhanceSpellcastingAction(name, description, line);
+            }
+            
             // Convert D&D terminology first, then range text
             description = convertDnDTerminology(description);
             description = convertRangeText(description);
@@ -1342,6 +1828,9 @@ const outputDir = path.dirname(outputPath);
 if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
 }
+
+// Load spells database first
+loadSpellsDatabase();
 
 console.log(`Reading CSV from ${csvPath}...`);
 const fileContent = fs.readFileSync(csvPath, 'utf8');

@@ -14,3 +14,24 @@
         color: #E5E7EB;
     }
 }
+
+/* Styles for spell descriptions with lists */
+.spell-description ul {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+}
+
+.spell-description li {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.spell-description li:first-child {
+    margin-top: 0;
+}
+
+.spell-description li:last-child {
+    margin-bottom: 0;
+}

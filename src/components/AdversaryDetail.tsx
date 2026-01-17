@@ -140,12 +140,22 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose }) => {
                                                         {entry.name && (
                                                             <span className="font-bold text-dagger-light mr-1.5 font-serif tracking-wide">{entry.name}.</span>
                                                         )}
-                                                        <span dangerouslySetInnerHTML={{ __html: entry.description.replace(/\n/g, '<br/>') }} />
+                                                        <div 
+                                                            className="whitespace-pre-line spell-description"
+                                                            dangerouslySetInnerHTML={{ 
+                                                                __html: entry.description
+                                                                    .replace(/\n\n+/g, '\n\n')  // Normalize multiple newlines
+                                                                    .replace(/\n/g, '<br/>')   // Convert newlines to <br/> tags
+                                                            }} 
+                                                        />
                                                     </div>
                                                 ))
                                             ) : (
                                                 <div className="text-sm leading-relaxed text-gray-300">
-                                                    <span dangerouslySetInnerHTML={{ __html: (feat as any).description?.replace(/\n/g, '<br/>') || '' }} />
+                                                    <div 
+                                                        className="whitespace-pre-line spell-description"
+                                                        dangerouslySetInnerHTML={{ __html: (feat as any).description?.replace(/\n/g, '<br/>') || '' }} 
+                                                    />
                                                 </div>
                                             )}
                                         </div>
