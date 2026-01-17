@@ -1,6 +1,7 @@
 import React from 'react';
 import type { EncounterInstance, Adversary } from '../types';
 import { calculateScaledStats, getEffectiveTier, calculateStatAdjustments } from '../utils/scalingUtils';
+import { HPStressTracker } from './HPStressTracker';
 
 interface Props {
     instance: EncounterInstance;
@@ -153,117 +154,18 @@ export const EncounterInstanceCard: React.FC<Props> = ({
             </div>
 
             {/* HP & Stress Section */}
-            <div className="border-t border-dagger-gold/20 pt-3 space-y-3">
-                {/* HP Tracking */}
-                <div>
-                    <div className="text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">HP & Stress</div>
-                    <div className="space-y-1 mb-2">
-                        <div className="flex items-center justify-between text-xs">
-                            <span className={`font-bold ${instance.hpThreshold === 'minor' ? 'text-dagger-gold' : 'text-gray-500'}`}>
-                                MINOR 1 HP
-                            </span>
-                        </div>
-                        {thresholdMajor !== null && (
-                            <div className="flex items-center justify-between text-xs">
-                                <span className={`font-bold ${instance.hpThreshold === 'major' ? 'text-dagger-gold' : 'text-gray-500'}`}>
-                                    MAJOR 2 HP ({thresholdMajor})
-                                    {adjustments && adjustments.threshold_major !== null && adjustments.threshold_major !== 0 && (
-                                        <span className={`ml-1 font-normal ${adjustments.threshold_major > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                            ({adjustments.threshold_major > 0 ? '+' : ''}{adjustments.threshold_major})
-                                        </span>
-                                    )}
-                                </span>
-                            </div>
-                        )}
-                        {thresholdSevere !== null && (
-                            <div className="flex items-center justify-between text-xs">
-                                <span className={`font-bold ${instance.hpThreshold === 'severe' ? 'text-dagger-gold' : 'text-gray-500'}`}>
-                                    SEVERE 3 HP ({thresholdSevere})
-                                    {adjustments && adjustments.threshold_severe !== null && adjustments.threshold_severe !== 0 && (
-                                        <span className={`ml-1 font-normal ${adjustments.threshold_severe > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                            ({adjustments.threshold_severe > 0 ? '+' : ''}{adjustments.threshold_severe})
-                                        </span>
-                                    )}
-                                </span>
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => onUpdateHP(instance.instanceId, -1)}
-                            className="w-8 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                            </svg>
-                        </button>
-                        <div className="flex-1 text-center">
-                            <span className="text-sm text-gray-400">HP: </span>
-                            <span className="font-mono font-bold text-green-400">{instance.currentHP}</span>
-                            {adjustments && adjustments.hp !== 0 && (
-                                <span className={`text-xs font-bold ml-1 ${adjustments.hp > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                    ({adjustments.hp > 0 ? '+' : ''}{adjustments.hp} from base {adversary.stats.hp})
-                                </span>
-                            )}
-                        </div>
-                        <button
-                            onClick={() => onUpdateHP(instance.instanceId, 1)}
-                            className="w-8 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                {/* Stress Tracking */}
-                <div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-400">Stress: </span>
-                        <span className="font-mono font-bold text-purple-400">({instance.maxStress})</span>
-                        {adjustments && adjustments.stress !== 0 && (
-                            <span className={`text-xs font-bold ml-1 ${adjustments.stress > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                ({adjustments.stress > 0 ? '+' : ''}{adjustments.stress})
-                            </span>
-                        )}
-                        <div className="flex-1"></div>
-                        <button
-                            onClick={() => onUpdateStress(instance.instanceId, -1)}
-                            className="w-8 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                            </svg>
-                        </button>
-                        <button
-                            onClick={() => onUpdateStress(instance.instanceId, 1)}
-                            className="w-8 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className="flex gap-1 mt-2">
-                        {Array.from({ length: instance.maxStress }).map((_, idx) => (
-                            <div
-                                key={idx}
-                                className={`w-6 h-6 border-2 rounded flex items-center justify-center ${
-                                    idx < instance.currentStress
-                                        ? 'bg-dagger-gold border-dagger-gold'
-                                        : 'border-dagger-gold/30 bg-dagger-dark'
-                                }`}
-                            >
-                                {idx < instance.currentStress && (
-                                    <svg className="w-4 h-4 text-dagger-dark" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            <div className="border-t border-dagger-gold/20 pt-3">
+                <HPStressTracker
+                    currentHP={instance.currentHP}
+                    maxHP={instance.maxHP}
+                    currentStress={instance.currentStress}
+                    maxStress={instance.maxStress}
+                    thresholdMajor={instance.thresholdMajor}
+                    thresholdSevere={instance.thresholdSevere}
+                    hpThreshold={instance.hpThreshold}
+                    onUpdateHP={(delta) => onUpdateHP(instance.instanceId, delta)}
+                    onUpdateStress={(delta) => onUpdateStress(instance.instanceId, delta)}
+                />
             </div>
         </div>
     );

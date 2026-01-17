@@ -26,13 +26,13 @@ export function initializeRunningEncounter(
                 adversaryId: baseAdv.id,
                 customName: encAdv.customName,
                 upscaling: encAdv.upscaling,
-                currentHP: maxHP,
+                currentHP: 0,
                 currentStress: 0,
                 maxHP,
                 maxStress,
                 thresholdMajor: scaledStats.threshold_major,
                 thresholdSevere: scaledStats.threshold_severe,
-                hpThreshold: getHPThreshold(maxHP, maxHP, {
+                hpThreshold: getHPThreshold(0, maxHP, {
                     major: scaledStats.threshold_major,
                     severe: scaledStats.threshold_severe,
                 }),
