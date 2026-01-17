@@ -17,6 +17,7 @@ interface Props {
     savedEncounters?: Encounter[];
     onLoadEncounter?: (id: string) => void;
     onDeleteSavedEncounter?: (id: string) => void;
+    onShareEncounter?: () => void;
 }
 
 const roleStyles: Record<string, string> = {
@@ -67,6 +68,7 @@ export const EncounterDeck: React.FC<Props> = ({
     savedEncounters = [],
     onLoadEncounter,
     onDeleteSavedEncounter,
+    onShareEncounter,
 }) => {
     const [showSavedEncounters, setShowSavedEncounters] = useState(false);
     const [confirmDialog, setConfirmDialog] = useState<{
@@ -279,8 +281,10 @@ export const EncounterDeck: React.FC<Props> = ({
                             placeholder="Enter encounter name"
                         />
                         <button
+                            onClick={onShareEncounter}
                             className="w-9 h-9 flex items-center justify-center rounded bg-dagger-dark border border-dagger-gold/20 text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                            title="Share"
+                            title="Share Encounter"
+                            disabled={!onShareEncounter}
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />

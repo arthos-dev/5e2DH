@@ -1,5 +1,5 @@
 
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import adversariesData from './data/adversaries.json'
 import type { Adversary, Encounter, EncounterAdversary, RunningEncounter } from './types'
 import { AdversaryCard } from './components/AdversaryCard'
@@ -14,6 +14,7 @@ import { debounce } from './utils/debounce'
 import { VALID_ROLES, VALID_CATEGORIES, VALID_BIOMES, normalizeRole, normalizeCategory } from './constants'
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage'
 import { initializeRunningEncounter } from './utils/runningEncounterUtils'
+import { loadEncounterFromUrl, updateUrlWithEncounter } from './utils/encounterUrl'
 
 // Cast data to aligned types if strictly needed
 const allAdversaries = adversariesData as unknown as Adversary[];
@@ -61,11 +62,58 @@ function App() {
   // Tab State
   const [activeTab, setActiveTab] = useState<'manage' | 'edit'>('edit');
 
+  // Ref to track if we're loading from URL (to prevent infinite loop)
+  const isLoadingFromUrl = useRef(false);
+
   // Load saved encounters on mount
   useEffect(() => {
     const saved = getAllSavedEncounters();
     setSavedEncounters(saved);
   }, []);
+
+  // Load encounter from URL on mount
+  useEffect(() => {
+    const urlEncounter = loadEncounterFromUrl();
+    if (urlEncounter) {
+      isLoadingFromUrl.current = true;
+      
+      // Validate that all adversary IDs exist in current data
+      const missingAdversaries = urlEncounter.adversaries.filter(
+        adv => !allAdversaries.find(a => a.id === adv.adversaryId)
+      );
+      
+      if (missingAdversaries.length > 0) {
+        showToast(
+          `Warning: ${missingAdversaries.length} adversary(ies) from shared encounter not found in current data`,
+          'error'
+        );
+        // Still load the encounter, but remove missing adversaries
+        urlEncounter.adversaries = urlEncounter.adversaries.filter(
+          adv => allAdversaries.find(a => a.id === adv.adversaryId)
+        );
+      }
+      
+      if (urlEncounter.adversaries.length > 0 || missingAdversaries.length === 0) {
+        setCurrentEncounter(urlEncounter);
+        setActiveTab('edit');
+        showToast(`Encounter "${urlEncounter.name}" loaded from URL`, 'success');
+      } else {
+        showToast('Shared encounter contains no valid adversaries', 'error');
+      }
+      
+      // Reset flag after a short delay to allow state to update
+      setTimeout(() => {
+        isLoadingFromUrl.current = false;
+      }, 100);
+    }
+  }, []); // Only run on mount
+
+  // Automatically update URL when encounter changes (but not when loading from URL)
+  useEffect(() => {
+    if (!isLoadingFromUrl.current) {
+      updateUrlWithEncounter(currentEncounter);
+    }
+  }, [currentEncounter]);
 
 
   // Use canonical lists instead of extracting from data
@@ -236,6 +284,48 @@ function App() {
   const handleStopRunningEncounter = () => {
     setIsRunningEncounter(false);
     setRunningEncounter(null);
+  };
+
+  const handleShareEncounter = async () => {
+    if (currentEncounter.adversaries.length === 0) {
+      showToast('Cannot share an empty encounter', 'error');
+      return;
+    }
+
+    try {
+      // URL is already in the address bar, just copy it
+      const currentUrl = window.location.href;
+      
+      // Check URL length (most browsers support ~2000 chars, but we'll warn at 1500)
+      if (currentUrl.length > 1500) {
+        showToast('Warning: Share URL is very long and may not work in all browsers', 'error');
+      }
+
+      // Try to copy to clipboard
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(currentUrl);
+        showToast('Encounter URL copied to clipboard!', 'success');
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = currentUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          showToast('Encounter URL copied to clipboard!', 'success');
+        } catch (err) {
+          // If copy fails, show the URL in a toast
+          showToast(`Share URL: ${currentUrl}`, 'info');
+        }
+        document.body.removeChild(textArea);
+      }
+    } catch (error) {
+      console.error('Failed to share encounter:', error);
+      showToast('Failed to copy URL to clipboard', 'error');
+    }
   };
 
   // If running encounter, show running view
@@ -499,6 +589,7 @@ function App() {
           savedEncounters={savedEncounters}
           onLoadEncounter={handleLoadEncounter}
           onDeleteSavedEncounter={handleDeleteSavedEncounter}
+          onShareEncounter={handleShareEncounter}
         />
       )}
 
