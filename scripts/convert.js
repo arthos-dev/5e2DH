@@ -915,7 +915,7 @@ function convertActionsToDaggerheart(text, role, cr, tier) {
 
 function convertMultiattack(group, role, cr, tier) {
     // Multiattack becomes a Stress action that allows multiple attacks
-    const attackCount = group.actions.length || 2;
+    const attackCount = Math.max(group.actions.length || 2, 2);
     const name = group.name || "Multiattack";
     
     let description = `Mark a Stress to make ${attackCount} standard attacks.`;
@@ -1381,8 +1381,8 @@ function cleanSpellDescription(spellText) {
     return text;
 }
 
-// Clean spell name by removing damage annotations in parentheses
-// Removes patterns like "(2d8 damage)", "(8d6 damage)", etc.
+// Clean spell name by removing damage annotations and other parenthetical notes
+// Removes patterns like "(2d8 damage)", "(8d6 damage)", "(level 2 version)", etc.
 // Also removes trailing digits that might be part of frequency markers (e.g., "prestidigitation2" -> "prestidigitation")
 function cleanSpellName(spellName) {
     if (!spellName) return '';
@@ -1394,6 +1394,13 @@ function cleanSpellName(spellName) {
     // Also remove any other parenthetical expressions that look like damage (e.g., "(2d8)", "(8d6)")
     // This catches cases where "damage" might be missing
     cleaned = cleaned.replace(/\s*\(\d+d\d+(?:\s*\+\s*\d+)?\)/gi, '');
+    
+    // Remove all other parenthetical expressions (e.g., "(level 2 version)", "(Beast or Humanoid form only...)")
+    // This handles cases like "Guiding Bolt (level 2 version)" -> "Guiding Bolt"
+    // and "Shapechange (Beast or Humanoid form only...)" -> "Shapechange"
+    // We match parentheses and their contents, but be careful not to remove parentheses that are part of the spell name
+    // We'll remove any parenthetical that comes after the spell name
+    cleaned = cleaned.replace(/\s*\([^)]+\)/g, '');
     
     // Remove trailing digits that might be part of frequency markers
     // Pattern: word followed by digits at the end (e.g., "prestidigitation2" -> "prestidigitation")
@@ -1494,9 +1501,25 @@ function parseSpellNames(spellcastingText) {
     // Use word boundary to ensure we're matching at the end of a word
     text = text.replace(/([a-zA-Z])(\d+\/day)/g, '$1 $2');
     
+    // Add space before "At will:" when it appears immediately after text without proper spacing
+    // Handle cases like "):At will:" -> "): At will:"
+    text = text.replace(/(\):)(at\s+will)/gi, '): at will');
+    // Also handle cases where it comes after other non-whitespace characters
+    text = text.replace(/([^:\s])(at\s+will)/gi, '$1 at will');
+    
+    // Add space before frequency markers when they appear immediately after closing parentheses
+    // This handles cases like ")1/day each:" -> ") 1/day each:"
+    text = text.replace(/(\))(\d+\/day(?:\s+each)?)/gi, (match, p1, p2) => p1 + ' ' + p2);
+    
+    // Also handle cases where frequency markers appear after letters/words (e.g., "spell1/day" -> "spell 1/day")
+    // But only if not already handled by the previous pattern
+    text = text.replace(/([a-zA-Z])(\d+\/day(?:\s+each)?)/gi, '$1 $2');
+    
     // Pattern 1: "At will: Spell1, Spell2, Spell3"
     // Updated to use lookahead to properly stop at frequency markers even without spaces
-    const atWillMatch = text.match(/at will[:\s]+([^0-9\n]+?)(?=\d+\/day|$)/i);
+    // The pattern should match until we see a frequency marker (X/day or Xst level) or end of string
+    // But we need to be careful not to stop at digits inside parenthetical notes
+    const atWillMatch = text.match(/at\s+will[:\s]+(.+?)(?=\s*\d+\/day(?:\s+each)?[:\s]|\s*\d+(?:st|nd|rd|th)\s+level[:\s]|$)/i);
     if (atWillMatch) {
         // Split by comma, but be smart about commas inside parentheses
         const spellList = splitSpellList(atWillMatch[1]);
@@ -1513,11 +1536,12 @@ function parseSpellNames(spellcastingText) {
     
     // Pattern 3: "1/day: Spell1, Spell2" or "1/day each: Spell1, Spell2"
     // Updated pattern to handle damage annotations in parentheses like "thunderwave (2d8 damage)"
-    const dailyMatches = text.matchAll(/(\d+)\/day(?:\s+each)?[:\s]+((?:[^,\d]|\([^)]*\))+?)(?=\d+\/day|\d+(?:st|nd|rd|th)\s+level|$)/gi);
+    // Match until we see another frequency marker or end of string
+    const dailyMatches = text.matchAll(/(\d+)\/day(?:\s+each)?[:\s]+(.+?)(?=\s*\d+\/day(?:\s+each)?[:\s]|\s*\d+(?:st|nd|rd|th)\s+level[:\s]|\s*at\s+will[:\s]|$)/gis);
     for (const match of dailyMatches) {
         const count = match[1];
         // Split by comma, but be smart about commas inside parentheses
-        const spellList = splitSpellList(match[2]);
+        const spellList = splitSpellList(match[2].trim());
         spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: `${count}/day` })));
     }
     
@@ -1573,7 +1597,27 @@ function enhanceSpellcastingAction(actionName, actionDescription, spellcastingTe
     }
     
     // Look up each spell and format details
+    // First, clean up the original description by removing the raw spell list text
+    // This prevents duplication when we add the enhanced spell details
     let enhancedDescription = actionDescription;
+    
+    // Remove the raw spell list from the description if it exists
+    // This handles cases where the description includes "At will: Spell1, Spell2" etc.
+    // We'll replace it with just the introductory text
+    // Match from the first frequency marker (at will, cantrips, X/day, or Xst level) to the end
+    const spellListPattern = /(at will|cantrips?\s*\([^)]*at will[^)]*\)|(?:\d+\/day(?:\s+each)?)|(?:\d+(?:st|nd|rd|th)\s+level\s*\([^)]*\)))[:\s]+.*$/i;
+    if (spellListPattern.test(enhancedDescription)) {
+        // Find where the spell list starts and remove it
+        // Keep everything up to (but not including) the first frequency marker
+        // Use a more careful pattern that handles cases with or without spaces
+        enhancedDescription = enhancedDescription.replace(/(.*?)(?:at will|cantrips?\s*\([^)]*at will[^)]*\)|(?:\d+\/day(?:\s+each)?)|(?:\d+(?:st|nd|rd|th)\s+level\s*\([^)]*\)))[:\s]+.*$/i, '$1').trim();
+        // Remove trailing punctuation that might be left (like colons or closing parens followed by colons)
+        enhancedDescription = enhancedDescription.replace(/[:;]\s*$/, '');
+        enhancedDescription = enhancedDescription.replace(/\)\s*:\s*$/, ')');
+    }
+    
+    // Ensure the description ends properly
+    enhancedDescription = enhancedDescription.trim();
     
     // Build spell details section
     const spellDetails = [];
@@ -1619,8 +1663,9 @@ function enhanceSpellcastingAction(actionName, actionDescription, spellcastingTe
         spellDetails.push(`${frequencyHeader}\n${spellEntries.join('\n\n')}`);
     }
     
-    // Append spell details to the action description
+    // Append spell details to the action description with proper spacing
     if (spellDetails.length > 0) {
+        // Add double newline for clear separation between description and spell list
         enhancedDescription += '\n\n' + spellDetails.join('\n\n');
     }
     
