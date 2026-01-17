@@ -60,6 +60,37 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose }) => {
                         <StatBox label="Stress" value={adversary.stats.stress} color="text-purple-400" />
                     </div>
 
+                    {/* Motives & Tactics Section */}
+                    {adversary.motives_tactics && (
+                        <div className="bg-black/20 rounded-xl border border-white/5 p-5 relative overflow-hidden group hover:border-dagger-gold/30 transition-colors">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-dagger-gold/50"></div>
+                            <h3 className="text-xs uppercase tracking-widest text-dagger-gold font-bold mb-3 flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                                Motives & Tactics
+                            </h3>
+                            <p className="text-gray-200 leading-relaxed font-serif">{adversary.motives_tactics}</p>
+                        </div>
+                    )}
+
+                    {/* Experiences Section */}
+                    {adversary.experiences && adversary.experiences.length > 0 && (
+                        <div className="bg-black/20 rounded-xl border border-white/5 p-5 relative overflow-hidden group hover:border-purple-500/30 transition-colors">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-purple-500/50"></div>
+                            <h3 className="text-xs uppercase tracking-widest text-purple-400 font-bold mb-3 flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                Experiences
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {adversary.experiences.map((exp, idx) => (
+                                    <div key={idx} className="bg-purple-900/20 border border-purple-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
+                                        <span className="text-purple-300 font-bold text-sm">{exp.name}</span>
+                                        <span className="text-purple-400 font-mono font-bold">+{exp.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     {/* Attack Section */}
                     <div className="bg-black/20 rounded-xl border border-white/5 p-5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
                         <div className="absolute top-0 left-0 w-1 h-full bg-red-500/50"></div>

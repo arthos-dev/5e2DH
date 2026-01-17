@@ -7,7 +7,7 @@ import path from 'path';
 // Constants
 // ============================================================================
 const csvPath = path.resolve('./Bestiary.csv');
-const outputPath = path.resolve('./converter/src/data/adversaries.json');
+const outputPath = path.resolve('./src/data/adversaries.json');
 
 // ============================================================================
 // Role-specific stat tables based on "Making Custom Adversaries" guide
@@ -336,6 +336,810 @@ function calculateStatsFromTable(table, tier, cr, hpRaw, acRaw, int, isBeastOrPl
 }
 
 // ============================================================================
+// Motives & Tactics Generation
+// ============================================================================
+
+function generateMotivesAndTactics(row, role, type) {
+    const motives = [];
+    const nameLower = row.Name ? row.Name.toLowerCase() : "";
+    const typeLower = type ? type.toLowerCase() : "";
+    const actions = row.Actions ? row.Actions.toLowerCase() : "";
+    const traits = row.Traits ? row.Traits.toLowerCase() : "";
+    const roleUpper = role.toUpperCase();
+    const hpRaw = parseHP(row.HP);
+    
+    // Dragon-specific patterns
+    if (nameLower.includes("dragon") || typeLower.includes("dragon")) {
+        if (nameLower.includes("red") || actions.includes("fire") || actions.includes("burn")) {
+            motives.push("Burn enemies");
+        }
+        if (nameLower.includes("gold") || nameLower.includes("silver")) {
+            motives.push("Protect territory");
+        } else {
+            motives.push("Hoard treasure");
+        }
+        motives.push("Dominate by force");
+    }
+    
+    // Troll-specific patterns
+    if (nameLower.includes("troll") || traits.includes("regeneration")) {
+        motives.push("Devour");
+        motives.push("Pursue");
+        motives.push("Crush");
+        if (traits.includes("regeneration")) {
+            motives.push("Regenerate");
+        }
+    }
+    
+    // Goblin/orc/small humanoid patterns
+    if (nameLower.includes("goblin") || nameLower.includes("kobold") || 
+        (typeLower.includes("humanoid") && roleUpper === "MINION")) {
+        motives.push("Ambush");
+        motives.push("Steal");
+        motives.push("Flee when outnumbered");
+        if (roleUpper === "HORDE" || roleUpper === "MINION") {
+            motives.push("Attack in groups");
+        }
+    }
+    
+    // Leader patterns
+    if (roleUpper === "LEADER" || nameLower.includes("commander") || 
+        nameLower.includes("captain") || nameLower.includes("general")) {
+        motives.push("Command allies");
+        motives.push("Coordinate attacks");
+        if (!motives.includes("Dominate by force")) {
+            motives.push("Maintain authority");
+        }
+    }
+    
+    // Bruiser patterns
+    if (roleUpper === "BRUISER" || hpRaw > 100) {
+        if (!motives.includes("Crush")) motives.push("Crush");
+        motives.push("Overwhelm");
+        motives.push("Intimidate");
+    }
+    
+    // Support patterns
+    if (roleUpper === "SUPPORT" || actions.includes("heal") || actions.includes("bless")) {
+        motives.push("Aid allies");
+        motives.push("Disrupt enemies");
+        if (actions.includes("heal")) {
+            motives.push("Protect allies");
+        }
+    }
+    
+    // Skulk patterns
+    if (roleUpper === "SKULK" || nameLower.includes("rogue") || nameLower.includes("assassin")) {
+        motives.push("Ambush");
+        motives.push("Strike from shadows");
+        motives.push("Escape when threatened");
+    }
+    
+    // Beast/animal patterns
+    if (typeLower.includes("beast") || typeLower.includes("animal")) {
+        motives.push("Hunt");
+        motives.push("Defend territory");
+        if (traits.includes("pack") || nameLower.includes("pack")) {
+            motives.push("Work in pack");
+        }
+    }
+    
+    // Undead patterns
+    if (typeLower.includes("undead") || nameLower.includes("zombie") || nameLower.includes("skeleton")) {
+        motives.push("Destroy life");
+        motives.push("Spread corruption");
+        if (nameLower.includes("lich") || nameLower.includes("vampire")) {
+            motives.push("Dominate by force");
+        }
+    }
+    
+    // Fiend/demon patterns
+    if (typeLower.includes("fiend") || typeLower.includes("demon") || typeLower.includes("devil")) {
+        motives.push("Corrupt");
+        motives.push("Destroy");
+        motives.push("Dominate by force");
+    }
+    
+    // Default motives if nothing matched
+    if (motives.length === 0) {
+        motives.push("Survive");
+        motives.push("Protect territory");
+        if (actions.includes("attack") || actions.includes("damage")) {
+            motives.push("Fight enemies");
+        }
+    }
+    
+    // Return 2-4 motives as comma-separated string
+    const selectedMotives = motives.slice(0, 4);
+    return selectedMotives.join(", ");
+}
+
+// ============================================================================
+// Experiences Conversion
+// ============================================================================
+
+function convertExperiences(row) {
+    const experiences = [];
+    const skills = row.Skills || "";
+    
+    if (!skills) return experiences;
+    
+    // Skill to Experience mapping
+    const skillExperienceMap = {
+        'stealth': { name: 'Thief', pattern: /stealth/gi },
+        'sleight of hand': { name: 'Thief', pattern: /sleight\s+of\s+hand/gi },
+        'arcana': { name: 'Scholar', pattern: /arcana/gi },
+        'history': { name: 'Scholar', pattern: /history/gi },
+        'religion': { name: 'Scholar', pattern: /religion/gi },
+        'nature': { name: 'Wilderness', pattern: /nature/gi },
+        'animal handling': { name: 'Wilderness', pattern: /animal\s+handling/gi },
+        'survival': { name: 'Wilderness', pattern: /survival/gi },
+        'athletics': { name: 'Athlete', pattern: /athletics/gi },
+        'acrobatics': { name: 'Athlete', pattern: /acrobatics/gi },
+        'persuasion': { name: 'Diplomat', pattern: /persuasion/gi },
+        'deception': { name: 'Diplomat', pattern: /deception/gi },
+        'intimidation': { name: 'Diplomat', pattern: /intimidation/gi }
+    };
+    
+    // Parse skills like "Stealth +6, Perception +2" or "Perception +13, Stealth +6"
+    const skillEntries = {};
+    
+    // Match skill patterns: "Skill Name +X" or "Skill Name +X (bonus)"
+    const skillPattern = /([A-Za-z\s]+?)\s*\+(\d+)/g;
+    let match;
+    
+    while ((match = skillPattern.exec(skills)) !== null) {
+        const skillName = match[1].trim().toLowerCase();
+        const bonus = parseInt(match[2], 10);
+        
+        // Find matching experience
+        for (const [key, value] of Object.entries(skillExperienceMap)) {
+            if (value.pattern.test(skillName)) {
+                // Convert D&D bonus to Daggerheart value (+1 to +3)
+                // +0-2 -> +1, +3-5 -> +2, +6+ -> +3
+                let dhValue = 1;
+                if (bonus >= 6) dhValue = 3;
+                else if (bonus >= 3) dhValue = 2;
+                
+                // Store highest value if same experience appears multiple times
+                const existing = skillEntries[value.name];
+                if (!existing || existing.value < dhValue) {
+                    skillEntries[value.name] = { name: value.name, value: dhValue };
+                }
+                break;
+            }
+        }
+    }
+    
+    // Convert to array
+    return Object.values(skillEntries);
+}
+
+// ============================================================================
+// Feature Classification and Enhancement
+// ============================================================================
+
+function classifyFeature(description) {
+    if (!description) return "Passive";
+    
+    const descLower = description.toLowerCase();
+    
+    // Reaction keywords - highest priority (check first)
+    if (descLower.includes("when ") || descLower.includes("in response to") ||
+        descLower.includes("after being") || descLower.includes("reaction") ||
+        descLower.includes("if ") && descLower.includes("attacked") ||
+        descLower.includes("as a reaction")) {
+        return "Reaction";
+    }
+    
+    // Action keywords
+    if (descLower.includes("can make") || descLower.includes("make an attack") ||
+        descLower.includes("spend") || descLower.includes("force") ||
+        descLower.includes("exhale") || descLower.includes("multiattack") ||
+        descLower.includes("action:") || descLower.includes("uses") ||
+        descLower.includes("may")) {
+        return "Action";
+    }
+    
+    // Passive keywords (default)
+    if (descLower.includes("always") || descLower.includes("resistant") ||
+        descLower.includes("immune") || descLower.includes("can be") ||
+        descLower.includes("passive") || descLower.includes("regeneration") ||
+        descLower.includes("minion") || descLower.includes("has") ||
+        descLower.includes("is") || descLower.includes("at the start")) {
+        return "Passive";
+    }
+    
+    // Default to Passive for traits/abilities that are always active
+    return "Passive";
+}
+
+function convertDnDTerminology(text) {
+    if (!text) return "";
+    
+    let newText = text;
+    
+    // Convert "saving throw" / "save" to "Reaction Roll" (but not if already converted)
+    newText = newText.replace(/\bsaving throw\b/gi, "Reaction Roll");
+    newText = newText.replace(/\b(?<!reaction\s)save\b/gi, "Reaction Roll");
+    
+    // Remove or simplify advantage/disadvantage references
+    newText = newText.replace(/\bhas advantage\b/gi, "has a bonus");
+    newText = newText.replace(/\bwith advantage\b/gi, "with a bonus");
+    newText = newText.replace(/\badvantage on\b/gi, "bonus on");
+    newText = newText.replace(/\bdisadvantage\b/gi, "penalty");
+    
+    // Convert "hit points" / "HP" terminology (keep HP but clarify context)
+    newText = newText.replace(/\bhit points\b/gi, "HP");
+    
+    // Convert common D&D damage types to Daggerheart format
+    // (Daggerheart uses: physical, magic, fire, cold, etc.)
+    // Most are already compatible, but we can ensure consistency
+    
+    // Convert "nonmagical" to "non-magical" for consistency
+    newText = newText.replace(/\bnonmagical\b/gi, "non-magical");
+    
+    // Remove or convert "creature" to more narrative language when appropriate
+    // (Keep it for clarity in some contexts)
+    
+    // Convert "target" to more narrative language in some contexts
+    // But keep for mechanical clarity
+    
+    return newText;
+}
+
+function addRoleSpecificFeatures(features, role, cr, tier) {
+    const roleUpper = role.toUpperCase();
+    const newFeatures = [];
+    
+    // Check existing feature names (case-insensitive)
+    const existingFeatureNames = new Set();
+    features.forEach(featGroup => {
+        featGroup.entries.forEach(entry => {
+            existingFeatureNames.add(entry.name.toLowerCase());
+        });
+    });
+    
+    const hasFeature = (name) => {
+        const nameLower = name.toLowerCase();
+        for (const existing of existingFeatureNames) {
+            if (existing.includes(nameLower) || nameLower.includes(existing)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    
+    // BRUISER: Add Momentum or Ramp Up if missing
+    if (roleUpper === "BRUISER") {
+        if (!hasFeature("momentum")) {
+            newFeatures.push({
+                name: "Momentum",
+                description: "*Reaction:* When this adversary makes a successful attack against a PC, you gain a Fear."
+            });
+        }
+        if (cr >= 5 && !hasFeature("ramp up") && !hasFeature("heavy hitter")) {
+            newFeatures.push({
+                name: "Heavy Hitter",
+                description: "*Reaction:* When this adversary deals damage with a standard attack, you can spend a Fear to gain a +2 bonus to the damage roll."
+            });
+        }
+    }
+    
+    // LEADER: Add Momentum and Tactician
+    if (roleUpper === "LEADER") {
+        if (!hasFeature("momentum")) {
+            newFeatures.push({
+                name: "Momentum",
+                description: "*Reaction:* When this adversary makes a successful attack against a PC, you gain a Fear."
+            });
+        }
+        if (!hasFeature("tactician")) {
+            newFeatures.push({
+                name: "Tactician",
+                description: "*Action:* Mark a Stress to spotlight this adversary and two allies within Close range."
+            });
+        }
+    }
+    
+    // MINION: Ensure Minion(X) passive exists
+    if (roleUpper === "MINION") {
+        if (!hasFeature("minion")) {
+            // Determine X based on tier
+            const minionValue = tier === 1 ? 3 : tier === 2 ? 5 : tier === 3 ? 7 : 9;
+            newFeatures.push({
+                name: `Minion (${minionValue})`,
+                description: `*Passive:* This adversary is defeated when it takes any damage. For every ${minionValue} damage a PC deals to this adversary, defeat an additional Minion within range that the attack would hit.`
+            });
+        }
+    }
+    
+    // SUPPORT: Add features that mark Stress or cause PCs to lose Hope
+    if (roleUpper === "SUPPORT") {
+        if (!hasFeature("disrupt") && !hasFeature("harry")) {
+            newFeatures.push({
+                name: "Harass",
+                description: "*Action:* Mark a Stress to force a PC within Close range to make a test against this adversary's Difficulty or mark a Stress."
+            });
+        }
+    }
+    
+    // SOLO/LEGENDARY: Add Relentless(X) for high-CR
+    if ((roleUpper === "SOLO" || roleUpper === "LEGENDARY") && cr >= 15) {
+        if (!hasFeature("relentless")) {
+            const relentlessValue = cr >= 20 ? 3 : 2;
+            newFeatures.push({
+                name: `Relentless (${relentlessValue})`,
+                description: `*Passive:* This adversary can be spotlighted up to ${relentlessValue} times per conflict. Spend Fear as usual to spotlight them.`
+            });
+        }
+    }
+    
+    // Add new features to Actions section if it exists, otherwise create it
+    if (newFeatures.length > 0) {
+        let actionsSection = features.find(f => f.name === "Actions");
+        if (!actionsSection) {
+            actionsSection = { name: "Actions", entries: [] };
+            features.push(actionsSection);
+        }
+        // Also add to Traits if they're passives
+        newFeatures.forEach(feat => {
+            if (feat.description.startsWith("*Passive:*")) {
+                let traitsSection = features.find(f => f.name === "Traits");
+                if (!traitsSection) {
+                    traitsSection = { name: "Traits", entries: [] };
+                    features.unshift(traitsSection);
+                }
+                traitsSection.entries.push(feat);
+            } else {
+                actionsSection.entries.push(feat);
+            }
+        });
+    }
+    
+    return features;
+}
+
+// ============================================================================
+// Enhanced Action Conversion to Daggerheart Format
+// ============================================================================
+
+function convertActionsToDaggerheart(text, role, cr, tier) {
+    if (!text) return [];
+    
+    // Split by newlines - actions in CSV are typically on separate lines
+    const lines = text.split('\n').filter(line => line.trim().length > 0);
+    const convertedActions = [];
+    const actionGroups = [];
+    
+    // First pass: parse and group related actions
+    let currentGroup = null;
+    for (const line of lines) {
+        const firstPeriodIndex = line.indexOf('.');
+        if (firstPeriodIndex === -1) continue;
+        
+        const name = line.substring(0, firstPeriodIndex).trim();
+        const description = line.substring(firstPeriodIndex + 1).trim();
+        const descLower = description.toLowerCase();
+        
+        // Check if this is a multiattack that groups other actions
+        if (name.toLowerCase().includes('multiattack') || (descLower.includes('makes') && descLower.includes('attacks'))) {
+            currentGroup = { type: 'multiattack', name, description: description, actions: [] };
+            actionGroups.push(currentGroup);
+        } else if (currentGroup && currentGroup.type === 'multiattack') {
+            // Add to current multiattack group only if it looks like an attack description
+            // Stop grouping if we hit a non-attack action (like a special ability)
+            if (descLower.includes('attack') || descLower.includes('hit:') || descLower.includes('melee') || descLower.includes('ranged')) {
+                currentGroup.actions.push({ name, description: description });
+            } else {
+                // Not part of multiattack, start new standalone action
+                actionGroups.push({ type: 'standalone', name, description: description });
+                currentGroup = null;
+            }
+        } else {
+            // Standalone action
+            actionGroups.push({ type: 'standalone', name, description: description });
+            currentGroup = null;
+        }
+    }
+    
+    // Second pass: convert each action/group to Daggerheart format
+    for (const group of actionGroups) {
+        if (group.type === 'multiattack') {
+            // Convert multiattack to a single Daggerheart action
+            const converted = convertMultiattack(group, role, cr, tier);
+            if (converted) convertedActions.push(converted);
+        } else {
+            // Convert standalone action
+            const converted = convertSingleAction(group.name, group.description, role, cr, tier);
+            if (converted) convertedActions.push(converted);
+        }
+    }
+    
+    return convertedActions;
+}
+
+function convertMultiattack(group, role, cr, tier) {
+    // Multiattack becomes a Stress action that allows multiple attacks
+    const attackCount = group.actions.length || 2;
+    const name = group.name || "Multiattack";
+    
+    let description = `Mark a Stress to make ${attackCount} standard attacks.`;
+    
+    // Add special effects if the attacks have different properties
+    const hasDifferentAttacks = group.actions.some(a => {
+        const desc = a.description.toLowerCase();
+        return desc.includes('piercing') || desc.includes('slashing') || desc.includes('bludgeoning') ||
+               desc.includes('fire') || desc.includes('cold') || desc.includes('lightning');
+    });
+    
+    if (hasDifferentAttacks && group.actions.length > 0) {
+        const firstAction = group.actions[0];
+        const damageType = extractDamageType(firstAction.description);
+        if (damageType) {
+            description += ` Each attack deals the standard damage${damageType !== 'physical' ? ` (${damageType})` : ''}.`;
+        }
+    }
+    
+    return {
+        name,
+        description: `*Action:* ${description}`
+    };
+}
+
+function convertSingleAction(name, description, role, cr, tier) {
+    const descLower = description.toLowerCase();
+    let converted = description;
+    
+    // Convert D&D terminology first
+    converted = convertDnDTerminology(converted);
+    converted = convertRangeText(converted);
+    
+    // Detect action type and convert accordingly
+    let needsFear = false;
+    let needsStress = false;
+    let actionType = "Action";
+    
+    // Movement/shock wave effects -> Stress or Fear actions
+    if ((name.toLowerCase().includes('movement') || name.toLowerCase().includes('stomp') || 
+         name.toLowerCase().includes('shake') || descLower.includes('shock wave') || 
+         descLower.includes('emanation')) && descLower.includes('move')) {
+        needsStress = true;
+        const range = extractRange(descLower);
+        const conditions = [];
+        if (descLower.includes('prone')) conditions.push('Prone');
+        if (descLower.includes('concentration')) {
+            converted = `Mark a Stress to move up to this adversary's Speed. At the end of this movement, create a shock wave in a ${range || '60-foot emanation'} originating from this adversary. Creatures in that area lose Concentration${conditions.length > 0 ? ` and, if Medium or smaller, have the ${conditions.join(' and ')} condition` : ''}.`;
+        } else {
+            converted = `Mark a Stress to move up to this adversary's Speed. At the end of this movement, create a shock wave in a ${range || '60-foot emanation'} originating from this adversary. Creatures in that area${conditions.length > 0 ? ` have the ${conditions.join(' and ')} condition` : ' are affected'}.`;
+        }
+    }
+    // Breath weapons and area effects -> Fear actions
+    // Check for cone/line/area effects first, including those with saving throws
+    else if (descLower.includes('breath') || descLower.includes('exhale') || 
+        descLower.includes('cone') || descLower.includes('line') ||
+        (descLower.includes('each creature') && (descLower.includes('cone') || descLower.includes('emanation') || descLower.includes('radius'))) ||
+        (descLower.includes('all') && descLower.includes('within') && descLower.includes('range'))) {
+        needsFear = true;
+        const range = extractRange(descLower);
+        const damage = extractDamage(description);
+        const damageType = extractDamageType(description);
+        const saveInfo = extractSaveInfo(description);
+        
+        // Extract conditions from description (like Deafened, Frightened)
+        const conditions = [];
+        if (descLower.includes('deafened')) conditions.push('Deafened');
+        if (descLower.includes('frightened')) conditions.push('Frightened');
+        if (descLower.includes('prone')) conditions.push('Prone');
+        if (descLower.includes('restrained')) conditions.push('Restrained');
+        if (descLower.includes('blinded')) conditions.push('Blinded');
+        
+        // Determine area type
+        let areaType = 'area';
+        if (descLower.includes('cone')) areaType = 'cone';
+        else if (descLower.includes('line')) areaType = 'line';
+        else if (descLower.includes('emanation') || descLower.includes('radius')) areaType = 'emanation';
+        
+        // Build the conversion
+        const actionName = name.toLowerCase();
+        let actionVerb = 'use this ability';
+        if (actionName.includes('breath') || actionName.includes('bellow') || actionName.includes('roar')) {
+            actionVerb = getBreathVerb(name);
+        } else if (actionName.includes('movement') || actionName.includes('stomp') || actionName.includes('shake')) {
+            actionVerb = 'create a shock wave';
+        }
+        
+        const fearCost = (damage && (damage.includes('d10') || damage.includes('d12'))) || 
+                        (damage && parseInt(damage.match(/\d+/)?.[0]) > 30) ? 2 : 1;
+        
+        converted = `Spend ${fearCost === 2 ? 'two' : 'a'} Fear to ${actionVerb} in a ${range ? range + ' ' + areaType : areaType + ' of Medium range'}. `;
+        converted += `All targets within that area must make ${saveInfo || 'a Reaction Roll against this adversary\'s Difficulty'}. `;
+        
+        if (damage) {
+            converted += `Targets who fail take ${damage}${damageType && damageType !== 'physical' ? ' ' + damageType : ''} damage`;
+            if (conditions.length > 0) {
+                converted += ` and have the ${conditions.join(' and ')} condition${conditions.length > 1 ? 's' : ''} until the end of their next turn`;
+            }
+            converted += '.';
+            if (saveInfo || descLower.includes('success') || descLower.includes('half')) {
+                converted += ` Targets who succeed take half damage${conditions.length > 0 ? ' only' : ''}.`;
+            }
+        } else {
+            converted += `Targets who fail take damage equal to this adversary's standard attack damage${damageType && damageType !== 'physical' ? ' (' + damageType + ')' : ''}`;
+            if (conditions.length > 0) {
+                converted += ` and have the ${conditions.join(' and ')} condition${conditions.length > 1 ? 's' : ''} until the end of their next turn`;
+            }
+            converted += '.';
+        }
+    }
+    
+    // Summoning -> Fear action (but not if it's a movement/shock wave)
+    else if ((descLower.includes('summon') || descLower.includes('conjure')) && 
+             !descLower.includes('shock wave') && !descLower.includes('emanation')) {
+        needsFear = true;
+        const summonCount = extractNumber(description, /(\d+)\s+(?:creature|ally|minion)/i) || 1;
+        const range = extractRange(descLower) || 'Far range';
+        converted = `Spend a Fear to summon ${summonCount} ${getSummonType(name, description)}${summonCount > 1 ? 's' : ''}, who appear at ${range}.`;
+    }
+    
+    // Multi-target attacks -> Stress action (but not if already handled as area effect)
+    else if ((descLower.includes('all targets') || descLower.includes('each creature')) && 
+             !descLower.includes('cone') && !descLower.includes('emanation') && !descLower.includes('radius') &&
+             !descLower.includes('saving throw')) {
+        needsStress = true;
+        const range = extractRange(descLower) || 'Close range';
+        converted = `Mark a Stress to make a standard attack against all targets within ${range}. `;
+        converted += `Targets this adversary succeeds against take the standard attack damage.`;
+    }
+    
+    // Single target weapon attacks -> can be standard or Stress-enhanced
+    else if (descLower.includes('melee weapon attack') || descLower.includes('ranged weapon attack') ||
+             descLower.includes('melee spell attack') || descLower.includes('ranged spell attack') ||
+             descLower.includes('melee attack roll') || descLower.includes('ranged attack roll')) {
+        // If it's a special attack (poison, grapple, swallow, etc.), make it a Stress action
+        if (descLower.includes('poison') || descLower.includes('grapple') || descLower.includes('restrain') ||
+            descLower.includes('frighten') || descLower.includes('charm') || descLower.includes('swallow') ||
+            descLower.includes('prone') || descLower.includes('blinded')) {
+            needsStress = true;
+            const effect = extractEffect(description);
+            const damage = extractDamage(description);
+            const damageType = extractDamageType(description);
+            converted = `Mark a Stress to make a standard attack against a target. On a success, the target takes ${damage || 'the standard attack'}${damageType && damageType !== 'physical' ? ' ' + damageType : ''} damage${effect ? ' and ' + effect : ''}.`;
+        } else {
+            // Regular attack - keep it but mark as optional/standard
+            const damage = extractDamage(description);
+            const damageType = extractDamageType(description);
+            if (damage && damage !== 'standard') {
+                converted = `Make a standard attack against a target. On a success, the target takes ${damage}${damageType && damageType !== 'physical' ? ' ' + damageType : ''} damage.`;
+            } else {
+                // This is a standard attack - still include it but note it's the basic attack
+                converted = `Make a standard attack against a target.`;
+            }
+        }
+    }
+    
+    // Spell-like effects -> Fear or Stress depending on power
+    else if (descLower.includes('spell') || descLower.includes('magic') || descLower.includes('cast')) {
+        const isPowerful = descLower.includes('damage') && (descLower.includes('d10') || descLower.includes('d12'));
+        if (isPowerful || descLower.includes('all') || descLower.includes('area')) {
+            needsFear = true;
+            converted = `Spend a Fear to ${getSpellAction(description)}. ${converted}`;
+        } else {
+            needsStress = true;
+            converted = `Mark a Stress to ${getSpellAction(description)}. ${converted}`;
+        }
+    }
+    
+    // Recharge abilities -> add recharge note (may already be a Fear action from above)
+    if (descLower.includes('recharge') && !converted.includes('Recharge')) {
+        const recharge = extractRecharge(description);
+        if (recharge) {
+            // If not already a Fear action, make it one
+            if (!needsFear && !needsStress) {
+                needsFear = true;
+                if (!converted.startsWith('Spend')) {
+                    converted = `Spend a Fear to ${converted.toLowerCase()}`;
+                }
+            }
+            converted += ` (Recharge ${recharge})`;
+        }
+    }
+    
+    // If no special conversion happened, check if it needs Fear/Stress
+    if (!needsFear && !needsStress && !converted.startsWith('*')) {
+        // Check if it's a powerful ability that should cost Fear
+        if (descLower.includes('frightful') || descLower.includes('fear') || descLower.includes('terror') ||
+            descLower.includes('legendary') || descLower.includes('lair') ||
+            (descLower.includes('damage') && (descLower.includes('d10') || descLower.includes('d12')))) {
+            needsFear = true;
+            converted = `Spend a Fear to ${converted.toLowerCase()}`;
+        }
+        // Otherwise, if it's an active ability, it might need Stress
+        else if (!descLower.includes('passive') && !descLower.includes('always') && 
+                 (descLower.includes('force') || descLower.includes('make') || descLower.includes('target') ||
+                  descLower.includes('move') || descLower.includes('creates') || descLower.includes('causes'))) {
+            needsStress = true;
+            converted = `Mark a Stress to ${converted.toLowerCase()}`;
+        }
+        // If it's still not converted and looks like an action, make it a Stress action by default
+        else if (!descLower.includes('passive') && !descLower.includes('always') && 
+                 description.length > 10) {
+            needsStress = true;
+            converted = `Mark a Stress to ${converted.toLowerCase()}`;
+        }
+    }
+    
+    // Add action type prefix if not present
+    if (!converted.startsWith('*')) {
+        if (needsFear || needsStress) {
+            actionType = "Action";
+        } else {
+            actionType = classifyFeature(converted);
+        }
+        converted = `*${actionType}:* ${converted}`;
+    }
+    
+    // Never return null - always return a converted action
+    return {
+        name,
+        description: converted
+    };
+}
+
+// Helper functions for action conversion
+function extractRange(text) {
+    const rangeMatch = text.match(/(\d+)\s*ft|feet/);
+    if (rangeMatch) {
+        const feet = parseInt(rangeMatch[1]);
+        if (feet <= 5) return 'Melee';
+        if (feet <= 30) return 'Very Close range';
+        if (feet <= 60) return 'Close range';
+        if (feet <= 120) return 'Medium range';
+        return 'Far range';
+    }
+    if (text.includes('melee')) return 'Melee';
+    if (text.includes('close')) return 'Close range';
+    if (text.includes('medium')) return 'Medium range';
+    if (text.includes('far') || text.includes('long')) return 'Far range';
+    return null;
+}
+
+function extractDamage(text) {
+    // Look for damage dice like "2d6+4" or "1d8" or "78 (12d12)"
+    // First try to find dice notation (preferred)
+    const damageMatch = text.match(/(\d+)d(\d+)(?:\s*\+\s*(\d+))?/);
+    if (damageMatch) {
+        const dice = damageMatch[1];
+        const die = damageMatch[2];
+        const mod = damageMatch[3] || '';
+        return `${dice}d${die}${mod ? '+' + mod : ''}`;
+    }
+    // Look for average damage in format "78 (12d12)" - extract the dice part
+    const avgWithDiceMatch = text.match(/(\d+)\s*\((\d+)d(\d+)(?:\s*\+\s*(\d+))?\)/);
+    if (avgWithDiceMatch) {
+        const dice = avgWithDiceMatch[2];
+        const die = avgWithDiceMatch[3];
+        const mod = avgWithDiceMatch[4] || '';
+        return `${dice}d${die}${mod ? '+' + mod : ''}`;
+    }
+    // Look for just average damage number if no dice found
+    const avgMatch = text.match(/(\d+)\s+damage/);
+    if (avgMatch && parseInt(avgMatch[1]) > 5) {
+        return avgMatch[1];
+    }
+    return null;
+}
+
+function extractDamageType(text) {
+    const textLower = text.toLowerCase();
+    if (textLower.includes('fire')) return 'fire';
+    if (textLower.includes('cold') || textLower.includes('frost')) return 'cold';
+    if (textLower.includes('lightning') || textLower.includes('thunder')) return 'lightning';
+    if (textLower.includes('poison')) return 'poison';
+    if (textLower.includes('acid')) return 'acid';
+    if (textLower.includes('necrotic')) return 'necrotic';
+    if (textLower.includes('radiant')) return 'radiant';
+    if (textLower.includes('psychic')) return 'psychic';
+    if (textLower.includes('force') || textLower.includes('magic')) return 'magic';
+    return 'physical';
+}
+
+function extractSaveInfo(text) {
+    const abilityMap = {
+        'strength': 'Strength',
+        'dexterity': 'Agility',
+        'constitution': 'Finesse',
+        'intelligence': 'Instinct',
+        'wisdom': 'Presence',
+        'charisma': 'Presence'
+    };
+    
+    // Pattern 1: "Constitution Saving Throw: DC 27" (with colon)
+    let saveMatch = text.match(/(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s+Saving Throw:\s+DC\s+(\d+)/i);
+    if (saveMatch) {
+        const ability = abilityMap[saveMatch[1].toLowerCase()];
+        const dc = saveMatch[2];
+        return `${ability} Reaction Roll (${dc})`;
+    }
+    
+    // Pattern 2: "DC 27 Constitution saving throw" or "DC 27, Constitution saving throw"
+    saveMatch = text.match(/DC\s+(\d+)[,\s]+(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save)/i);
+    if (saveMatch) {
+        const dc = saveMatch[1];
+        const ability = abilityMap[saveMatch[2].toLowerCase()];
+        return `${ability} Reaction Roll (${dc})`;
+    }
+    
+    // Pattern 3: "Constitution saving throw: DC 27" (alternative format)
+    saveMatch = text.match(/(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save):\s*DC\s+(\d+)/i);
+    if (saveMatch) {
+        const ability = abilityMap[saveMatch[1].toLowerCase()];
+        const dc = saveMatch[2];
+        return `${ability} Reaction Roll (${dc})`;
+    }
+    
+    // Pattern 4: "Ability saving throw" without DC
+    saveMatch = text.match(/(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save)/i);
+    if (saveMatch) {
+        const ability = abilityMap[saveMatch[1].toLowerCase()];
+        return `${ability} Reaction Roll`;
+    }
+    
+    return null;
+}
+
+function extractEffect(text) {
+    const textLower = text.toLowerCase();
+    if (textLower.includes('poisoned')) return 'becomes *Poisoned*';
+    if (textLower.includes('frightened')) return 'becomes *Frightened*';
+    if (textLower.includes('restrained')) return 'becomes *Restrained*';
+    if (textLower.includes('charmed')) return 'becomes *Charmed*';
+    if (textLower.includes('stunned')) return 'becomes *Stunned*';
+    return null;
+}
+
+function extractRecharge(text) {
+    const rechargeMatch = text.match(/recharge\s*(\d+)[-\s]*(\d+)/i);
+    if (rechargeMatch) {
+        return `${rechargeMatch[1]}-${rechargeMatch[2]}`;
+    }
+    return null;
+}
+
+function extractNumber(text, pattern) {
+    const match = text.match(pattern);
+    return match ? parseInt(match[1]) : null;
+}
+
+function getBreathVerb(name) {
+    const nameLower = name.toLowerCase();
+    if (nameLower.includes('fire')) return 'exhale fire';
+    if (nameLower.includes('frost') || nameLower.includes('cold')) return 'exhale frost';
+    if (nameLower.includes('lightning') || nameLower.includes('thunder') || nameLower.includes('bellow')) return 'exhale thunder';
+    if (nameLower.includes('poison')) return 'exhale poison';
+    if (nameLower.includes('acid')) return 'exhale acid';
+    if (nameLower.includes('bellow') || nameLower.includes('roar')) return 'release a thunderous bellow';
+    return 'exhale destructive energy';
+}
+
+function getSummonType(name, description) {
+    const descLower = description.toLowerCase();
+    if (descLower.includes('skeleton') || descLower.includes('zombie')) return 'undead minion';
+    if (descLower.includes('demon') || descLower.includes('devil')) return 'fiend';
+    if (descLower.includes('elemental')) return 'elemental';
+    if (descLower.includes('beast') || descLower.includes('animal')) return 'beast';
+    return 'ally';
+}
+
+function getSpellAction(description) {
+    const descLower = description.toLowerCase();
+    if (descLower.includes('cast')) {
+        return description.match(/cast\s+([^.]+)/i)?.[1] || 'use this ability';
+    }
+    return 'use this ability';
+}
+
+// ============================================================================
 // Main Conversion Functions
 // ============================================================================
 
@@ -392,7 +1196,34 @@ function convertRow(row) {
     // Features parsing
     const features = [];
     if (row.Traits) features.push({ name: "Traits", entries: parseFeatureText(row.Traits) });
-    if (row.Actions) features.push({ name: "Actions", entries: parseFeatureText(row.Actions) });
+    
+    // Collect all actions from Actions, Bonus Actions, and Legendary Actions columns
+    const allActions = [];
+    if (row.Actions) {
+        const actions = convertActionsToDaggerheart(row.Actions, role, cr, tier);
+        allActions.push(...actions);
+    }
+    if (row["Bonus Actions"]) {
+        const bonusActions = convertActionsToDaggerheart(row["Bonus Actions"], role, cr, tier);
+        allActions.push(...bonusActions);
+    }
+    if (row["Legendary Actions"]) {
+        const legendaryActions = convertActionsToDaggerheart(row["Legendary Actions"], role, cr, tier);
+        allActions.push(...legendaryActions);
+    }
+    
+    if (allActions.length > 0) {
+        features.push({ name: "Actions", entries: allActions });
+    }
+    
+    // Add role-specific features
+    const enhancedFeatures = addRoleSpecificFeatures(features, role, cr, tier);
+
+    // Generate Motives & Tactics
+    const motivesTactics = generateMotivesAndTactics(row, role, row.Type ? row.Type.split(' ')[0] : "");
+
+    // Convert Experiences from Skills
+    const experiences = convertExperiences(row);
 
     return {
         id: row.Name + "_" + Math.random().toString(36).substr(2, 9),
@@ -402,7 +1233,9 @@ function convertRow(row) {
         category: row.Type ? row.Type.split(' ')[0] : "Unknown",
         biome: biome,
         stats,
-        features,
+        features: enhancedFeatures,
+        motives_tactics: motivesTactics,
+        experiences: experiences,
         original_cr: row.CR,
         source: row.Source
     };
@@ -420,11 +1253,36 @@ function parseFeatureText(text) {
 
         if (firstPeriodIndex !== -1) {
             const name = line.substring(0, firstPeriodIndex).trim();
-            const description = convertRangeText(line.substring(firstPeriodIndex + 1).trim());
+            let description = line.substring(firstPeriodIndex + 1).trim();
+            
+            // Convert D&D terminology first, then range text
+            description = convertDnDTerminology(description);
+            description = convertRangeText(description);
+            
+            // Classify feature and add proper tag if not already present
+            const featureType = classifyFeature(description);
+            if (!description.startsWith("*Passive:*") && 
+                !description.startsWith("*Action:*") && 
+                !description.startsWith("*Reaction:*")) {
+                description = `*${featureType}:* ${description}`;
+            }
+            
             return { name, description };
         } else {
             // Fallback for lines without a period
-            return { name: "", description: convertRangeText(line.trim()) };
+            let description = line.trim();
+            description = convertDnDTerminology(description);
+            description = convertRangeText(description);
+            
+            // Classify feature and add proper tag if not already present
+            const featureType = classifyFeature(description);
+            if (!description.startsWith("*Passive:*") && 
+                !description.startsWith("*Action:*") && 
+                !description.startsWith("*Reaction:*")) {
+                description = `*${featureType}:* ${description}`;
+            }
+            
+            return { name: "", description };
         }
     });
 }
@@ -432,45 +1290,7 @@ function parseFeatureText(text) {
 function convertRangeText(text) {
     if (!text) return "";
 
-    const mapRange = (val) => {
-        const d = parseInt(val);
-        if (isNaN(d)) return val;
-        // Melee < 5, Very Close 5-10, Close 10-30, Far 30-100, Very Far 100-300, Out > 300
-        if (d < 5) return "Melee";
-        if (d <= 10) return "Very Close";
-        if (d <= 30) return "Close";
-        if (d <= 100) return "Far";
-        if (d <= 300) return "Very Far";
-        return "Out of Range";
-    };
-
-    let newText = text.replace(/Range:\s*Touch/gi, "Range: Melee");
-
-    const replacer = (match, p1, offset, string) => {
-        let replacement = mapRange(p1);
-
-        // Handle logic for preserving sentence structure if 'ft.' was used and consumed
-        if (match.trim().endsWith('.')) {
-            // Look ahead to decide if we need a period
-            // If followed by Capital letter (likely new sentence), keep period.
-            // If followed by lowercase (likely continuation like "or"), drop period.
-            const followIndex = offset + match.length;
-            const remaining = string.slice(followIndex);
-            const trimmedFollow = remaining.trim();
-
-            // If end of string or followed by Uppercase, add period
-            if (trimmedFollow.length === 0 || /^[A-Z]/.test(trimmedFollow)) {
-                replacement += ".";
-            }
-        }
-        return replacement;
-    };
-
-    // Replace X/Y ft (e.g. 20/60 ft) -> use first value
-    newText = newText.replace(/\b(\d+)\s*\/\s*\d+\s*(?:ft\.?|feet|foot)/gi, replacer);
-
-    // Replace X ft / X-foot
-    newText = newText.replace(/\b(\d+)\s*-?\s*(?:ft\.?|feet|foot)/gi, replacer);
+    let newText = text;
 
     // Map D&D abilities to Daggerheart abilities
     const abilityMap = {

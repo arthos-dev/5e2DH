@@ -26,6 +26,8 @@ export interface Adversary {
     biome: string;
     stats: AdversaryStats;
     features: AdversaryFeature[];
+    motives_tactics?: string;
+    experiences?: Array<{name: string, value: number}>;
     original_cr: string;
     source: string;
 }
