@@ -10,6 +10,8 @@ import { CustomizeAdversaryModal } from './components/CustomizeAdversaryModal'
 import { RunningEncounterView } from './components/RunningEncounter'
 import { ToastContainer } from './components/Toast'
 import { useToast } from './hooks/useToast'
+import { DiceProvider } from './contexts/DiceContext'
+import { Dice3D } from './components/Dice3D'
 import { debounce } from './utils/debounce'
 import { VALID_ROLES, VALID_CATEGORIES, VALID_BIOMES, normalizeRole, normalizeCategory } from './constants'
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage'
@@ -354,7 +356,7 @@ function App() {
   // If running encounter, show running view
   if (isRunningEncounter && runningEncounter) {
     return (
-      <>
+      <DiceProvider>
         <RunningEncounterView
           runningEncounter={runningEncounter}
           allAdversaries={allAdversaries}
@@ -364,12 +366,14 @@ function App() {
           showToast={showToast}
         />
         <ToastContainer toasts={toasts} onRemove={removeToast} />
-      </>
+        <Dice3D />
+      </DiceProvider>
     );
   }
 
   return (
-    <div className="min-h-screen bg-dagger-dark flex flex-col font-sans text-gray-200 selection:bg-dagger-gold selection:text-dagger-dark">
+    <DiceProvider>
+      <div className="min-h-screen bg-dagger-dark flex flex-col font-sans text-gray-200 selection:bg-dagger-gold selection:text-dagger-dark">
       {/* Skip to main content link */}
       <a href="#main-content" className="skip-link">
         Skip to main content
@@ -628,7 +632,9 @@ function App() {
       )}
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />
-    </div>
+      <Dice3D />
+      </div>
+    </DiceProvider>
   )
 }
 

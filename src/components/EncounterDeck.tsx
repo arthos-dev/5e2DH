@@ -4,7 +4,8 @@ import { ConfirmDialog } from './ConfirmDialog';
 import { calculateAvailableBattlePoints, calculateSpentBattlePoints, getDifficultyLevel } from '../utils/encounterUtils';
 import { calculateScaledStats } from '../utils/scalingUtils';
 import type { ToastType } from '../hooks/useToast';
-import { formatDiceRoll, rollD20WithModifier } from '../utils/diceRoller';
+import { formatDiceRoll, parseDiceExpression } from '../utils/diceRoller';
+import { useDice, type DiceRollResult } from '../contexts/DiceContext';
 
 interface Props {
     encounter: Encounter;
@@ -81,6 +82,7 @@ export const EncounterDeck: React.FC<Props> = ({
         id?: string;
         name?: string;
     }>({ isOpen: false, type: 'deleteAdversary' });
+    const { triggerRoll } = useDice();
     const availableBP = calculateAvailableBattlePoints(encounter.playerCount, encounter.battlePointModifier);
     const spentBP = calculateSpentBattlePoints(encounter.adversaries, allAdversaries);
     const difficultyLevel = getDifficultyLevel(spentBP, availableBP);
@@ -240,9 +242,29 @@ export const EncounterDeck: React.FC<Props> = ({
                                                         Atk:{' '}
                                                         <button
                                                             type="button"
-                                                            onClick={() => {
-                                                                const result = rollD20WithModifier(scaledStats.attack_mod);
-                                                                showToast(`Attack ${signedModifier(scaledStats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+                                                            onClick={(e) => {
+                                                                // Trigger 3D dice roll with callback to show toast after roll completes
+                                                                const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                                                                const expression = `1d20${signedModifier(scaledStats.attack_mod)}`;
+                                                                
+                                                                triggerRoll(expression, {
+                                                                    x: rect.left + rect.width / 2,
+                                                                    y: rect.top + rect.height / 2,
+                                                                }, (result: DiceRollResult) => {
+                                                                    // Format the result for display
+                                                                    const parsed = parseDiceExpression(expression);
+                                                                    if (parsed) {
+                                                                        const formatted = formatDiceRoll({
+                                                                            count: parsed.count,
+                                                                            sides: parsed.sides,
+                                                                            modifier: parsed.modifier,
+                                                                            rolls: result.rolls,
+                                                                            total: result.total,
+                                                                            expression: expression,
+                                                                        });
+                                                                        showToast(`Attack ${signedModifier(scaledStats.attack_mod)}: ${formatted}`, 'info', 6000);
+                                                                    }
+                                                                });
                                                             }}
                                                             className="text-red-400 font-mono underline decoration-dotted underline-offset-4 hover:text-dagger-gold"
                                                             aria-label={`Roll attack ${signedModifier(scaledStats.attack_mod)}`}

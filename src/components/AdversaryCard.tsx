@@ -2,7 +2,8 @@
 import React from 'react';
 import type { Adversary } from '../types';
 import type { ToastType } from '../hooks/useToast';
-import { formatDiceRoll, rollD20WithModifier } from '../utils/diceRoller';
+import { formatDiceRoll, parseDiceExpression } from '../utils/diceRoller';
+import { useDice, type DiceRollResult } from '../contexts/DiceContext';
 
 interface Props {
     adversary: Adversary;
@@ -43,12 +44,34 @@ const RoleBadge = ({ role }: { role: string }) => {
 };
 
 export const AdversaryCard: React.FC<Props> = ({ adversary, onClick, showToast }) => {
+    const { triggerRoll } = useDice();
     const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
     const handleAttackRoll = (event: React.MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
-        const result = rollD20WithModifier(adversary.stats.attack_mod);
-        showToast(`Attack ${signedModifier(adversary.stats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+        
+        // Trigger 3D dice roll with callback to show toast after roll completes
+        const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+        const expression = `1d20${signedModifier(adversary.stats.attack_mod)}`;
+        
+        triggerRoll(expression, {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+        }, (result: DiceRollResult) => {
+            // Format the result for display
+            const parsed = parseDiceExpression(expression);
+            if (parsed) {
+                const formatted = formatDiceRoll({
+                    count: parsed.count,
+                    sides: parsed.sides,
+                    modifier: parsed.modifier,
+                    rolls: result.rolls,
+                    total: result.total,
+                    expression: expression,
+                });
+                showToast(`Attack ${signedModifier(adversary.stats.attack_mod)}: ${formatted}`, 'info', 6000);
+            }
+        });
     };
 
     return (

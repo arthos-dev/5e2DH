@@ -3,7 +3,9 @@ import type { EncounterInstance, Adversary } from '../types';
 import { calculateScaledStats, getEffectiveTier, calculateStatAdjustments } from '../utils/scalingUtils';
 import { HPStressTracker } from './HPStressTracker';
 import type { ToastType } from '../hooks/useToast';
-import { formatDiceRoll, rollD20WithModifier, rollDiceExpression, wrapDiceExpressions } from '../utils/diceRoller';
+import { formatDiceRoll, parseDiceExpression, wrapDiceExpressions } from '../utils/diceRoller';
+import type { DiceRollResult } from '../contexts/DiceContext';
+import { useDice } from '../contexts/DiceContext';
 
 interface Props {
     instance: EncounterInstance;
@@ -57,6 +59,7 @@ export const EncounterInstanceCard: React.FC<Props> = ({
     onEdit,
     showToast,
 }) => {
+    const { triggerRoll } = useDice();
     const displayName = instance.customName || adversary.name;
     const scaledStats = calculateScaledStats(adversary, instance.upscaling);
     const effectiveTier = getEffectiveTier(adversary.tier, instance.upscaling);
@@ -66,19 +69,58 @@ export const EncounterInstanceCard: React.FC<Props> = ({
     const handleAttackRoll = (event: React.MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
-        const result = rollD20WithModifier(scaledStats.attack_mod);
-        showToast(`Attack ${signedModifier(scaledStats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+        
+        // Trigger 3D dice roll with callback to show toast after roll completes
+        const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+        const expression = `1d20${signedModifier(scaledStats.attack_mod)}`;
+        
+        triggerRoll(expression, {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+        }, (result: DiceRollResult) => {
+            // Format the result for display
+            const parsed = parseDiceExpression(expression);
+            if (parsed) {
+                const formatted = formatDiceRoll({
+                    count: parsed.count,
+                    sides: parsed.sides,
+                    modifier: parsed.modifier,
+                    rolls: result.rolls,
+                    total: result.total,
+                    expression: expression,
+                });
+                showToast(`Attack ${signedModifier(scaledStats.attack_mod)}: ${formatted}`, 'info', 6000);
+            }
+        });
     };
 
     const handleDamageRoll = (event: React.MouseEvent) => {
         event.stopPropagation();
         event.preventDefault();
-        const result = rollDiceExpression(scaledStats.damage_dice);
-        if (!result) {
+        
+        // Validate the dice expression first
+        const parsed = parseDiceExpression(scaledStats.damage_dice);
+        if (!parsed) {
             showToast(`Invalid damage dice: ${scaledStats.damage_dice}`, 'error');
             return;
         }
-        showToast(`Damage ${scaledStats.damage_dice}: ${formatDiceRoll(result)}`, 'info', 6000);
+        
+        // Trigger 3D dice roll with callback to show toast after roll completes
+        const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+        triggerRoll(scaledStats.damage_dice, {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+        }, (result: DiceRollResult) => {
+            const formatted = formatDiceRoll({
+                count: parsed.count,
+                sides: parsed.sides,
+                modifier: parsed.modifier,
+                rolls: result.rolls,
+                total: result.total,
+                expression: scaledStats.damage_dice,
+            });
+            showToast(`Damage ${scaledStats.damage_dice}: ${formatted}`, 'info', 6000);
+        });
     };
 
     const handleDescriptionClick = (event: React.MouseEvent) => {
@@ -86,12 +128,30 @@ export const EncounterInstanceCard: React.FC<Props> = ({
         if (!target) return;
         const expression = target.dataset.dice;
         if (!expression) return;
-        const result = rollDiceExpression(expression);
-        if (!result) {
+        
+        // Validate the dice expression first
+        const parsed = parseDiceExpression(expression);
+        if (!parsed) {
             showToast(`Invalid dice: ${expression}`, 'error');
             return;
         }
-        showToast(`Roll ${expression}: ${formatDiceRoll(result)}`, 'info', 6000);
+        
+        // Trigger 3D dice roll with callback to show toast after roll completes
+        const rect = target.getBoundingClientRect();
+        triggerRoll(expression, {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+        }, (result: DiceRollResult) => {
+            const formatted = formatDiceRoll({
+                count: parsed.count,
+                sides: parsed.sides,
+                modifier: parsed.modifier,
+                rolls: result.rolls,
+                total: result.total,
+                expression: expression,
+            });
+            showToast(`Roll ${expression}: ${formatted}`, 'info', 6000);
+        });
     };
 
     const formatDescriptionHtml = (description: string) => {

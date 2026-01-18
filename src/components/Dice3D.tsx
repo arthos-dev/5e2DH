@@ -1,0 +1,330 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import DiceBox from '@3d-dice/dice-box';
+import { useDice, type DiceRollResult } from '../contexts/DiceContext';
+import { parseDiceExpression } from '../utils/diceRoller';
+
+export const Dice3D: React.FC = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const diceBoxRef = useRef<DiceBox | null>(null);
+    const cleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [diceBoxInstance, setDiceBoxInstance] = useState<DiceBox | null>(null);
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [initError, setInitError] = useState<string | null>(null);
+    const [keepVisible, setKeepVisible] = useState(false);
+    const { currentRoll, clearRoll } = useDice();
+
+    // Initialize dice-box when component mounts
+    useEffect(() => {
+        if (!containerRef.current || isInitialized) return;
+
+        const initDiceBox = async () => {
+            // Wait a bit to ensure the container is fully in the DOM
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+            if (!containerRef.current) {
+                return;
+            }
+
+            // Ensure container is visible for initialization (full screen)
+            const container = containerRef.current;
+            const parent = container.parentElement;
+            
+            // Set parent to full screen dimensions first
+            if (parent) {
+                parent.style.visibility = 'visible';
+                parent.style.opacity = '1';
+                parent.style.display = 'block';
+                parent.style.width = '100vw';
+                parent.style.height = '100vh';
+                parent.style.position = 'fixed';
+                parent.style.top = '0';
+                parent.style.left = '0';
+            }
+            
+            // Set container to full dimensions
+            container.style.visibility = 'visible';
+            container.style.opacity = '1';
+            container.style.display = 'block';
+            container.style.width = '100%';
+            container.style.height = '100%';
+            
+            // Wait a moment for browser to calculate dimensions
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            // Try asset paths with trailing slashes (required by dice-box)
+            const assetPaths = [
+                '/assets/dice-box/',
+                '/assets/dice-box',
+                '/assets/',
+                '/assets',
+            ];
+
+            for (const assetPath of assetPaths) {
+                try {
+                    // Use the new v1.1.0+ API: constructor accepts only a config object
+                    // Use selector string for container (the element has id="dice-box-container")
+                    const diceBox = new DiceBox({
+                        container: '#dice-box-container', // Use selector string
+                        assetPath,
+                        theme: 'default',
+                        themeColor: '#D4AF37',
+                        scale: 4, // Default scale value
+                        enableShadows: true,
+                        // offscreen defaults to true, which is needed for proper rendering
+                        // Physics parameters to speed up animation
+                        gravity: 7, // Faster fall (default: 3)
+                        angularDamping: 0.8, // Spin dies down faster (default: 0.4)
+                        linearDamping: 0.85, // Movement slows faster (default: 0.5)
+                        spinForce: 3.5, // Less initial spinning (default: 6)
+                        throwForce: 2, // Gentler throw (default: 2.5)
+                        startingHeight: 9, // Less air time (default: 15)
+                        settleTimeout: 2500, // Assume results faster (default: 5000ms)
+                    });
+
+                    await diceBox.init();
+                    
+                    // Store in both ref and state
+                    diceBoxRef.current = diceBox;
+                    setDiceBoxInstance(diceBox);
+                    
+                    setIsInitialized(true);
+                    
+                    return; // Success, exit the loop
+                } catch (error: any) {
+                    const errorMsg = error?.message || String(error);
+                    setInitError(errorMsg);
+                    // Continue to next path
+                }
+            }
+            setInitError('All initialization attempts failed. Check console for details.');
+            setIsInitialized(true); // Prevent infinite retries
+        };
+
+        initDiceBox();
+
+        return () => {
+            // Don't clear the ref on cleanup - we want to keep it for rolling
+            // Only clear if component is actually unmounting
+            // if (diceBoxRef.current) {
+            //     try {
+            //         diceBoxRef.current.clear();
+            //     } catch (e) {
+            //         // Ignore cleanup errors
+            //     }
+            //     diceBoxRef.current = null;
+            // }
+        };
+    }, [isInitialized]);
+
+    useEffect(() => {
+        if (!isInitialized) {
+            return;
+        }
+        
+        if (!currentRoll) {
+            return;
+        }
+        
+        // Use state instance if ref is null (state is more reliable)
+        const diceBox = diceBoxInstance || diceBoxRef.current;
+        
+        if (!diceBox) {
+            return;
+        }
+
+        // Clear any pending cleanup timeout when a new roll starts
+        if (cleanupTimeoutRef.current) {
+            clearTimeout(cleanupTimeoutRef.current);
+            cleanupTimeoutRef.current = null;
+        }
+
+        const rollDice = async () => {
+            // Capture the roll and callback at the start to avoid stale references
+            const roll = currentRoll;
+            if (!roll) return;
+            
+            const onComplete = roll.onComplete;
+            const expression = roll.expression;
+            const position = roll.position;
+            
+            try {
+                const parsed = parseDiceExpression(expression);
+                if (!parsed) {
+                    clearRoll();
+                    return;
+                }
+
+                // Roll just the dice part - dice-box may not handle modifiers in notation correctly
+                // We'll add the modifier manually after extracting the results
+                const diceBoxNotation = `${parsed.count}d${parsed.sides}`;
+                
+                // Make sure the container and its parent are visible before rolling
+                if (containerRef.current) {
+                    const container = containerRef.current;
+                    const parent = container.parentElement;
+                    
+                    // Make parent visible first with full viewport dimensions
+                    if (parent) {
+                        parent.style.visibility = 'visible';
+                        parent.style.opacity = '1';
+                        parent.style.zIndex = '999999'; // Match the positionStyle z-index
+                        parent.style.display = 'block';
+                        parent.style.width = '100vw';
+                        parent.style.height = '100vh';
+                    }
+                    
+                    // Make container visible (full screen)
+                    container.style.visibility = 'visible';
+                    container.style.opacity = '1';
+                    container.style.display = 'block';
+                    container.style.width = '100%';
+                    container.style.height = '100%';
+                    
+                    // Wait a moment for styles to apply and React to re-render
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                // Roll the dice using the instance we found
+                const result = await diceBox.roll(diceBoxNotation);
+                
+                // Get the proper grouped results from getRollResults() - this is the preferred method
+                let rollResults: any = null;
+                if (diceBox.getRollResults) {
+                    rollResults = diceBox.getRollResults();
+                }
+                
+                // Extract the actual roll values from the dice-box result
+                // roll() returns a flat array of die objects: [{value: 11, ...}, {value: 14, ...}]
+                // getRollResults() returns grouped structure: [{rolls: [{value: 11, ...}], ...}]
+                const allRolls: number[] = [];
+                let diceTotal = 0;
+                
+                // First, try to use getRollResults() which has the proper grouped structure
+                if (rollResults && Array.isArray(rollResults) && rollResults.length > 0) {
+                    for (const group of rollResults) {
+                        // Check if this is a group with rolls array (getRollResults format)
+                        if (group.rolls && Array.isArray(group.rolls) && group.rolls.length > 0) {
+                            for (const die of group.rolls) {
+                                if (typeof die.value === 'number' && die.value > 0) {
+                                    allRolls.push(die.value);
+                                    diceTotal += die.value;
+                                }
+                            }
+                        }
+                        // Check if this is a flat die object (roll() format that got into rollResults somehow)
+                        else if (typeof group.value === 'number' && group.value > 0 && !group.rolls) {
+                            allRolls.push(group.value);
+                            diceTotal += group.value;
+                        }
+                    }
+                }
+                
+                // Fallback: if getRollResults didn't work or returned empty, try the direct result from roll()
+                // The roll() method returns a flat array of die objects
+                if (allRolls.length === 0 && result && Array.isArray(result) && result.length > 0) {
+                    // Check if result is a flat array of dice (has value property directly)
+                    const firstItem = result[0];
+                    if (firstItem && typeof firstItem.value === 'number') {
+                        // This is a flat array of die objects from roll()
+                        for (const die of result) {
+                            if (typeof die.value === 'number' && die.value > 0) {
+                                allRolls.push(die.value);
+                                diceTotal += die.value;
+                            }
+                        }
+                    }
+                }
+                
+                // Final fallback: if we still have no rolls, generate them
+                if (allRolls.length === 0) {
+                    diceTotal = 0;
+                    for (let i = 0; i < parsed.count; i++) {
+                        const roll = Math.floor(Math.random() * parsed.sides) + 1;
+                        allRolls.push(roll);
+                        diceTotal += roll;
+                    }
+                }
+                
+                // Add the modifier to the total (we always roll without modifier, then add it)
+                const total = diceTotal + parsed.modifier;
+                
+                // Create the result object
+                const diceRollResult: DiceRollResult = {
+                    rolls: allRolls,
+                    total: total,
+                    expression: expression,
+                };
+                
+                // Call the completion callback if provided
+                if (onComplete) {
+                    onComplete(diceRollResult);
+                }
+                
+                // Keep dice visible for a while after roll completes
+                // The promise resolves when physics settle, but visual animation may still be playing
+                setKeepVisible(true);
+                
+                // Clear the roll after a longer delay to let users see the result
+                // Store timeout ID in ref so we can clear it if a new roll starts
+                cleanupTimeoutRef.current = setTimeout(() => {
+                    setKeepVisible(false);
+                    clearRoll();
+                    cleanupTimeoutRef.current = null;
+                }, 5000); // Wait 5 seconds to ensure dice animation is fully visible
+            } catch (error: any) {
+                // Clear any pending timeout if there's an error
+                if (cleanupTimeoutRef.current) {
+                    clearTimeout(cleanupTimeoutRef.current);
+                    cleanupTimeoutRef.current = null;
+                }
+                setKeepVisible(false);
+                clearRoll();
+            }
+        };
+
+        rollDice();
+    }, [currentRoll, isInitialized, diceBoxInstance, clearRoll]);
+
+    // Always render the container so dice-box can initialize
+    // Make it full screen so dice can roll anywhere
+    // Keep it in DOM but hidden when not rolling (display: none breaks dice-box rendering)
+    // Container is visible if there's a current roll OR if keepVisible is true (after roll completes)
+    const hasActiveRoll = !!currentRoll || keepVisible;
+    
+    const positionStyle: React.CSSProperties = {
+        position: 'fixed',
+        left: '0',
+        top: '0',
+        width: '100vw',
+        height: '100vh',
+        zIndex: 999999, // Very high z-index to ensure it's above all modals
+        pointerEvents: 'none',
+        opacity: hasActiveRoll ? 1 : 0,
+        visibility: hasActiveRoll ? 'visible' : 'hidden',
+        display: 'block', // Always in DOM, just hidden when not rolling
+    };
+
+    // Render dice container via portal to document.body to escape any stacking contexts
+    const diceContainer = (
+        <div style={positionStyle}>
+            <div
+                ref={containerRef}
+                id="dice-box-container"
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    minWidth: '100vw',
+                    minHeight: '100vh',
+                    backgroundColor: 'transparent',
+                }}
+            />
+        </div>
+    );
+
+    return (
+        <>
+            {createPortal(diceContainer, document.body)}
+        </>
+    );
+};

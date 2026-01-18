@@ -137,11 +137,16 @@ function getValueInRange(range, cr, tier) {
     if (min === max) return min;
     // Use CR to determine position in range (normalize CR to 0-1 within tier)
     const crInTier = getCRPositionInTier(cr, tier);
-    return Math.round(min + (max - min) * crInTier);
+    const result = Math.round(min + (max - min) * crInTier);
+    // If calculation results in NaN, return middle value of the range
+    return isNaN(result) ? Math.round((min + max) / 2) : result;
 }
 
 // Helper to get CR position within tier (0.0 to 1.0)
 function getCRPositionInTier(cr, tier) {
+    // If CR is invalid (NaN), return 0.5 (middle of tier range)
+    if (isNaN(cr)) return 0.5;
+    
     let tierMin, tierMax;
     if (tier === 1) { tierMin = 0; tierMax = 2; }
     else if (tier === 2) { tierMin = 3; tierMax = 7; }
@@ -168,11 +173,15 @@ function parseCR(crStr) {
     if (!crStr) return 0;
     // Handle "1/4 (XP...)" or "1/4"
     const clean = crStr.split('(')[0].trim();
+    // Handle "None" CR values (e.g., "None (XP 0; PB equals your Proficiency Bonus)")
+    if (clean.toLowerCase() === 'none') return 0;
     if (clean.includes('/')) {
         const [num, den] = clean.split('/');
         return parseFloat(num) / parseFloat(den);
     }
-    return parseFloat(clean);
+    const parsed = parseFloat(clean);
+    // If parsing fails (NaN), default to 0
+    return isNaN(parsed) ? 0 : parsed;
 }
 
 function parseHP(hpStr) {
