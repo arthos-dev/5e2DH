@@ -336,45 +336,48 @@ export const EncounterDeck: React.FC<Props> = ({
                     </div>
                 </div>
 
-                {/* # of players */}
-                <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">
-                        # of players
-                    </label>
-                    <div className="flex items-center gap-2">
-                        <button
-                            type="button"
-                            onClick={() => onUpdatePlayerCount(Math.max(1, encounter.playerCount - 1))}
-                            className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                            aria-label="Decrease player count"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                            </svg>
-                        </button>
-                        <div className="flex-1 h-10 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-dagger-gold font-serif font-bold text-base md:text-lg">
-                            {encounter.playerCount}
+                {/* # of players and Difficulty */}
+                <div className="grid grid-cols-2 gap-3">
+                    {/* # of players */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-1.5">
+                            # of players
+                        </label>
+                        <div className="flex items-center gap-1.5">
+                            <button
+                                type="button"
+                                onClick={() => onUpdatePlayerCount(Math.max(1, encounter.playerCount - 1))}
+                                className="w-8 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                                aria-label="Decrease player count"
+                            >
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                </svg>
+                            </button>
+                            <div className="flex-1 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-dagger-gold font-serif font-bold text-sm">
+                                {encounter.playerCount}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => onUpdatePlayerCount(encounter.playerCount + 1)}
+                                className="w-8 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                                aria-label="Increase player count"
+                            >
+                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => onUpdatePlayerCount(encounter.playerCount + 1)}
-                            className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
-                            aria-label="Increase player count"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                            </svg>
-                        </button>
                     </div>
-                </div>
 
-                {/* Difficulty */}
-                <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">
-                        Difficulty
-                    </label>
-                    <div className="h-10 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-200 font-mono font-bold text-sm md:text-base">
-                        {spentBP} / {availableBP} ({difficultyLevel})
+                    {/* Difficulty */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-1.5">
+                            Difficulty
+                        </label>
+                        <div className="h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-200 font-mono font-bold text-xs px-2 whitespace-nowrap">
+                            {spentBP} / {availableBP} ({difficultyLevel})
+                        </div>
                     </div>
                 </div>
 
