@@ -117,7 +117,6 @@ export const Dice3D: React.FC = () => {
                 '/assets',
             ];
 
-            let initialized = false;
             for (const assetPath of assetPaths) {
                 try {
                     // Use the new v1.1.0+ API: constructor accepts only a config object
@@ -149,7 +148,6 @@ export const Dice3D: React.FC = () => {
                     
                     isInitializedRef.current = true;
                     setIsInitialized(true);
-                    initialized = true;
                     globalInitializationInProgress = false;
                     
                     return; // Success, exit the loop
