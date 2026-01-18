@@ -4,30 +4,87 @@ import DiceBox from '@3d-dice/dice-box';
 import { useDice, type DiceRollResult } from '../contexts/DiceContext';
 import { parseDiceExpression } from '../utils/diceRoller';
 
+// Global singleton to prevent multiple initializations
+let globalDiceBoxInstance: DiceBox | null = null;
+let globalInitializationInProgress = false;
+
 export const Dice3D: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const diceBoxRef = useRef<DiceBox | null>(null);
     const cleanupTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const currentRollExpressionRef = useRef<string | null>(null);
+    const isInitializedRef = useRef(false);
     const [diceBoxInstance, setDiceBoxInstance] = useState<DiceBox | null>(null);
     const [isInitialized, setIsInitialized] = useState(false);
     const [keepVisible, setKeepVisible] = useState(false);
     const { currentRoll, clearRoll, reportRollResult } = useDice();
 
-    // Initialize dice-box when component mounts
+    // Initialize dice-box when component mounts (only once)
     useEffect(() => {
-        if (!containerRef.current || isInitialized) return;
+        if (!containerRef.current || isInitializedRef.current) return;
+        
+        // Global singleton check - prevent multiple initializations across all instances
+        if (globalInitializationInProgress || globalDiceBoxInstance) {
+            // If global instance exists, use it
+            if (globalDiceBoxInstance) {
+                diceBoxRef.current = globalDiceBoxInstance;
+                setDiceBoxInstance(globalDiceBoxInstance);
+                isInitializedRef.current = true;
+                setIsInitialized(true);
+            }
+            return;
+        }
 
         const initDiceBox = async () => {
+            globalInitializationInProgress = true;
+            
             // Wait a bit to ensure the container is fully in the DOM
             await new Promise(resolve => setTimeout(resolve, 200));
 
             if (!containerRef.current) {
+                globalInitializationInProgress = false;
                 return;
             }
 
-            // Ensure container is visible for initialization (full screen)
+            // Singleton protection: Check if container already has a canvas (from previous init or React StrictMode)
             const container = containerRef.current;
+            const existingCanvases = container.querySelectorAll('canvas.dice-box-canvas');
+            
+            // If canvas already exists, don't re-initialize - just use the existing instance
+            if (existingCanvases.length > 0) {
+                console.log('Dice-box canvas already exists, skipping initialization');
+                globalInitializationInProgress = false;
+                if (globalDiceBoxInstance) {
+                    diceBoxRef.current = globalDiceBoxInstance;
+                    setDiceBoxInstance(globalDiceBoxInstance);
+                    isInitializedRef.current = true;
+                    setIsInitialized(true);
+                }
+                return;
+            }
+            
+            // Completely clear the container before initialization to prevent duplicates
+            container.innerHTML = '';
+            
+            // Also check for any canvases that might have been created outside the container
+            const allCanvases = document.querySelectorAll('canvas.dice-box-canvas');
+            allCanvases.forEach(canvas => {
+                // Remove any orphaned canvases
+                canvas.remove();
+            });
+            
+            // If we already have a dice-box instance, don't re-initialize
+            if (diceBoxRef.current || globalDiceBoxInstance) {
+                globalInitializationInProgress = false;
+                if (globalDiceBoxInstance) {
+                    diceBoxRef.current = globalDiceBoxInstance;
+                    setDiceBoxInstance(globalDiceBoxInstance);
+                    isInitializedRef.current = true;
+                    setIsInitialized(true);
+                }
+                return;
+            }
+
             const parent = container.parentElement;
             
             // Set parent to full screen dimensions first
@@ -60,6 +117,7 @@ export const Dice3D: React.FC = () => {
                 '/assets',
             ];
 
+            let initialized = false;
             for (const assetPath of assetPaths) {
                 try {
                     // Use the new v1.1.0+ API: constructor accepts only a config object
@@ -84,35 +142,48 @@ export const Dice3D: React.FC = () => {
 
                     await diceBox.init();
                     
-                    // Store in both ref and state
+                    // Store in both ref and state AND global singleton
                     diceBoxRef.current = diceBox;
                     setDiceBoxInstance(diceBox);
+                    globalDiceBoxInstance = diceBox;
                     
+                    isInitializedRef.current = true;
                     setIsInitialized(true);
+                    initialized = true;
+                    globalInitializationInProgress = false;
                     
                     return; // Success, exit the loop
                 } catch (error: any) {
                     // Continue to next path
+                    console.warn('Failed to initialize dice-box with asset path:', assetPath, error);
                 }
             }
-            setIsInitialized(true); // Prevent infinite retries
+            
+            // If we get here, all paths failed
+            isInitializedRef.current = true; // Prevent infinite retries
+            setIsInitialized(true);
+            globalInitializationInProgress = false;
         };
 
         initDiceBox();
 
         return () => {
-            // Don't clear the ref on cleanup - we want to keep it for rolling
-            // Only clear if component is actually unmounting
-            // if (diceBoxRef.current) {
-            //     try {
-            //         diceBoxRef.current.clear();
-            //     } catch (e) {
-            //         // Ignore cleanup errors
-            //     }
-            //     diceBoxRef.current = null;
-            // }
+            // Cleanup: Only destroy dice-box instance if this is the last component using it
+            // Since we're using a global singleton, we should only clean up when the app unmounts
+            // For now, we'll keep the instance alive since Dice3D should only mount once
+            // But we'll clean up timeouts and local refs
+            if (cleanupTimeoutRef.current) {
+                clearTimeout(cleanupTimeoutRef.current);
+                cleanupTimeoutRef.current = null;
+            }
+            
+            // Don't destroy the global instance - it should persist for the app lifetime
+            // Only clear local refs
+            diceBoxRef.current = null;
+            setDiceBoxInstance(null);
+            isInitializedRef.current = false;
         };
-    }, [isInitialized]);
+    }, []); // Empty dependency array - only run on mount/unmount
 
     useEffect(() => {
         if (!isInitialized) {

@@ -122,13 +122,14 @@ export const EncounterDeck: React.FC<Props> = ({
     return (
         <div className="fixed right-0 top-0 h-full w-80 max-md:w-full max-md:max-h-[90vh] max-md:top-auto max-md:bottom-0 max-md:rounded-t-2xl max-md:border-l-0 max-md:border-t bg-dagger-panel border-l border-dagger-gold/20 shadow-xl z-40 flex flex-col transition-transform max-md:duration-300">
             {/* Header */}
-            <div className="p-4 border-b border-dagger-gold/20 bg-dagger-surface flex items-center justify-between">
-                <h2 className="text-lg font-serif font-bold text-dagger-gold uppercase tracking-wide">
+            <div className="p-3 md:p-4 border-b border-dagger-gold/20 bg-dagger-surface flex items-center justify-between">
+                <h2 className="text-base md:text-lg font-serif font-bold text-dagger-gold uppercase tracking-wide">
                     ENCOUNTER DECK
                 </h2>
                 <button
                     onClick={onClose}
-                    className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                    className="w-9 h-9 md:w-8 md:h-8 md:hidden flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                    aria-label="Close encounter deck"
                 >
                     <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -137,13 +138,13 @@ export const EncounterDeck: React.FC<Props> = ({
             </div>
 
             {/* List Section */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 custom-scrollbar">
                 {/* Saved Encounters Section */}
                 {savedEncounters.length > 0 && (
                     <div className="mb-4">
                         <button
                             onClick={() => setShowSavedEncounters(!showSavedEncounters)}
-                            className="w-full flex items-center justify-between p-2 bg-dagger-surface border border-dagger-gold/20 rounded text-sm text-dagger-gold hover:bg-dagger-gold/10 transition-colors"
+                            className="w-full flex items-center justify-between p-2.5 md:p-2 bg-dagger-surface border border-dagger-gold/20 rounded text-sm text-dagger-gold hover:bg-dagger-gold/10 transition-colors min-h-[44px]"
                         >
                             <span className="font-bold uppercase tracking-wider">Saved Encounters ({savedEncounters.length})</span>
                             <svg
@@ -307,7 +308,7 @@ export const EncounterDeck: React.FC<Props> = ({
             </div>
 
             {/* Footer Section */}
-            <div className="p-4 border-t border-dagger-gold/20 bg-dagger-surface space-y-4">
+            <div className="p-3 md:p-4 border-t border-dagger-gold/20 bg-dagger-surface space-y-3 md:space-y-4">
                 {/* Encounter Name */}
                 <div>
                     <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">
@@ -318,14 +319,15 @@ export const EncounterDeck: React.FC<Props> = ({
                             type="text"
                             value={encounter.name}
                             onChange={(e) => onUpdateEncounterName(e.target.value)}
-                            className="flex-1 h-9 px-3 bg-dagger-dark border border-dagger-gold/20 rounded text-gray-200 focus:outline-none focus:border-dagger-gold/60 transition-colors"
+                            className="flex-1 h-10 md:h-9 px-3 bg-dagger-dark border border-dagger-gold/20 rounded text-gray-200 focus:outline-none focus:border-dagger-gold/60 transition-colors text-sm md:text-base"
                             placeholder="Enter encounter name"
                         />
                         <button
                             onClick={onShareEncounter}
-                            className="w-9 h-9 flex items-center justify-center rounded bg-dagger-dark border border-dagger-gold/20 text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                            className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center rounded bg-dagger-dark border border-dagger-gold/20 text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
                             title="Share Encounter"
                             disabled={!onShareEncounter}
+                            aria-label="Share encounter"
                         >
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -343,19 +345,21 @@ export const EncounterDeck: React.FC<Props> = ({
                         <button
                             type="button"
                             onClick={() => onUpdatePlayerCount(Math.max(1, encounter.playerCount - 1))}
-                            className="w-9 h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                            className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                            aria-label="Decrease player count"
                         >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                             </svg>
                         </button>
-                        <div className="flex-1 h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-dagger-gold font-serif font-bold text-lg">
+                        <div className="flex-1 h-10 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-dagger-gold font-serif font-bold text-base md:text-lg">
                             {encounter.playerCount}
                         </div>
                         <button
                             type="button"
                             onClick={() => onUpdatePlayerCount(encounter.playerCount + 1)}
-                            className="w-9 h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                            className="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-400 hover:text-dagger-gold hover:border-dagger-gold/60 transition-colors"
+                            aria-label="Increase player count"
                         >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -369,7 +373,7 @@ export const EncounterDeck: React.FC<Props> = ({
                     <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">
                         Difficulty
                     </label>
-                    <div className="h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-200 font-mono font-bold">
+                    <div className="h-10 md:h-9 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-gray-200 font-mono font-bold text-sm md:text-base">
                         {spentBP} / {availableBP} ({difficultyLevel})
                     </div>
                 </div>
@@ -379,7 +383,7 @@ export const EncounterDeck: React.FC<Props> = ({
                     {onSaveEncounter && (
                         <button
                             onClick={onSaveEncounter}
-                            className="w-full h-9 px-4 bg-dagger-gold/20 text-dagger-gold border border-dagger-gold/50 rounded hover:bg-dagger-gold/30 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
+                            className="w-full h-11 md:h-9 px-4 bg-dagger-gold/20 text-dagger-gold border border-dagger-gold/50 rounded hover:bg-dagger-gold/30 font-serif font-bold tracking-widest uppercase text-sm transition-colors min-h-[44px]"
                         >
                             Save Encounter
                         </button>
@@ -387,7 +391,7 @@ export const EncounterDeck: React.FC<Props> = ({
                     {onRunEncounter && encounter.adversaries.length > 0 && (
                         <button
                             onClick={onRunEncounter}
-                            className="w-full h-9 px-4 bg-dagger-gold text-dagger-dark border border-dagger-gold rounded hover:bg-dagger-gold-light font-serif font-bold tracking-widest uppercase text-sm transition-colors"
+                            className="w-full h-11 md:h-9 px-4 bg-dagger-gold text-dagger-dark border border-dagger-gold rounded hover:bg-dagger-gold-light font-serif font-bold tracking-widest uppercase text-sm transition-colors min-h-[44px]"
                         >
                             Run Encounter
                         </button>

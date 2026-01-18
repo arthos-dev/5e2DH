@@ -41,9 +41,9 @@ export const RunningEncounterView: React.FC<Props> = ({
         <div className="min-h-screen bg-dagger-dark">
             {/* Header Navigation */}
             <div className="bg-dagger-panel border-b border-dagger-gold/20 sticky top-0 z-20 shadow-lg backdrop-blur-md bg-opacity-95">
-                <div className="max-w-7xl mx-auto p-6">
-                    <div className="flex items-center justify-between">
-                        <div className="text-lg font-serif font-bold text-dagger-gold uppercase tracking-widest">
+                <div className="max-w-7xl mx-auto p-3 md:p-6">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        <div className="text-base md:text-lg font-serif font-bold text-dagger-gold uppercase tracking-widest truncate">
                             {runningEncounter.name}
                         </div>
                         <div className="flex items-center gap-2">
@@ -55,7 +55,8 @@ export const RunningEncounterView: React.FC<Props> = ({
                                         onClose();
                                     }
                                 }}
-                                className="px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center bg-dagger-gold text-dagger-dark border-dagger-gold"
+                                className="flex-1 md:flex-none px-4 md:px-6 py-3 md:py-2 rounded border font-serif font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 text-center bg-dagger-gold text-dagger-dark border-dagger-gold min-h-[44px]"
+                                aria-label="Navigate to manage encounters"
                             >
                                 MANAGE
                             </button>
@@ -67,7 +68,8 @@ export const RunningEncounterView: React.FC<Props> = ({
                                         onClose();
                                     }
                                 }}
-                                className="px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center bg-dagger-gold/20 text-dagger-gold border-dagger-gold/50 hover:bg-dagger-gold/30"
+                                className="flex-1 md:flex-none px-4 md:px-6 py-3 md:py-2 rounded border font-serif font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 text-center bg-dagger-gold/20 text-dagger-gold border-dagger-gold/50 hover:bg-dagger-gold/30 min-h-[44px]"
+                                aria-label="Navigate to edit encounter"
                             >
                                 EDIT
                             </button>
@@ -77,8 +79,8 @@ export const RunningEncounterView: React.FC<Props> = ({
             </div>
 
             {/* Encounter Cards */}
-            <div className="p-6">
-                <div className="flex gap-6 overflow-x-auto pb-4 custom-scrollbar">
+            <div className="p-3 md:p-6">
+                <div className="flex gap-3 md:gap-6 overflow-x-auto pb-4 custom-scrollbar">
                     {instances.map(instance => {
                         const adversary = getAdversaryForInstance(instance);
                         if (!adversary) return null;

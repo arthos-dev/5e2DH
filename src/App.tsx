@@ -65,6 +65,9 @@ function App() {
   // Tab State
   const [activeTab, setActiveTab] = useState<'manage' | 'edit'>('edit');
 
+  // EncounterDeck visibility state (for mobile)
+  const [isEncounterDeckOpen, setIsEncounterDeckOpen] = useState(false);
+
   // Ref to track if we're loading from URL (to prevent infinite loop)
   const isLoadingFromUrl = useRef(false);
 
@@ -353,26 +356,26 @@ function App() {
     }
   };
 
-  // If running encounter, show running view
-  if (isRunningEncounter && runningEncounter) {
-    return (
-      <DiceProvider>
-        <RunningEncounterView
-          runningEncounter={runningEncounter}
-          allAdversaries={allAdversaries}
-          onClose={handleStopRunningEncounter}
-          onNavigateToManage={handleNavigateToManage}
-          onNavigateToEdit={handleNavigateToEdit}
-          showToast={showToast}
-        />
-        <ToastContainer toasts={toasts} onRemove={removeToast} />
-        <Dice3D />
-      </DiceProvider>
-    );
-  }
-
   return (
     <DiceProvider>
+      {/* Render Dice3D once at the top level to prevent duplicate canvas initialization */}
+      <Dice3D />
+      
+      {/* If running encounter, show running view */}
+      {isRunningEncounter && runningEncounter ? (
+        <>
+          <RunningEncounterView
+            runningEncounter={runningEncounter}
+            allAdversaries={allAdversaries}
+            onClose={handleStopRunningEncounter}
+            onNavigateToManage={handleNavigateToManage}
+            onNavigateToEdit={handleNavigateToEdit}
+            showToast={showToast}
+          />
+          <ToastContainer toasts={toasts} onRemove={removeToast} />
+        </>
+      ) : (
+        <>
       <div className="min-h-screen bg-dagger-dark flex flex-col font-sans text-gray-200 selection:bg-dagger-gold selection:text-dagger-dark">
       {/* Skip to main content link */}
       <a href="#main-content" className="skip-link">
@@ -386,26 +389,28 @@ function App() {
       </div>
 
       <div className="bg-dagger-panel border-b border-dagger-gold/20 sticky top-0 z-20 shadow-lg backdrop-blur-md bg-opacity-95">
-        <div className="max-w-7xl mx-auto py-3 px-6">
+        <div className="max-w-7xl mx-auto py-2 md:py-3 px-3 md:px-6">
           {/* Tab Navigation */}
           <div className="flex items-center gap-2 mb-2">
             <button
               onClick={() => setActiveTab('manage')}
-              className={`px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center ${
+              className={`flex-1 md:flex-none px-4 md:px-6 py-3 md:py-2 rounded border font-serif font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 text-center min-h-[44px] ${
                 activeTab === 'manage'
                   ? 'bg-dagger-gold text-dagger-dark border-dagger-gold'
                   : 'bg-dagger-panel text-dagger-gold border-dagger-gold/30 hover:border-dagger-gold hover:bg-dagger-surface'
               }`}
+              aria-label="Manage encounters"
             >
               Manage
             </button>
             <button
               onClick={() => setActiveTab('edit')}
-              className={`px-6 py-2 rounded border font-serif font-bold tracking-widest uppercase text-sm transition-all duration-300 text-center ${
+              className={`flex-1 md:flex-none px-4 md:px-6 py-3 md:py-2 rounded border font-serif font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 text-center min-h-[44px] ${
                 activeTab === 'edit'
                   ? 'bg-dagger-gold text-dagger-dark border-dagger-gold'
                   : 'bg-dagger-panel text-dagger-gold border-dagger-gold/30 hover:border-dagger-gold hover:bg-dagger-surface'
               }`}
+              aria-label="Edit encounter"
             >
               Edit
             </button>
@@ -428,7 +433,7 @@ function App() {
         </div>
       </div>
 
-      <main id="main-content" className={`flex-1 p-4 md:p-8 overflow-y-auto z-10 relative ${activeTab === 'edit' ? 'mr-80 max-md:mr-0' : ''}`}>
+      <main id="main-content" className={`flex-1 p-4 md:p-8 overflow-y-auto z-10 relative ${activeTab === 'edit' ? 'md:mr-80' : ''}`}>
         <div className="max-w-[1600px] mx-auto">
           {activeTab === 'manage' ? (
             /* Manage Tab View */
@@ -545,7 +550,7 @@ function App() {
 
       {/* Side-by-side layout for Edit mode */}
       {selectedAdversary && activeTab === 'edit' && (
-        <div className="fixed inset-0 z-50 flex items-stretch p-4 gap-4">
+        <div className="fixed inset-0 z-50 flex items-stretch p-1 md:p-4 gap-3 md:gap-4">
           {/* Shared backdrop */}
           <div 
             className="absolute inset-0 bg-dagger-dark/90 backdrop-blur-sm transition-opacity" 
@@ -556,8 +561,8 @@ function App() {
             }}
           />
           
-          {/* Side-by-side container */}
-          <div className="relative flex gap-4 w-full max-w-[1600px] mx-auto items-stretch">
+          {/* Side-by-side container - stacks vertically on mobile */}
+          <div className="relative flex flex-col md:flex-row gap-3 md:gap-4 w-full max-w-[1600px] mx-auto items-stretch max-h-[95vh] md:max-h-full overflow-hidden">
             <AdversaryDetail 
               adversary={selectedAdversary} 
               onClose={() => {
@@ -573,7 +578,11 @@ function App() {
             {customizeModalOpen && (
               <CustomizeAdversaryModal
                 adversary={selectedAdversary}
-                onClose={() => setCustomizeModalOpen(false)}
+                onClose={() => {
+                  setSelectedAdversary(null);
+                  setCustomizeModalOpen(false);
+                  setCustomizeUpscaling(0);
+                }}
                 onAdd={handleCustomizeSubmit}
                 sideBySideMode={true}
                 upscaling={customizeUpscaling}
@@ -612,28 +621,47 @@ function App() {
         />
       )}
 
-      {/* EncounterDeck always visible in Edit mode */}
+      {/* EncounterDeck - always visible on desktop, dismissible on mobile */}
       {activeTab === 'edit' && (
-        <EncounterDeck
-          encounter={currentEncounter}
-          allAdversaries={allAdversaries}
-          onClose={() => {}} // No close button needed since it's always visible in Edit mode
-          onUpdateEncounterName={handleUpdateEncounterName}
-          onUpdatePlayerCount={handleUpdatePlayerCount}
-          onDeleteAdversary={handleDeleteAdversary}
-          onSaveEncounter={handleSaveEncounter}
-          onRunEncounter={handleRunEncounter}
-          savedEncounters={savedEncounters}
-          onLoadEncounter={handleLoadEncounter}
-          onDeleteSavedEncounter={handleDeleteSavedEncounter}
-          onShareEncounter={handleShareEncounter}
-          showToast={showToast}
-        />
+        <>
+          {/* Show on desktop always, or on mobile when open */}
+          <div className={`${isEncounterDeckOpen ? 'block' : 'hidden'} md:block`}>
+            <EncounterDeck
+              encounter={currentEncounter}
+              allAdversaries={allAdversaries}
+              onClose={() => setIsEncounterDeckOpen(false)} // Close on mobile
+              onUpdateEncounterName={handleUpdateEncounterName}
+              onUpdatePlayerCount={handleUpdatePlayerCount}
+              onDeleteAdversary={handleDeleteAdversary}
+              onSaveEncounter={handleSaveEncounter}
+              onRunEncounter={handleRunEncounter}
+              savedEncounters={savedEncounters}
+              onLoadEncounter={handleLoadEncounter}
+              onDeleteSavedEncounter={handleDeleteSavedEncounter}
+              onShareEncounter={handleShareEncounter}
+              showToast={showToast}
+            />
+          </div>
+          
+          {/* Floating Action Button to reopen deck on mobile when closed */}
+          {!isEncounterDeckOpen && (
+            <button
+              onClick={() => setIsEncounterDeckOpen(true)}
+              className="fixed bottom-6 right-6 md:hidden w-14 h-14 bg-dagger-gold text-dagger-dark rounded-full shadow-lg hover:bg-dagger-gold-light transition-all duration-300 flex items-center justify-center z-40 border-2 border-dagger-gold/50 hover:scale-110"
+              aria-label="Open encounter deck"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </button>
+          )}
+        </>
       )}
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />
-      <Dice3D />
       </div>
+        </>
+      )}
     </DiceProvider>
   )
 }

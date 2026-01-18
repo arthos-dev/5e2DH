@@ -48,18 +48,18 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
         return (
             <div
                 ref={modalRef}
-                className="relative bg-dagger-panel flex-[2] h-full max-h-[90vh] overflow-hidden rounded-2xl border border-dagger-gold/30 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col"
+                className="relative bg-dagger-panel flex-[2] h-full md:max-h-[90vh] max-h-[50vh] overflow-hidden rounded-xl md:rounded-2xl border border-dagger-gold/30 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col"
                 onClick={e => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="adversary-detail-title"
             >
                 {/* Header */}
-                <div className="relative p-6 border-b border-dagger-gold/20 bg-gradient-to-r from-dagger-surface to-dagger-panel">
+                <div className="relative p-4 md:p-6 border-b border-dagger-gold/20 bg-gradient-to-r from-dagger-surface to-dagger-panel">
                     <button
                         ref={closeButtonRef}
                         onClick={onClose}
-                        className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                        className="absolute top-4 right-4 w-10 h-10 md:w-8 md:h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
                         aria-label="Close adversary details"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
@@ -86,7 +86,7 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 md:space-y-8 custom-scrollbar">
                     {renderContent(adversary, upscaling, showToast, triggerRoll)}
                 </div>
 
@@ -97,25 +97,25 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
 
     // Original centered modal layout
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-1 md:p-4" onClick={onClose}>
             {/* Backdrop */}
             <div className="absolute inset-0 bg-dagger-dark/90 backdrop-blur-sm transition-opacity"></div>
 
             {/* Modal */}
             <div
                 ref={modalRef}
-                className="relative bg-dagger-panel w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-2xl border border-dagger-gold/30 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col animate-fade-in-zoom"
+                className="relative bg-dagger-panel w-full max-w-3xl max-h-[95vh] md:max-h-[90vh] overflow-hidden rounded-xl md:rounded-2xl border border-dagger-gold/30 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col animate-fade-in-zoom"
                 onClick={e => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="adversary-detail-title"
             >
                 {/* Header */}
-                <div className="relative p-6 border-b border-dagger-gold/20 bg-gradient-to-r from-dagger-surface to-dagger-panel">
+                <div className="relative p-4 md:p-6 border-b border-dagger-gold/20 bg-gradient-to-r from-dagger-surface to-dagger-panel">
                     <button
                         ref={closeButtonRef}
                         onClick={onClose}
-                        className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                        className="absolute top-2 right-2 md:top-4 md:right-4 w-10 h-10 md:w-8 md:h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
                         aria-label="Close adversary details"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
@@ -123,35 +123,35 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
                         </svg>
                     </button>
 
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 pr-8">
+                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 md:gap-4 pr-12 md:pr-8">
                         <div>
-                            <h2 id="adversary-detail-title" className="text-3xl md:text-4xl font-serif font-black text-dagger-gold tracking-tight uppercase drop-shadow-md">
+                            <h2 id="adversary-detail-title" className="text-2xl md:text-3xl lg:text-4xl font-serif font-black text-dagger-gold tracking-tight uppercase drop-shadow-md">
                                 {adversary.name}
                             </h2>
-                            <div className="flex items-center gap-3 mt-2 text-sm md:text-base text-gray-400 font-medium">
+                            <div className="flex flex-wrap items-center gap-2 md:gap-3 mt-2 text-xs md:text-sm lg:text-base text-gray-400 font-medium">
                                 <span className="bg-dagger-gold/10 text-dagger-gold px-2 py-0.5 rounded border border-dagger-gold/20 uppercase tracking-wider text-xs font-bold">
                                     Tier {adversary.tier}
                                 </span>
-                                <span className="text-gray-500">•</span>
+                                <span className="text-gray-500 hidden md:inline">•</span>
                                 <span className="uppercase tracking-wider text-xs font-bold text-gray-300">{adversary.role}</span>
-                                <span className="text-gray-500">•</span>
-                                <span className="italic text-gray-500">{adversary.category} / {adversary.biome}</span>
+                                <span className="text-gray-500 hidden md:inline">•</span>
+                                <span className="italic text-gray-500 text-xs md:text-sm">{adversary.category} / {adversary.biome}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 md:space-y-8 custom-scrollbar">
                     {renderContent(adversary, upscaling, showToast, triggerRoll)}
                 </div>
 
                 {/* Footer Actions */}
                 {isEncounterBuilderActive && onAddToEncounter && (
-                    <div className="p-6 border-t border-dagger-gold/20 bg-dagger-surface flex justify-end">
+                    <div className="p-3 md:p-6 border-t border-dagger-gold/20 bg-dagger-surface flex justify-end">
                         <button
                             onClick={onAddToEncounter}
-                            className="px-6 py-2 bg-dagger-gold text-dagger-dark font-serif font-bold tracking-widest uppercase rounded hover:bg-dagger-gold-light transition-colors"
+                            className="w-full md:w-auto px-6 py-3 md:py-2 bg-dagger-gold text-dagger-dark font-serif font-bold tracking-widest uppercase rounded hover:bg-dagger-gold-light transition-colors min-h-[44px] text-sm md:text-base"
                         >
                             Add to Encounter
                         </button>
@@ -265,7 +265,7 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
     return (
     <>
         {/* Primary Stats Row */}
-        <div className={`grid ${displayStats.threshold_major !== null && displayStats.threshold_severe !== null ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-2 md:grid-cols-3'} gap-4`}>
+        <div className={`grid ${displayStats.threshold_major !== null && displayStats.threshold_severe !== null ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-2 md:grid-cols-3'} gap-3 md:gap-4`}>
             <StatBox 
                 label="Difficulty" 
                 value={displayStats.difficulty} 
@@ -298,19 +298,19 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
 
         {/* Motives & Tactics Section */}
         {adversary.motives_tactics && (
-            <div className="bg-black/20 rounded-xl border border-white/5 p-5 relative overflow-hidden group hover:border-dagger-gold/30 transition-colors">
+            <div className="bg-black/20 rounded-xl border border-white/5 p-4 md:p-5 relative overflow-hidden group hover:border-dagger-gold/30 transition-colors">
                 <div className="absolute top-0 left-0 w-1 h-full bg-dagger-gold/50"></div>
                 <h3 className="text-xs uppercase tracking-widest text-dagger-gold font-bold mb-3 flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                     Motives & Tactics
                 </h3>
-                <p className="text-gray-200 leading-relaxed font-serif">{adversary.motives_tactics}</p>
+                <p className="text-gray-200 leading-relaxed font-serif text-sm md:text-base">{adversary.motives_tactics}</p>
             </div>
         )}
 
         {/* Experiences Section */}
         {adversary.experiences && adversary.experiences.length > 0 && (
-            <div className="bg-black/20 rounded-xl border border-white/5 p-5 relative overflow-hidden group hover:border-purple-500/30 transition-colors">
+            <div className="bg-black/20 rounded-xl border border-white/5 p-4 md:p-5 relative overflow-hidden group hover:border-purple-500/30 transition-colors">
                 <div className="absolute top-0 left-0 w-1 h-full bg-purple-500/50"></div>
                 <h3 className="text-xs uppercase tracking-widest text-purple-400 font-bold mb-3 flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
@@ -328,7 +328,7 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
         )}
 
         {/* Attack Section */}
-        <div className="bg-black/20 rounded-xl border border-white/5 p-5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
+        <div className="bg-black/20 rounded-xl border border-white/5 p-4 md:p-5 relative overflow-hidden group hover:border-red-500/30 transition-colors">
             <div className="absolute top-0 left-0 w-1 h-full bg-red-500/50"></div>
             <h3 className="text-xs uppercase tracking-widest text-red-400 font-bold mb-3 flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -341,7 +341,7 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
                         <button
                             type="button"
                             onClick={handleAttackRoll}
-                            className="text-2xl font-mono font-bold text-red-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                            className="text-lg md:text-xl lg:text-2xl font-mono font-bold text-red-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer min-h-[44px] flex items-center"
                             aria-label={`Roll attack ${signedModifier(displayStats.attack_mod)}`}
                             title={`Roll attack ${signedModifier(displayStats.attack_mod)}`}
                         >
@@ -361,12 +361,12 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
                         <button
                             type="button"
                             onClick={handleDamageRoll}
-                            className="text-xl font-serif text-gray-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                            className="text-lg md:text-xl font-serif text-gray-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer min-h-[44px] flex items-center"
                             aria-label={`Roll damage ${displayStats.damage_dice}`}
                             title={`Roll damage ${displayStats.damage_dice}`}
                         >
                             {displayStats.damage_dice}{' '}
-                            <span className="text-sm text-gray-500 font-sans font-normal">(Physical)</span>
+                            <span className="text-xs md:text-sm text-gray-500 font-sans font-normal">(Physical)</span>
                         </button>
                         {adjustments && adjustments.damage_dice_changed && adversary.stats.damage_dice !== displayStats.damage_dice && (
                             <span className="text-xs text-dagger-gold">
@@ -454,9 +454,9 @@ const StatBox = ({
     color: string,
     adjustment?: number | string | null
 }) => (
-    <div className="bg-dagger-surface p-3 rounded-lg border border-white/5 flex flex-col items-center justify-center shadow-inner min-h-[90px]">
+    <div className="bg-dagger-surface p-3 md:p-3 rounded-lg border border-white/5 flex flex-col items-center justify-center shadow-inner min-h-[100px] md:min-h-[90px]">
         <div className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">{label}</div>
-        <div className={`text-2xl md:text-3xl font-black font-mono ${color} drop-shadow-sm`}>{value}</div>
+        <div className={`text-2xl md:text-2xl lg:text-3xl font-black font-mono ${color} drop-shadow-sm`}>{value}</div>
         {adjustment !== undefined && adjustment !== null && adjustment !== 0 && adjustment !== '0 / 0' && adjustment !== '0/0' && (
             <div className={`text-xs font-bold mt-1 ${typeof adjustment === 'string' || (typeof adjustment === 'number' && adjustment > 0) ? 'text-green-400' : 'text-red-400'}`}>
                 {typeof adjustment === 'string' ? adjustment : (adjustment > 0 ? '+' : '') + adjustment}
