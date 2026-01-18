@@ -7,12 +7,12 @@ import { parseDiceExpression } from '../utils/diceRoller';
 export const Dice3D: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const diceBoxRef = useRef<DiceBox | null>(null);
-    const cleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const cleanupTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const currentRollExpressionRef = useRef<string | null>(null);
     const [diceBoxInstance, setDiceBoxInstance] = useState<DiceBox | null>(null);
     const [isInitialized, setIsInitialized] = useState(false);
-    const [initError, setInitError] = useState<string | null>(null);
     const [keepVisible, setKeepVisible] = useState(false);
-    const { currentRoll, clearRoll } = useDice();
+    const { currentRoll, clearRoll, reportRollResult } = useDice();
 
     // Initialize dice-box when component mounts
     useEffect(() => {
@@ -73,13 +73,13 @@ export const Dice3D: React.FC = () => {
                         enableShadows: true,
                         // offscreen defaults to true, which is needed for proper rendering
                         // Physics parameters to speed up animation
-                        gravity: 7, // Faster fall (default: 3)
-                        angularDamping: 0.8, // Spin dies down faster (default: 0.4)
-                        linearDamping: 0.85, // Movement slows faster (default: 0.5)
-                        spinForce: 3.5, // Less initial spinning (default: 6)
-                        throwForce: 2, // Gentler throw (default: 2.5)
-                        startingHeight: 9, // Less air time (default: 15)
-                        settleTimeout: 2500, // Assume results faster (default: 5000ms)
+                        gravity: 9, // Faster fall (default: 3, was 7)
+                        angularDamping: 0.9, // Spin dies down faster (default: 0.4, was 0.8)
+                        linearDamping: 0.9, // Movement slows faster (default: 0.5, was 0.85)
+                        spinForce: 3, // Less initial spinning (default: 6, was 3.5)
+                        throwForce: 1.8, // Gentler throw (default: 2.5, was 2)
+                        startingHeight: 6, // Less air time (default: 15, was 9)
+                        settleTimeout: 1000, // Assume results faster (default: 5000ms, was 1500ms) - increased from 800ms for visibility
                     });
 
                     await diceBox.init();
@@ -92,12 +92,9 @@ export const Dice3D: React.FC = () => {
                     
                     return; // Success, exit the loop
                 } catch (error: any) {
-                    const errorMsg = error?.message || String(error);
-                    setInitError(errorMsg);
                     // Continue to next path
                 }
             }
-            setInitError('All initialization attempts failed. Check console for details.');
             setIsInitialized(true); // Prevent infinite retries
         };
 
@@ -140,13 +137,13 @@ export const Dice3D: React.FC = () => {
         }
 
         const rollDice = async () => {
-            // Capture the roll and callback at the start to avoid stale references
+            // Capture the roll at the start to avoid stale references
             const roll = currentRoll;
             if (!roll) return;
             
-            const onComplete = roll.onComplete;
             const expression = roll.expression;
-            const position = roll.position;
+            // Track the expression being rolled in a ref so cleanup can check if it's still current
+            currentRollExpressionRef.current = expression;
             
             try {
                 const parsed = parseDiceExpression(expression);
@@ -158,7 +155,7 @@ export const Dice3D: React.FC = () => {
                 // Roll just the dice part - dice-box may not handle modifiers in notation correctly
                 // We'll add the modifier manually after extracting the results
                 const diceBoxNotation = `${parsed.count}d${parsed.sides}`;
-                
+
                 // Make sure the container and its parent are visible before rolling
                 if (containerRef.current) {
                     const container = containerRef.current;
@@ -184,8 +181,14 @@ export const Dice3D: React.FC = () => {
                     // Wait a moment for styles to apply and React to re-render
                     await new Promise(resolve => setTimeout(resolve, 100));
                 }
-                
-                // Roll the dice using the instance we found
+
+                // Roll the dice using dice-box (this generates the actual values)
+                const diceBox = diceBoxInstance || diceBoxRef.current;
+                if (!diceBox) {
+                    clearRoll();
+                    return;
+                }
+
                 const result = await diceBox.roll(diceBoxNotation);
                 
                 // Get the proper grouped results from getRollResults() - this is the preferred method
@@ -249,29 +252,31 @@ export const Dice3D: React.FC = () => {
                 // Add the modifier to the total (we always roll without modifier, then add it)
                 const total = diceTotal + parsed.modifier;
                 
-                // Create the result object
+                // Create the result object from dice-box results (matches visible dice)
                 const diceRollResult: DiceRollResult = {
                     rolls: allRolls,
                     total: total,
                     expression: expression,
                 };
                 
-                // Call the completion callback if provided
-                if (onComplete) {
-                    onComplete(diceRollResult);
-                }
+                // Report the result to the context (callback will be queued and processed by clearRoll)
+                reportRollResult(diceRollResult);
                 
                 // Keep dice visible for a while after roll completes
                 // The promise resolves when physics settle, but visual animation may still be playing
                 setKeepVisible(true);
                 
-                // Clear the roll after a longer delay to let users see the result
+                // Clear the roll after a delay to let users see the result
                 // Store timeout ID in ref so we can clear it if a new roll starts
                 cleanupTimeoutRef.current = setTimeout(() => {
-                    setKeepVisible(false);
-                    clearRoll();
+                    // Only clear if this is still the current roll (no new roll has started)
+                    // Check by comparing expressions - if currentRollExpressionRef changed, a new roll started
+                    if (currentRollExpressionRef.current === expression) {
+                        setKeepVisible(false);
+                        clearRoll();
+                    }
                     cleanupTimeoutRef.current = null;
-                }, 5000); // Wait 5 seconds to ensure dice animation is fully visible
+                }, 1800); // Wait 1.8 seconds to ensure dice are visible after settling (settleTimeout ~1000ms + 800ms visibility)
             } catch (error: any) {
                 // Clear any pending timeout if there's an error
                 if (cleanupTimeoutRef.current) {
@@ -284,7 +289,7 @@ export const Dice3D: React.FC = () => {
         };
 
         rollDice();
-    }, [currentRoll, isInitialized, diceBoxInstance, clearRoll]);
+    }, [currentRoll, isInitialized, diceBoxInstance, clearRoll, reportRollResult]);
 
     // Always render the container so dice-box can initialize
     // Make it full screen so dice can roll anywhere

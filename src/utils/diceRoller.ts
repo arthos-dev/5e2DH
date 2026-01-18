@@ -13,7 +13,13 @@ export interface DiceRollResult extends DiceExpression {
 const normalizeExpression = (expression: string) => expression.replace(/\s+/g, '');
 
 export const parseDiceExpression = (expression: string): DiceExpression | null => {
-    const normalized = normalizeExpression(expression);
+    // Extract the dice pattern from the start of the string (allows trailing text like "phy" or "(Physical)")
+    const dicePatternMatch = expression.match(/^(\d*)d(\d+)([+-]\d+)?/i);
+    if (!dicePatternMatch) return null;
+
+    // Extract just the dice expression part (e.g., "1d12+2" from "1d12+2 phy")
+    const diceExpression = dicePatternMatch[0];
+    const normalized = normalizeExpression(diceExpression);
     const match = normalized.match(/^(\d*)d(\d+)([+-]\d+)?$/i);
     if (!match) return null;
 

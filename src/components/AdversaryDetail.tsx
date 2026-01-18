@@ -4,7 +4,7 @@ import type { Adversary } from '../types';
 import { trapFocus } from '../utils/focusTrap';
 import { calculateScaledStats, calculateStatAdjustments } from '../utils/scalingUtils';
 import type { ToastType } from '../hooks/useToast';
-import { formatDiceRoll, rollD20WithModifier, rollDiceExpression, wrapDiceExpressions, parseDiceExpression } from '../utils/diceRoller';
+import { formatDiceRoll, wrapDiceExpressions, parseDiceExpression } from '../utils/diceRoller';
 import { useDice, type DiceRollResult } from '../contexts/DiceContext';
 
 interface Props {
@@ -163,7 +163,7 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
 };
 
 // Extract content rendering to avoid duplication
-const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (message: string, type?: ToastType, duration?: number) => string, triggerRoll: (expression: string, position?: { x: number; y: number }) => void) => {
+const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (message: string, type?: ToastType, duration?: number) => string, triggerRoll: (expression: string, position?: { x: number; y: number }, onComplete?: (result: DiceRollResult) => void) => void) => {
     const scaledStats = upscaling !== 0 ? calculateScaledStats(adversary, upscaling) : adversary.stats;
     const adjustments = upscaling !== 0 ? calculateStatAdjustments(adversary.stats, scaledStats) : null;
     const displayStats = upscaling !== 0 ? scaledStats : adversary.stats;
