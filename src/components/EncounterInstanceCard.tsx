@@ -2,6 +2,8 @@ import React from 'react';
 import type { EncounterInstance, Adversary } from '../types';
 import { calculateScaledStats, getEffectiveTier, calculateStatAdjustments } from '../utils/scalingUtils';
 import { HPStressTracker } from './HPStressTracker';
+import type { ToastType } from '../hooks/useToast';
+import { formatDiceRoll, rollD20WithModifier, rollDiceExpression, wrapDiceExpressions } from '../utils/diceRoller';
 
 interface Props {
     instance: EncounterInstance;
@@ -9,6 +11,7 @@ interface Props {
     onUpdateHP: (instanceId: string, delta: number) => void;
     onUpdateStress: (instanceId: string, delta: number) => void;
     onEdit?: (instanceId: string) => void;
+    showToast: (message: string, type?: ToastType, duration?: number) => string;
 }
 
 const roleStyles: Record<string, string> = {
@@ -52,11 +55,48 @@ export const EncounterInstanceCard: React.FC<Props> = ({
     onUpdateHP,
     onUpdateStress,
     onEdit,
+    showToast,
 }) => {
     const displayName = instance.customName || adversary.name;
     const scaledStats = calculateScaledStats(adversary, instance.upscaling);
     const effectiveTier = getEffectiveTier(adversary.tier, instance.upscaling);
     const adjustments = instance.upscaling !== 0 ? calculateStatAdjustments(adversary.stats, scaledStats) : null;
+    const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
+
+    const handleAttackRoll = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const result = rollD20WithModifier(scaledStats.attack_mod);
+        showToast(`Attack ${signedModifier(scaledStats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
+    const handleDamageRoll = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const result = rollDiceExpression(scaledStats.damage_dice);
+        if (!result) {
+            showToast(`Invalid damage dice: ${scaledStats.damage_dice}`, 'error');
+            return;
+        }
+        showToast(`Damage ${scaledStats.damage_dice}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
+    const handleDescriptionClick = (event: React.MouseEvent) => {
+        const target = (event.target as HTMLElement).closest('[data-dice]') as HTMLElement | null;
+        if (!target) return;
+        const expression = target.dataset.dice;
+        if (!expression) return;
+        const result = rollDiceExpression(expression);
+        if (!result) {
+            showToast(`Invalid dice: ${expression}`, 'error');
+            return;
+        }
+        showToast(`Roll ${expression}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
+    const formatDescriptionHtml = (description: string) => {
+        return wrapDiceExpressions(description).replace(/\n/g, '<br/>');
+    };
 
     return (
         <div className="bg-dagger-panel border border-dagger-gold/20 rounded-lg p-4 flex flex-col h-full min-w-[300px] max-w-[400px]">
@@ -96,7 +136,15 @@ export const EncounterInstanceCard: React.FC<Props> = ({
             {/* Attack Info */}
             <div className="mb-3 text-sm">
                 <span className="text-gray-400">Attack: </span>
-                <span className="text-gray-200 font-mono">+{scaledStats.attack_mod}</span>
+                <button
+                    type="button"
+                    onClick={handleAttackRoll}
+                    className="text-gray-200 font-mono underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                    aria-label={`Roll attack ${signedModifier(scaledStats.attack_mod)}`}
+                    title={`Roll attack ${signedModifier(scaledStats.attack_mod)}`}
+                >
+                    {signedModifier(scaledStats.attack_mod)}
+                </button>
                 {adjustments && adjustments.attack_mod !== 0 && (
                     <span className={`text-xs font-bold ml-1 ${adjustments.attack_mod > 0 ? 'text-green-400' : 'text-red-400'}`}>
                         ({adjustments.attack_mod > 0 ? '+' : ''}{adjustments.attack_mod})
@@ -105,7 +153,15 @@ export const EncounterInstanceCard: React.FC<Props> = ({
                 {scaledStats.damage_dice && (
                     <>
                         <span className="text-gray-500 mx-1">•</span>
-                        <span className="text-gray-200">{scaledStats.damage_dice}</span>
+                        <button
+                            type="button"
+                            onClick={handleDamageRoll}
+                            className="text-gray-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                            aria-label={`Roll damage ${scaledStats.damage_dice}`}
+                            title={`Roll damage ${scaledStats.damage_dice}`}
+                        >
+                            {scaledStats.damage_dice}
+                        </button>
                         {adjustments && adjustments.damage_dice_changed && adversary.stats.damage_dice !== scaledStats.damage_dice && (
                             <span className="text-xs text-dagger-gold ml-1">
                                 (was {adversary.stats.damage_dice})
@@ -144,7 +200,10 @@ export const EncounterInstanceCard: React.FC<Props> = ({
                         {feat.entries && feat.entries.map((entry, entryIdx) => (
                             <div key={entryIdx} className="text-gray-300 mb-1 pl-2">
                                 <span className="font-semibold text-dagger-light">{entry.name}: </span>
-                                <span dangerouslySetInnerHTML={{ __html: entry.description.replace(/\n/g, '<br/>') }} />
+                                <span
+                                    onClick={handleDescriptionClick}
+                                    dangerouslySetInnerHTML={{ __html: formatDescriptionHtml(entry.description) }}
+                                />
                             </div>
                         ))}
                     </div>

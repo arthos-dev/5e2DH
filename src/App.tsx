@@ -354,13 +354,17 @@ function App() {
   // If running encounter, show running view
   if (isRunningEncounter && runningEncounter) {
     return (
-      <RunningEncounterView
-        runningEncounter={runningEncounter}
-        allAdversaries={allAdversaries}
-        onClose={handleStopRunningEncounter}
-        onNavigateToManage={handleNavigateToManage}
-        onNavigateToEdit={handleNavigateToEdit}
-      />
+      <>
+        <RunningEncounterView
+          runningEncounter={runningEncounter}
+          allAdversaries={allAdversaries}
+          onClose={handleStopRunningEncounter}
+          onNavigateToManage={handleNavigateToManage}
+          onNavigateToEdit={handleNavigateToEdit}
+          showToast={showToast}
+        />
+        <ToastContainer toasts={toasts} onRemove={removeToast} />
+      </>
     );
   }
 
@@ -498,7 +502,7 @@ function App() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
                 {visible.map(adv => (
                   <div key={adv.id} className="h-full">
-                    <AdversaryCard adversary={adv} onClick={() => setSelectedAdversary(adv)} />
+                    <AdversaryCard adversary={adv} onClick={() => setSelectedAdversary(adv)} showToast={showToast} />
                   </div>
                 ))}
               </div>
@@ -560,6 +564,7 @@ function App() {
               isEncounterBuilderActive={true}
               sideBySideMode={true}
               upscaling={customizeUpscaling}
+              showToast={showToast}
             />
             {customizeModalOpen && (
               <CustomizeAdversaryModal
@@ -585,6 +590,7 @@ function App() {
           }}
           isEncounterBuilderActive={false}
           onAddToEncounter={undefined}
+          showToast={showToast}
         />
       )}
 
@@ -617,6 +623,7 @@ function App() {
           onLoadEncounter={handleLoadEncounter}
           onDeleteSavedEncounter={handleDeleteSavedEncounter}
           onShareEncounter={handleShareEncounter}
+          showToast={showToast}
         />
       )}
 

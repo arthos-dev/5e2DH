@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { RunningEncounter, EncounterInstance, Adversary } from '../types';
 import { EncounterInstanceCard } from './EncounterInstanceCard';
 import { updateInstanceHP, updateInstanceStress } from '../utils/runningEncounterUtils';
+import type { ToastType } from '../hooks/useToast';
 
 interface Props {
     runningEncounter: RunningEncounter;
@@ -10,6 +11,7 @@ interface Props {
     onEditInstance?: (instanceId: string) => void;
     onNavigateToManage?: () => void;
     onNavigateToEdit?: () => void;
+    showToast: (message: string, type?: ToastType, duration?: number) => string;
 }
 
 export const RunningEncounterView: React.FC<Props> = ({
@@ -19,6 +21,7 @@ export const RunningEncounterView: React.FC<Props> = ({
     onEditInstance,
     onNavigateToManage,
     onNavigateToEdit,
+    showToast,
 }) => {
     const [instances, setInstances] = useState<EncounterInstance[]>(runningEncounter.instances);
 
@@ -88,6 +91,7 @@ export const RunningEncounterView: React.FC<Props> = ({
                                 onUpdateHP={handleUpdateHP}
                                 onUpdateStress={handleUpdateStress}
                                 onEdit={onEditInstance}
+                                showToast={showToast}
                             />
                         );
                     })}

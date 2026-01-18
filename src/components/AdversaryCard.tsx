@@ -1,10 +1,13 @@
 
 import React from 'react';
 import type { Adversary } from '../types';
+import type { ToastType } from '../hooks/useToast';
+import { formatDiceRoll, rollD20WithModifier } from '../utils/diceRoller';
 
 interface Props {
     adversary: Adversary;
     onClick: () => void;
+    showToast: (message: string, type?: ToastType, duration?: number) => string;
 }
 
 const roleStyles: Record<string, string> = {
@@ -39,7 +42,15 @@ const RoleBadge = ({ role }: { role: string }) => {
     );
 };
 
-export const AdversaryCard: React.FC<Props> = ({ adversary, onClick }) => {
+export const AdversaryCard: React.FC<Props> = ({ adversary, onClick, showToast }) => {
+    const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
+    const handleAttackRoll = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const result = rollD20WithModifier(adversary.stats.attack_mod);
+        showToast(`Attack ${signedModifier(adversary.stats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
     return (
         <div
             className="group relative h-full bg-dagger-panel border border-dagger-gold/20 rounded-xl overflow-hidden hover:border-dagger-gold/60 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-glow hover:-translate-y-1 flex flex-col"
@@ -82,7 +93,15 @@ export const AdversaryCard: React.FC<Props> = ({ adversary, onClick }) => {
                         </div>
                         <div className="text-center border-l border-white/5">
                             <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Atk</div>
-                            <div className="font-mono font-bold text-red-400">+{adversary.stats.attack_mod}</div>
+                            <button
+                                type="button"
+                                onClick={handleAttackRoll}
+                                className="font-mono font-bold text-red-400 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                                aria-label={`Roll attack ${signedModifier(adversary.stats.attack_mod)}`}
+                                title={`Roll attack ${signedModifier(adversary.stats.attack_mod)}`}
+                            >
+                                {signedModifier(adversary.stats.attack_mod)}
+                            </button>
                         </div>
                     </div>
                 </div>

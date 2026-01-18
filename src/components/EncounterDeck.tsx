@@ -3,6 +3,8 @@ import type { Encounter, Adversary } from '../types';
 import { ConfirmDialog } from './ConfirmDialog';
 import { calculateAvailableBattlePoints, calculateSpentBattlePoints, getDifficultyLevel } from '../utils/encounterUtils';
 import { calculateScaledStats } from '../utils/scalingUtils';
+import type { ToastType } from '../hooks/useToast';
+import { formatDiceRoll, rollD20WithModifier } from '../utils/diceRoller';
 
 interface Props {
     encounter: Encounter;
@@ -18,6 +20,7 @@ interface Props {
     onLoadEncounter?: (id: string) => void;
     onDeleteSavedEncounter?: (id: string) => void;
     onShareEncounter?: () => void;
+    showToast: (message: string, type?: ToastType, duration?: number) => string;
 }
 
 const roleStyles: Record<string, string> = {
@@ -69,6 +72,7 @@ export const EncounterDeck: React.FC<Props> = ({
     onLoadEncounter,
     onDeleteSavedEncounter,
     onShareEncounter,
+    showToast,
 }) => {
     const [showSavedEncounters, setShowSavedEncounters] = useState(false);
     const [confirmDialog, setConfirmDialog] = useState<{
@@ -80,6 +84,7 @@ export const EncounterDeck: React.FC<Props> = ({
     const availableBP = calculateAvailableBattlePoints(encounter.playerCount, encounter.battlePointModifier);
     const spentBP = calculateSpentBattlePoints(encounter.adversaries, allAdversaries);
     const difficultyLevel = getDifficultyLevel(spentBP, availableBP);
+    const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
 
     const handleDeleteAdversaryClick = (id: string) => {
         const encAdv = encounter.adversaries.find(a => a.id === id);
@@ -231,7 +236,21 @@ export const EncounterDeck: React.FC<Props> = ({
                                                 <div className="flex gap-3">
                                                     <span>Diff: <span className="text-dagger-light font-mono">{scaledStats.difficulty}</span></span>
                                                     <span>HP: <span className="text-green-400 font-mono">{scaledStats.hp}</span></span>
-                                                    <span>Atk: <span className="text-red-400 font-mono">+{scaledStats.attack_mod}</span></span>
+                                                    <span>
+                                                        Atk:{' '}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                const result = rollD20WithModifier(scaledStats.attack_mod);
+                                                                showToast(`Attack ${signedModifier(scaledStats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+                                                            }}
+                                                            className="text-red-400 font-mono underline decoration-dotted underline-offset-4 hover:text-dagger-gold"
+                                                            aria-label={`Roll attack ${signedModifier(scaledStats.attack_mod)}`}
+                                                            title={`Roll attack ${signedModifier(scaledStats.attack_mod)}`}
+                                                        >
+                                                            {signedModifier(scaledStats.attack_mod)}
+                                                        </button>
+                                                    </span>
                                                 </div>
                                             </div>
                                         )}

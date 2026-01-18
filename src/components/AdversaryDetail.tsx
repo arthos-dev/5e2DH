@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import type { Adversary } from '../types';
 import { trapFocus } from '../utils/focusTrap';
 import { calculateScaledStats, calculateStatAdjustments } from '../utils/scalingUtils';
+import type { ToastType } from '../hooks/useToast';
+import { formatDiceRoll, rollD20WithModifier, rollDiceExpression, wrapDiceExpressions } from '../utils/diceRoller';
 
 interface Props {
     adversary: Adversary | null;
@@ -11,9 +13,10 @@ interface Props {
     onAddToEncounter?: () => void;
     sideBySideMode?: boolean;
     upscaling?: number; // optional upscaling value to show scaled stats and adjustments
+    showToast: (message: string, type?: ToastType, duration?: number) => string;
 }
 
-export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncounterBuilderActive = false, onAddToEncounter, sideBySideMode = false, upscaling = 0 }) => {
+export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncounterBuilderActive = false, onAddToEncounter, sideBySideMode = false, upscaling = 0, showToast }) => {
     const modalRef = useRef<HTMLDivElement>(null);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -82,7 +85,7 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
 
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-                    {renderContent(adversary, upscaling)}
+                    {renderContent(adversary, upscaling, showToast)}
                 </div>
 
                 {/* Footer Actions - hidden in side-by-side mode as customize panel replaces it */}
@@ -138,7 +141,7 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
 
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-                    {renderContent(adversary, upscaling)}
+                    {renderContent(adversary, upscaling, showToast)}
                 </div>
 
                 {/* Footer Actions */}
@@ -158,10 +161,47 @@ export const AdversaryDetail: React.FC<Props> = ({ adversary, onClose, isEncount
 };
 
 // Extract content rendering to avoid duplication
-const renderContent = (adversary: Adversary, upscaling: number = 0) => {
+const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (message: string, type?: ToastType, duration?: number) => string) => {
     const scaledStats = upscaling !== 0 ? calculateScaledStats(adversary, upscaling) : adversary.stats;
     const adjustments = upscaling !== 0 ? calculateStatAdjustments(adversary.stats, scaledStats) : null;
     const displayStats = upscaling !== 0 ? scaledStats : adversary.stats;
+    const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
+
+    const handleAttackRoll = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const result = rollD20WithModifier(displayStats.attack_mod);
+        showToast(`Attack ${signedModifier(displayStats.attack_mod)}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
+    const handleDamageRoll = (event: React.MouseEvent) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const result = rollDiceExpression(displayStats.damage_dice);
+        if (!result) {
+            showToast(`Invalid damage dice: ${displayStats.damage_dice}`, 'error');
+            return;
+        }
+        showToast(`Damage ${displayStats.damage_dice}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
+    const handleDescriptionClick = (event: React.MouseEvent) => {
+        const target = (event.target as HTMLElement).closest('[data-dice]') as HTMLElement | null;
+        if (!target) return;
+        const expression = target.dataset.dice;
+        if (!expression) return;
+        const result = rollDiceExpression(expression);
+        if (!result) {
+            showToast(`Invalid dice: ${expression}`, 'error');
+            return;
+        }
+        showToast(`Roll ${expression}: ${formatDiceRoll(result)}`, 'info', 6000);
+    };
+
+    const formatDescriptionHtml = (description: string) => {
+        const normalized = description.replace(/\n\n+/g, '\n\n');
+        return wrapDiceExpressions(normalized).replace(/\n/g, '<br/>');
+    };
 
     return (
     <>
@@ -239,7 +279,15 @@ const renderContent = (adversary: Adversary, upscaling: number = 0) => {
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500 uppercase font-bold">Modifier</span>
                     <div className="flex items-center gap-2">
-                        <span className="text-2xl font-mono font-bold text-red-200">+{displayStats.attack_mod}</span>
+                        <button
+                            type="button"
+                            onClick={handleAttackRoll}
+                            className="text-2xl font-mono font-bold text-red-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                            aria-label={`Roll attack ${signedModifier(displayStats.attack_mod)}`}
+                            title={`Roll attack ${signedModifier(displayStats.attack_mod)}`}
+                        >
+                            {signedModifier(displayStats.attack_mod)}
+                        </button>
                         {adjustments && adjustments.attack_mod !== 0 && (
                             <span className={`text-sm font-bold ${adjustments.attack_mod > 0 ? 'text-green-400' : 'text-red-400'}`}>
                                 ({adjustments.attack_mod > 0 ? '+' : ''}{adjustments.attack_mod})
@@ -251,9 +299,16 @@ const renderContent = (adversary: Adversary, upscaling: number = 0) => {
                 <div className="flex flex-col">
                     <span className="text-sm text-gray-500 uppercase font-bold">Standard Damage</span>
                     <div className="flex items-center gap-2">
-                        <span className="text-xl font-serif text-gray-200">
-                            {displayStats.damage_dice} <span className="text-sm text-gray-500 font-sans font-normal">(Physical)</span>
-                        </span>
+                        <button
+                            type="button"
+                            onClick={handleDamageRoll}
+                            className="text-xl font-serif text-gray-200 underline decoration-dotted underline-offset-4 hover:text-dagger-gold cursor-pointer"
+                            aria-label={`Roll damage ${displayStats.damage_dice}`}
+                            title={`Roll damage ${displayStats.damage_dice}`}
+                        >
+                            {displayStats.damage_dice}{' '}
+                            <span className="text-sm text-gray-500 font-sans font-normal">(Physical)</span>
+                        </button>
                         {adjustments && adjustments.damage_dice_changed && adversary.stats.damage_dice !== displayStats.damage_dice && (
                             <span className="text-xs text-dagger-gold">
                                 (was {adversary.stats.damage_dice})
@@ -295,10 +350,9 @@ const renderContent = (adversary: Adversary, upscaling: number = 0) => {
                                             )}
                                             <div 
                                                 className="whitespace-pre-line spell-description"
+                                                onClick={handleDescriptionClick}
                                                 dangerouslySetInnerHTML={{ 
-                                                    __html: entry.description
-                                                        .replace(/\n\n+/g, '\n\n')  // Normalize multiple newlines
-                                                        .replace(/\n/g, '<br/>')   // Convert newlines to <br/> tags
+                                                    __html: formatDescriptionHtml(entry.description)
                                                 }} 
                                             />
                                         </div>
@@ -307,7 +361,8 @@ const renderContent = (adversary: Adversary, upscaling: number = 0) => {
                                     <div className="text-sm leading-relaxed text-gray-300">
                                         <div 
                                             className="whitespace-pre-line spell-description"
-                                            dangerouslySetInnerHTML={{ __html: (feat as any).description?.replace(/\n/g, '<br/>') || '' }} 
+                                            onClick={handleDescriptionClick}
+                                            dangerouslySetInnerHTML={{ __html: formatDescriptionHtml((feat as any).description || '') }} 
                                         />
                                     </div>
                                 )}
