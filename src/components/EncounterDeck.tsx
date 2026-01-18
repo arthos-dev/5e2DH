@@ -337,7 +337,7 @@ export const EncounterDeck: React.FC<Props> = ({
                 </div>
 
                 {/* # of players and Difficulty */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-[auto_1fr] gap-3">
                     {/* # of players */}
                     <div>
                         <label className="block text-xs uppercase tracking-widest text-gray-400 font-bold mb-1.5">
@@ -354,7 +354,7 @@ export const EncounterDeck: React.FC<Props> = ({
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                                 </svg>
                             </button>
-                            <div className="flex-1 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-dagger-gold font-serif font-bold text-sm">
+                            <div className="w-10 h-8 flex items-center justify-center bg-dagger-dark border border-dagger-gold/20 rounded text-dagger-gold font-serif font-bold text-sm">
                                 {encounter.playerCount}
                             </div>
                             <button
