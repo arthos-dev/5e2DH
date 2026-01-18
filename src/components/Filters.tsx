@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface Props {
     search: string;
@@ -12,9 +12,12 @@ interface Props {
     setBiome: (v: string) => void;
     tier: string;
     setTier: (v: string) => void;
+    source: string;
+    setSource: (v: string) => void;
     uniqueRoles: string[];
     uniqueCategories: string[];
     uniqueBiomes: string[];
+    uniqueSources: string[];
 }
 
 export const Filters: React.FC<Props> = ({
@@ -23,7 +26,8 @@ export const Filters: React.FC<Props> = ({
     category, setCategory,
     biome, setBiome,
     tier, setTier,
-    uniqueRoles, uniqueCategories, uniqueBiomes
+    source, setSource,
+    uniqueRoles, uniqueCategories, uniqueBiomes, uniqueSources
 }) => {
     return (
         <div className="sticky top-0 z-20">
@@ -81,6 +85,14 @@ export const Filters: React.FC<Props> = ({
                         isActive={!!biome}
                     />
 
+                    <FilterSelect
+                        value={source}
+                        onChange={setSource}
+                        options={uniqueSources}
+                        placeholder="All Sources"
+                        isActive={!!source}
+                    />
+
                     <div className="h-6 w-px bg-white/10 mx-1 hidden md:block"></div>
 
                     <div className="flex bg-dagger-surface rounded-lg p-1 gap-1 border border-dagger-gold/20">
@@ -98,10 +110,10 @@ export const Filters: React.FC<Props> = ({
                         ))}
                     </div>
 
-                    {(role || category || biome || tier || search) && (
+                    {(role || category || biome || tier || source || search) && (
                         <button
                             onClick={() => {
-                                setSearch(''); setRole(''); setCategory(''); setBiome(''); setTier('');
+                                setSearch(''); setRole(''); setCategory(''); setBiome(''); setTier(''); setSource('');
                             }}
                             className="text-xs text-red-400 hover:text-red-300 uppercase tracking-wider font-bold px-2"
                         >
@@ -114,25 +126,102 @@ export const Filters: React.FC<Props> = ({
     );
 };
 
-const FilterSelect = ({ value, onChange, options, placeholder, isActive }: { value: string, onChange: (v: string) => void, options: string[], placeholder: string, isActive?: boolean }) => (
-    <div className="relative group">
-        <select
-            className={`appearance-none text-dagger-light text-sm rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:border-dagger-gold focus:ring-1 focus:ring-dagger-gold hover:border-dagger-gold/60 transition-colors cursor-pointer min-w-[120px] ${
-                isActive 
-                    ? 'bg-dagger-gold/20 border-dagger-gold/50 text-dagger-gold font-semibold' 
-                    : 'bg-dagger-surface border border-dagger-gold/30'
-            }`}
-            value={value}
-            onChange={e => onChange(e.target.value)}
-            aria-label={placeholder}
-        >
-            <option value="">{placeholder}</option>
-            {options.map(o => <option key={o} value={o}>{o}</option>)}
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-dagger-gold">
-            <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-            </svg>
+const FilterSelect = ({ value, onChange, options, placeholder, isActive }: { value: string, onChange: (v: string) => void, options: string[], placeholder: string, isActive?: boolean }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && isOpen) {
+                setIsOpen(false);
+                buttonRef.current?.focus();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [isOpen]);
+
+    const handleSelect = (option: string) => {
+        onChange(option);
+        setIsOpen(false);
+        buttonRef.current?.focus();
+    };
+
+    const displayValue = value || placeholder;
+
+    return (
+        <div className="relative" ref={dropdownRef}>
+            <button
+                ref={buttonRef}
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className={`appearance-none text-dagger-light text-sm rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:border-dagger-gold focus:ring-2 focus:ring-dagger-gold hover:border-dagger-gold/60 transition-colors cursor-pointer min-w-[120px] text-left flex items-center justify-between ${
+                    isActive 
+                        ? 'bg-dagger-gold/20 border-dagger-gold/50 text-dagger-gold font-semibold' 
+                        : 'bg-dagger-surface border border-dagger-gold/30'
+                }`}
+                aria-label={placeholder}
+                aria-expanded={isOpen}
+                aria-haspopup="listbox"
+            >
+                <span className="truncate">{displayValue}</span>
+                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-dagger-gold">
+                    <svg className={`h-4 w-4 fill-current transition-transform ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                    </svg>
+                </div>
+            </button>
+            
+            {isOpen && (
+                <div className="absolute z-50 mt-1 w-full bg-dagger-surface border border-dagger-gold/30 rounded-lg shadow-lg max-h-60 overflow-auto custom-scrollbar">
+                    <div role="listbox" className="py-1">
+                        <button
+                            type="button"
+                            onClick={() => handleSelect('')}
+                            className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                                !value
+                                    ? 'bg-dagger-gold/20 text-dagger-gold font-semibold'
+                                    : 'text-dagger-light hover:bg-dagger-gold/10 hover:text-dagger-gold'
+                            }`}
+                            role="option"
+                            aria-selected={!value}
+                        >
+                            {placeholder}
+                        </button>
+                        {options.map(option => (
+                            <button
+                                key={option}
+                                type="button"
+                                onClick={() => handleSelect(option)}
+                                className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                                    value === option
+                                        ? 'bg-dagger-gold/20 text-dagger-gold font-semibold'
+                                        : 'text-dagger-light hover:bg-dagger-gold/10 hover:text-dagger-gold'
+                                }`}
+                                role="option"
+                                aria-selected={value === option}
+                            >
+                                {option}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
-    </div>
-);
+    );
+};

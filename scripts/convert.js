@@ -7,6 +7,7 @@ import path from 'path';
 // Constants
 // ============================================================================
 const csvPath = path.resolve('./Bestiary.csv');
+const daggerheartCsvPath = path.resolve('./adversaries-extracted.csv');
 const spellsPath = path.resolve('./Spells.csv');
 const outputPath = path.resolve('./src/data/adversaries.json');
 
@@ -622,6 +623,164 @@ function convertDnDTerminology(text) {
     // But keep for mechanical clarity
     
     return newText;
+}
+
+// Format Randomized Tactics feature to split moves onto separate lines
+function formatRandomizedTactics(text) {
+    if (!text) return text;
+    
+    // Check if this looks like Randomized Tactics
+    if (!text.includes("Mark a Stress and roll a d6") || !text.includes("corresponding move:")) {
+        return text;
+    }
+    
+    // Find the intro text and the moves section
+    const moveIndex = text.indexOf("corresponding move:");
+    if (moveIndex === -1) return text;
+    
+    const intro = text.substring(0, moveIndex + "corresponding move:".length).trim();
+    const movesText = text.substring(moveIndex + "corresponding move:".length).trim();
+    
+    // List of known move names (capitalized, followed by colon)
+    const moveNames = [
+        "Mana Beam",
+        "Fire Jets", 
+        "Trample",
+        "Shocking Gas",
+        "Stunning Clap",
+        "Psionic Whine"
+    ];
+    
+    // Build regex to match any of these move names followed by colon
+    // Escape special regex characters in move names
+    const escapedMoveNames = moveNames.map(name => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const movePattern = new RegExp(`(${escapedMoveNames.join('|')}):\\s*`, 'g');
+    
+    // Split the text by move names - simpler approach
+    // Replace each move name with a marker, then split
+    let processedText = movesText;
+    const movePositions = [];
+    
+    // Find all move positions
+    let match;
+    while ((match = movePattern.exec(movesText)) !== null) {
+        movePositions.push({
+            name: match[1],
+            index: match.index,
+            fullMatch: match[0]
+        });
+    }
+    
+    // Process moves in reverse order to preserve indices
+    const parts = [];
+    for (let i = movePositions.length - 1; i >= 0; i--) {
+        const currentMove = movePositions[i];
+        const nextMove = i < movePositions.length - 1 ? movePositions[i + 1] : null;
+        
+        // Extract description: from after this move's colon to before next move's name
+        const descStart = currentMove.index + currentMove.fullMatch.length;
+        const descEnd = nextMove ? nextMove.index : movesText.length;
+        const description = movesText.substring(descStart, descEnd).trim();
+        
+        // Remove any trailing move name that might have been included
+        let cleanDesc = description;
+        for (const moveName of moveNames) {
+            const trailingPattern = new RegExp(`\\s*${moveName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:\\s*$`);
+            cleanDesc = cleanDesc.replace(trailingPattern, '');
+        }
+        
+        if (cleanDesc) {
+            parts.unshift({
+                type: 'move',
+                name: currentMove.name,
+                description: cleanDesc
+            });
+        }
+    }
+    
+    // Add any text before the first move
+    if (movePositions.length > 0 && movePositions[0].index > 0) {
+        const beforeText = movesText.substring(0, movePositions[0].index).trim();
+        if (beforeText) {
+            parts.unshift({ type: 'text', content: beforeText });
+        }
+    }
+    
+    // If we didn't find any moves with the pattern, try a more general approach
+    if (parts.length === 0) {
+        // Try to split by finding move name patterns: "MoveName: description"
+        // Look for capitalized words followed by colon that are likely move names
+        // Use a safer approach: find all potential move names first
+        const moveMatches = [];
+        const moveNamePattern = /([A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+)*?):\s*/g;
+        let moveMatch;
+        let lastIndex = 0;
+        
+        // Collect all potential move matches
+        while ((moveMatch = moveNamePattern.exec(movesText)) !== null) {
+            // Avoid infinite loop by checking we're making progress
+            if (moveMatch.index <= lastIndex && moveMatches.length > 0) {
+                break;
+            }
+            lastIndex = moveMatch.index;
+            
+            const moveName = moveMatch[1].trim();
+            // Only consider short names as potential moves (2-25 chars)
+            if (moveName.length >= 2 && moveName.length <= 25) {
+                moveMatches.push({
+                    name: moveName,
+                    index: moveMatch.index,
+                    fullMatch: moveMatch[0],
+                    fullMatchLength: moveMatch[0].length
+                });
+            }
+        }
+        
+        // Process each move match
+        if (moveMatches.length > 0) {
+            for (let i = 0; i < moveMatches.length; i++) {
+                const currentMove = moveMatches[i];
+                const moveStart = currentMove.index + currentMove.fullMatchLength;
+                const moveEnd = i < moveMatches.length - 1 
+                    ? moveMatches[i + 1].index 
+                    : movesText.length;
+                
+                const moveDescription = movesText.substring(moveStart, moveEnd).trim();
+                
+                // Add text before first move if any
+                if (i === 0 && currentMove.index > 0) {
+                    const beforeText = movesText.substring(0, currentMove.index).trim();
+                    if (beforeText) {
+                        parts.push({ type: 'text', content: beforeText });
+                    }
+                }
+                
+                // Only add as a move if description exists
+                if (moveDescription) {
+                    parts.push({ 
+                        type: 'move', 
+                        name: currentMove.name, 
+                        description: moveDescription 
+                    });
+                }
+            }
+        }
+    }
+    
+    // Build formatted text
+    const formattedParts = [intro];
+    
+    for (const part of parts) {
+        if (part.type === 'move') {
+            // Format move as: **Move Name:** description
+            formattedParts.push(`**${part.name}:** ${part.description}`);
+        } else {
+            formattedParts.push(part.content);
+        }
+    }
+    
+    // Join with newlines (which will be converted to <br/> by the UI)
+    return formattedParts.join('\n');
 }
 
 // Convert markdown bold syntax to HTML bold tags
@@ -1691,6 +1850,105 @@ function convertAdversaries(rows) {
     return converted;
 }
 
+// Convert Daggerheart CSV rows (already in Daggerheart format)
+function convertDaggerheartAdversaries(rows) {
+    const converted = [];
+    for (const row of rows) {
+        if (!row.Name) continue;
+
+        try {
+            const adv = convertDaggerheartRow(row);
+            converted.push(adv);
+        } catch (e) {
+            console.warn(`Failed to convert Daggerheart adversary ${row.Name}:`, e.message);
+        }
+    }
+    return converted;
+}
+
+// Convert a single Daggerheart CSV row to JSON format
+function convertDaggerheartRow(row) {
+    // Parse tier
+    const tier = parseInt(row.Tier) || 1;
+    
+    // Parse role (Type column) - uppercase it
+    const role = row.Type ? row.Type.toUpperCase() : "STANDARD";
+    
+    // Parse stats
+    const stats = {
+        difficulty: parseInt(row.Difficulty) || 10,
+        threshold_major: row.Major_Threshold && row.Major_Threshold.trim() ? parseInt(row.Major_Threshold) : null,
+        threshold_severe: row.Severe_Threshold && row.Severe_Threshold.trim() ? parseInt(row.Severe_Threshold) : null,
+        hp: parseInt(row.HP) || 1,
+        stress: parseInt(row.Stress) || 3,
+        attack_mod: parseInt(row.Attack_Modifier) || 0,
+        damage_dice: row.Damage_Dice || "1d6+1"
+    };
+    
+    // Parse experiences (JSON string)
+    let experiences = [];
+    if (row.Experiences && row.Experiences.trim()) {
+        try {
+            experiences = JSON.parse(row.Experiences);
+        } catch (e) {
+            console.warn(`Failed to parse experiences for ${row.Name}:`, e.message);
+        }
+    }
+    
+    // Parse features (JSON string) and restructure to match format
+    let features = [];
+    if (row.Features && row.Features.trim()) {
+        try {
+            const parsedFeatures = JSON.parse(row.Features);
+            // Group all features into Actions section for simplicity
+            // Features are already in the correct format with name and description
+            // Format Randomized Tactics and convert descriptions to HTML format for consistency
+            if (Array.isArray(parsedFeatures) && parsedFeatures.length > 0) {
+                const formattedEntries = parsedFeatures.map(feat => {
+                    let description = feat.description || "";
+                    // Format Randomized Tactics if this is that feature
+                    if (feat.name === "Randomized Tactics") {
+                        description = formatRandomizedTactics(description);
+                    }
+                    return {
+                        name: feat.name,
+                        description: convertMarkdownToHTML(description)
+                    };
+                });
+                features.push({
+                    name: "Actions",
+                    entries: formattedEntries
+                });
+            }
+        } catch (e) {
+            console.warn(`Failed to parse features for ${row.Name}:`, e.message);
+        }
+    }
+    
+    // Parse motives_tactics
+    const motives_tactics = row.Motives_Tactics || "";
+    
+    // Category is not available in Daggerheart CSV, default to Unknown
+    const category = "Unknown";
+    
+    // Biome defaults to Unknown (could be extracted from description if needed)
+    const biome = "Unknown";
+    
+    return {
+        id: row.Name + "_" + Math.random().toString(36).substr(2, 9),
+        name: row.Name,
+        tier,
+        role,
+        category,
+        biome,
+        stats,
+        features,
+        motives_tactics,
+        experiences,
+        source: "Daggerheart"
+    };
+}
+
 function convertRow(row) {
     const cr = parseCR(row.CR);
     const hpRaw = parseHP(row.HP);
@@ -1770,7 +2028,7 @@ function convertRow(row) {
         motives_tactics: motivesTactics,
         experiences: experiences,
         original_cr: row.CR,
-        source: row.Source
+        source: "DND5e"
     };
 }
 
@@ -1877,18 +2135,35 @@ if (!fs.existsSync(outputDir)) {
 // Load spells database first
 loadSpellsDatabase();
 
-console.log(`Reading CSV from ${csvPath}...`);
-const fileContent = fs.readFileSync(csvPath, 'utf8');
+// Process both CSV files
+const allAdversaries = [];
 
-Papa.parse(fileContent, {
-    header: true,
-    complete: (results) => {
-        console.log(`Parsed ${results.data.length} rows.`);
-        const adversaries = convertAdversaries(results.data);
-        fs.writeFileSync(outputPath, JSON.stringify(adversaries, null, 2));
-        console.log(`Wrote ${adversaries.length} adversaries to ${outputPath}`);
-    },
-    error: (err) => {
-        console.error("Error parsing CSV:", err);
-    }
-});
+// Process Bestiary.csv (D&D 5e format)
+console.log(`Reading D&D 5e CSV from ${csvPath}...`);
+if (fs.existsSync(csvPath)) {
+    const bestiaryContent = fs.readFileSync(csvPath, 'utf8');
+    const bestiaryResults = Papa.parse(bestiaryContent, { header: true });
+    console.log(`Parsed ${bestiaryResults.data.length} rows from Bestiary.csv`);
+    const dndAdversaries = convertAdversaries(bestiaryResults.data);
+    console.log(`Converted ${dndAdversaries.length} D&D 5e adversaries`);
+    allAdversaries.push(...dndAdversaries);
+} else {
+    console.warn(`Bestiary.csv not found at ${csvPath}`);
+}
+
+// Process adversaries-extracted.csv (Daggerheart format)
+console.log(`Reading Daggerheart CSV from ${daggerheartCsvPath}...`);
+if (fs.existsSync(daggerheartCsvPath)) {
+    const daggerheartContent = fs.readFileSync(daggerheartCsvPath, 'utf8');
+    const daggerheartResults = Papa.parse(daggerheartContent, { header: true });
+    console.log(`Parsed ${daggerheartResults.data.length} rows from adversaries-extracted.csv`);
+    const daggerheartAdversaries = convertDaggerheartAdversaries(daggerheartResults.data);
+    console.log(`Converted ${daggerheartAdversaries.length} Daggerheart adversaries`);
+    allAdversaries.push(...daggerheartAdversaries);
+} else {
+    console.warn(`adversaries-extracted.csv not found at ${daggerheartCsvPath}`);
+}
+
+// Write combined output
+fs.writeFileSync(outputPath, JSON.stringify(allAdversaries, null, 2));
+console.log(`Wrote ${allAdversaries.length} total adversaries to ${outputPath}`);
