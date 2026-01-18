@@ -502,12 +502,6 @@ function App() {
           ) : (
             /* Edit Tab View */
             <>
-              <div className="flex justify-between items-center mb-6 px-2">
-                <div className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-                  Showing <span className="text-dagger-gold font-bold">{visible.length}</span> of {filtered.length} Results
-                </div>
-              </div>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
                 {visible.map(adv => (
                   <div key={adv.id} className="h-full">
