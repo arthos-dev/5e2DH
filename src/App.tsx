@@ -27,6 +27,7 @@ function App() {
   const [category, setCategory] = useState('');
   const [biome, setBiome] = useState('');
   const [tier, setTier] = useState('');
+  const [source, setSource] = useState('');
   const [selectedAdversary, setSelectedAdversary] = useState<Adversary | null>(null);
 
   // Debounced search
@@ -120,31 +121,41 @@ function App() {
   const uniqueRoles = useMemo(() => [...VALID_ROLES].sort(), []);
   const uniqueCategories = useMemo(() => [...VALID_CATEGORIES].sort(), []);
   const uniqueBiomes = useMemo(() => [...VALID_BIOMES].sort(), []);
+  const uniqueSources = useMemo(() => {
+    const sources = new Set<string>();
+    allAdversaries.forEach(a => {
+      if (a.source) sources.add(a.source);
+    });
+    return Array.from(sources).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  }, []);
 
   // Filter Logic with normalization
   const filtered = useMemo(() => {
-    return allAdversaries.filter(a => {
-      if (search && !a.name.toLowerCase().includes(search.toLowerCase())) return false;
-      
-      // Normalize role for comparison (handles ELITE → SOLO, SNIPER → RANGED, SKIRMISHER → SKULK)
-      if (role) {
-        const normalizedAdversaryRole = normalizeRole(a.role);
-        const normalizedFilterRole = normalizeRole(role);
-        if (normalizedAdversaryRole !== normalizedFilterRole) return false;
-      }
-      
-      // Normalize category for comparison (handles "Celestial," → "Celestial", case variations, etc.)
-      if (category) {
-        const normalizedAdversaryCategory = normalizeCategory(a.category);
-        const normalizedFilterCategory = normalizeCategory(category);
-        if (normalizedAdversaryCategory !== normalizedFilterCategory) return false;
-      }
-      
-      if (biome && (a.biome === 'Unknown' || !a.biome.includes(biome))) return false;
-      if (tier && a.tier.toString() !== tier) return false;
-      return true;
-    });
-  }, [search, role, category, biome, tier]);
+    return allAdversaries
+      .filter(a => {
+        if (search && !a.name.toLowerCase().includes(search.toLowerCase())) return false;
+        
+        // Normalize role for comparison (handles ELITE → SOLO, SNIPER → RANGED, SKIRMISHER → SKULK)
+        if (role) {
+          const normalizedAdversaryRole = normalizeRole(a.role);
+          const normalizedFilterRole = normalizeRole(role);
+          if (normalizedAdversaryRole !== normalizedFilterRole) return false;
+        }
+        
+        // Normalize category for comparison (handles "Celestial," → "Celestial", case variations, etc.)
+        if (category) {
+          const normalizedAdversaryCategory = normalizeCategory(a.category);
+          const normalizedFilterCategory = normalizeCategory(category);
+          if (normalizedAdversaryCategory !== normalizedFilterCategory) return false;
+        }
+        
+        if (biome && (a.biome === 'Unknown' || !a.biome.includes(biome))) return false;
+        if (tier && a.tier.toString() !== tier) return false;
+        if (source && a.source !== source) return false;
+        return true;
+      })
+      .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  }, [search, role, category, biome, tier, source]);
 
   // Pagination
   const [limit, setLimit] = useState(50);
@@ -399,9 +410,11 @@ function App() {
               category={category} setCategory={setCategory}
               biome={biome} setBiome={setBiome}
               tier={tier} setTier={setTier}
+              source={source} setSource={setSource}
               uniqueRoles={uniqueRoles}
               uniqueCategories={uniqueCategories}
               uniqueBiomes={uniqueBiomes}
+              uniqueSources={uniqueSources}
             />
           )}
         </div>
@@ -509,7 +522,7 @@ function App() {
                   <p className="text-gray-500">Try adjusting your filters or search terms.</p>
                   <button
                     onClick={() => {
-                      setSearchInput(''); setRole(''); setCategory(''); setBiome(''); setTier('');
+                      setSearchInput(''); setRole(''); setCategory(''); setBiome(''); setTier(''); setSource('');
                     }}
                     className="mt-6 text-dagger-gold hover:text-white underline underline-offset-4"
                   >
