@@ -142,7 +142,7 @@ export function scaleDamageDiceInText(text: string, tierDelta: number, role: str
     // Process this first to avoid double-processing
     const averageDamagePattern = /(\d+)\s*\(\s*(\d+)d(\d+)([+-]\d+)?\s*\)/g;
     
-    let scaledText = text.replace(averageDamagePattern, (match, avg, dice, dieType, modifier) => {
+    let scaledText = text.replace(averageDamagePattern, (match, _avg, dice, dieType, modifier) => {
         const parsed = parseDamageDice(`${dice}d${dieType}${modifier || ''}`);
         if (!parsed) return match;
 
