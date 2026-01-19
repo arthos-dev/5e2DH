@@ -480,7 +480,8 @@ function generateMotivesAndTactics(row, role, type) {
     }
     
     // Fiend/demon patterns
-    if (typeLower.includes("fiend") || typeLower.includes("demon") || typeLower.includes("devil")) {
+    if (typeLower.includes("fiend") || typeLower.includes("demon") || typeLower.includes("devil") ||
+        nameLower.includes("demon") || nameLower.includes("fiend") || nameLower.includes("devil")) {
         motives.push("Corrupt");
         motives.push("Destroy");
         motives.push("Dominate by force");
@@ -1859,6 +1860,115 @@ function convertAdversaries(rows) {
     return converted;
 }
 
+// Parse Description column to extract full feature descriptions
+// Format: "FeatureName—Type: Full description text." or multiple features
+// Also handles continuation text (just the description without feature name)
+function parseDescriptionColumn(descriptionText) {
+    if (!descriptionText || !descriptionText.trim()) {
+        return new Map();
+    }
+    
+    const featureMap = new Map();
+    const text = descriptionText.trim();
+    
+    // Pattern to match: "FeatureName—Type: Description"
+    // Handle both em dash (—) and regular dash (-)
+    const featurePattern = /([A-Z][A-Za-z\s]+?)\s*[—–-]\s*(?:Passive|Action|Reaction|Fear)[:\s]*([^—–-]+?)(?=\s+[A-Z][A-Za-z\s]{3,}\s*[—–-]|$)/g;
+    
+    let match;
+    while ((match = featurePattern.exec(text)) !== null) {
+        const featureName = match[1].trim();
+        let fullDescription = match[2].trim();
+        
+        // Clean up the description - remove trailing periods if they're not part of the sentence
+        fullDescription = fullDescription.replace(/\.\s*$/, '');
+        
+        // Store in map (case-insensitive key for matching)
+        if (featureName && fullDescription) {
+            featureMap.set(featureName.toLowerCase(), {
+                name: featureName,
+                description: fullDescription
+            });
+        }
+    }
+    
+    // Also handle cases where there's just one feature without explicit type
+    // Pattern: "FeatureName: Description" or "FeatureName Description"
+    if (featureMap.size === 0) {
+        const simplePattern = /^([A-Z][A-Za-z\s]+?)[:\s]+(.+)$/;
+        const simpleMatch = text.match(simplePattern);
+        if (simpleMatch) {
+            const featureName = simpleMatch[1].trim();
+            let fullDescription = simpleMatch[2].trim();
+            fullDescription = fullDescription.replace(/\.\s*$/, '');
+            
+            if (featureName && fullDescription) {
+                featureMap.set(featureName.toLowerCase(), {
+                    name: featureName,
+                    description: fullDescription
+                });
+            }
+        }
+    }
+    
+    // If no feature name pattern found, store as continuation text (key: "__continuation__")
+    // This will be matched to the last truncated feature
+    if (featureMap.size === 0 && text.length > 10) {
+        let continuationText = text.trim();
+        continuationText = continuationText.replace(/\.\s*$/, '');
+        featureMap.set("__continuation__", {
+            name: "",
+            description: continuationText
+        });
+    }
+    
+    return featureMap;
+}
+
+// Check if a description appears to be truncated
+function isTruncated(description) {
+    if (!description || !description.trim()) {
+        return false;
+    }
+    
+    const trimmed = description.trim();
+    
+    // Check for common truncation patterns:
+    // 1. Ends with "a " or "an " (incomplete sentence)
+    // 2. Ends without punctuation
+    // 3. Ends with incomplete phrases like "you gain a", "you can mark a", etc.
+    const truncationPatterns = [
+        /\s+a\s*$/i,           // ends with " a "
+        /\s+an\s*$/i,           // ends with " an "
+        /\s+the\s*$/i,          // ends with " the "
+        /\s+to\s*$/i,           // ends with " to "
+        /\s+of\s*$/i,           // ends with " of "
+        /\s+in\s*$/i,           // ends with " in "
+        /\s+at\s*$/i,           // ends with " at "
+        /\s+on\s*$/i,           // ends with " on "
+        /\s+for\s*$/i,          // ends with " for "
+        /\s+with\s*$/i,         // ends with " with "
+        /\s+from\s*$/i,         // ends with " from "
+        /\s+within\s*$/i,       // ends with " within "
+        /\s+within\s+a\s*$/i,   // ends with " within a "
+    ];
+    
+    // Check if it matches any truncation pattern
+    for (const pattern of truncationPatterns) {
+        if (pattern.test(trimmed)) {
+            return true;
+        }
+    }
+    
+    // Also check if it doesn't end with proper punctuation and is reasonably long
+    // (short descriptions might legitimately not have punctuation)
+    if (trimmed.length > 20 && !/[.!?]$/.test(trimmed)) {
+        return true;
+    }
+    
+    return false;
+}
+
 // Convert Daggerheart CSV rows (already in Daggerheart format)
 function convertDaggerheartAdversaries(rows) {
     const converted = [];
@@ -1912,9 +2022,59 @@ function convertDaggerheartRow(row) {
             // Group all features into Actions section for simplicity
             // Features are already in the correct format with name and description
             // Format Randomized Tactics and convert descriptions to HTML format for consistency
+            
+            // Parse Description column to get full feature descriptions
+            const descriptionMap = row.Description ? parseDescriptionColumn(row.Description) : new Map();
+            
             if (Array.isArray(parsedFeatures) && parsedFeatures.length > 0) {
-                const formattedEntries = parsedFeatures.map(feat => {
+                // Check if we have continuation text (no feature name in Description column)
+                const continuationText = descriptionMap.get("__continuation__");
+                
+                const formattedEntries = parsedFeatures.map((feat, index) => {
                     let description = feat.description || "";
+                    
+                    // Check if description is truncated and try to complete it from Description column
+                    if (isTruncated(description) && descriptionMap.size > 0) {
+                        const featureNameLower = feat.name.toLowerCase();
+                        const fullFeature = descriptionMap.get(featureNameLower);
+                        
+                        if (fullFeature && fullFeature.description) {
+                            // Use the full description from Description column
+                            description = fullFeature.description;
+                        } else if (continuationText && index === parsedFeatures.length - 1) {
+                            // If this is the last feature and we have continuation text, append it
+                            // Only append if the description appears truncated
+                            const trimmed = description.trim();
+                            if (trimmed && isTruncated(trimmed)) {
+                                // Append continuation text, ensuring proper spacing
+                                const continuation = continuationText.description.trim();
+                                
+                                // Check if the continuation text starts with words that are already at the end of the description
+                                // This handles cases where the CSV has overlapping text
+                                const descWords = trimmed.split(/\s+/);
+                                const contWords = continuation.split(/\s+/);
+                                
+                                // Find how many words overlap (check last 5 words of description with first 5 of continuation)
+                                let overlapCount = 0;
+                                const checkCount = Math.min(5, descWords.length, contWords.length);
+                                for (let i = 1; i <= checkCount; i++) {
+                                    const descEnd = descWords.slice(-i).map(w => w.toLowerCase().replace(/[.,;:!?]$/, '')).join(' ');
+                                    const contStart = contWords.slice(0, i).map(w => w.toLowerCase().replace(/[.,;:!?]$/, '')).join(' ');
+                                    if (descEnd === contStart) {
+                                        overlapCount = i;
+                                    }
+                                }
+                                
+                                // If there's overlap, remove the overlapping words from description before appending
+                                if (overlapCount > 0) {
+                                    description = descWords.slice(0, -overlapCount).join(' ') + ' ' + continuation;
+                                } else {
+                                    description = trimmed + ' ' + continuation;
+                                }
+                            }
+                        }
+                    }
+                    
                     // Format Randomized Tactics if this is that feature
                     if (feat.name === "Randomized Tactics") {
                         description = formatRandomizedTactics(description);
@@ -1935,7 +2095,17 @@ function convertDaggerheartRow(row) {
     }
     
     // Parse motives_tactics
-    const motives_tactics = row.Motives_Tactics || "";
+    let motives_tactics = row.Motives_Tactics || "";
+    
+    // Validate motives_tactics - if it looks like a page reference or is malformed, generate it
+    const isPageRef = /(?:^|[a-z]+)Page\s+\d+/i.test(motives_tactics);
+    const motivesIsTruncated = motives_tactics.length < 10 && /^[a-z]/.test(motives_tactics);
+    const isEmpty = !motives_tactics || motives_tactics.trim().length === 0;
+    
+    if (isPageRef || motivesIsTruncated || isEmpty) {
+        // Generate motives using the same logic as DND5e conversion
+        motives_tactics = generateMotivesAndTactics(row, role, row.Type ? row.Type.split(' ')[0] : "");
+    }
     
     // Category is not available in Daggerheart CSV, default to Unknown
     const category = "Unknown";

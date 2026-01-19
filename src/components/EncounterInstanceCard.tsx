@@ -1,6 +1,6 @@
 import React from 'react';
 import type { EncounterInstance, Adversary } from '../types';
-import { calculateScaledStats, getEffectiveTier, calculateStatAdjustments } from '../utils/scalingUtils';
+import { calculateScaledStats, getEffectiveTier, calculateStatAdjustments, scaleFeatures } from '../utils/scalingUtils';
 import { HPStressTracker } from './HPStressTracker';
 import type { ToastType } from '../hooks/useToast';
 import { formatDiceRoll, parseDiceExpression, wrapDiceExpressions } from '../utils/diceRoller';
@@ -64,6 +64,14 @@ export const EncounterInstanceCard: React.FC<Props> = ({
     const scaledStats = calculateScaledStats(adversary, instance.upscaling);
     const effectiveTier = getEffectiveTier(adversary.tier, instance.upscaling);
     const adjustments = instance.upscaling !== 0 ? calculateStatAdjustments(adversary.stats, scaledStats) : null;
+    
+    // Calculate scaled features when upscaling
+    const baseTier = adversary.tier;
+    const tierDelta = effectiveTier - baseTier;
+    const displayFeatures = instance.upscaling !== 0 && tierDelta !== 0 
+        ? scaleFeatures(adversary.features, tierDelta, adversary.role)
+        : adversary.features;
+    
     const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
 
     const handleAttackRoll = (event: React.MouseEvent) => {
@@ -254,7 +262,7 @@ export const EncounterInstanceCard: React.FC<Props> = ({
 
             {/* Features */}
             <div className="mb-4 flex-1 overflow-y-auto custom-scrollbar">
-                {adversary.features.map((feat, idx) => (
+                {displayFeatures.map((feat, idx) => (
                     <div key={idx} className="mb-2 text-xs">
                         <div className="font-bold text-dagger-gold mb-1">{feat.name}</div>
                         {feat.entries && feat.entries.map((entry, entryIdx) => (

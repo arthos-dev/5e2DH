@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import type { Adversary } from '../types';
 import { trapFocus } from '../utils/focusTrap';
-import { calculateScaledStats, calculateStatAdjustments } from '../utils/scalingUtils';
+import { calculateScaledStats, calculateStatAdjustments, scaleFeatures, getEffectiveTier } from '../utils/scalingUtils';
 import type { ToastType } from '../hooks/useToast';
 import { formatDiceRoll, wrapDiceExpressions, parseDiceExpression } from '../utils/diceRoller';
 import { useDice, type DiceRollResult } from '../contexts/DiceContext';
@@ -167,6 +167,15 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
     const scaledStats = upscaling !== 0 ? calculateScaledStats(adversary, upscaling) : adversary.stats;
     const adjustments = upscaling !== 0 ? calculateStatAdjustments(adversary.stats, scaledStats) : null;
     const displayStats = upscaling !== 0 ? scaledStats : adversary.stats;
+    
+    // Calculate scaled features when upscaling
+    const baseTier = adversary.tier;
+    const effectiveTier = upscaling !== 0 ? getEffectiveTier(baseTier, upscaling) : baseTier;
+    const tierDelta = effectiveTier - baseTier;
+    const displayFeatures = upscaling !== 0 && tierDelta !== 0 
+        ? scaleFeatures(adversary.features, tierDelta, adversary.role)
+        : adversary.features;
+    
     const signedModifier = (value: number) => (value >= 0 ? `+${value}` : `${value}`);
 
     const handleAttackRoll = (event: React.MouseEvent) => {
@@ -384,9 +393,9 @@ const renderContent = (adversary: Adversary, upscaling: number = 0, showToast: (
                 Features & Traits
             </h3>
 
-            {adversary.features.length > 0 ? (
+            {displayFeatures.length > 0 ? (
                 <div className="grid gap-4">
-                    {adversary.features.map((feat, idx) => (
+                    {displayFeatures.map((feat, idx) => (
                         <div key={idx} className="bg-dagger-surface p-4 rounded-lg border border-white/5 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                                 {/* Subtle icon based on type could go here */}

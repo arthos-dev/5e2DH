@@ -450,11 +450,20 @@ function extractAdversaryData($, element) {
         
         // Extract motives and tactics (usually at the start, before stats)
         // Format: "Motives: text" or just comma-separated list at start
+        // Skip if it looks like a page reference or truncated name
         const motivesMatch = text.match(/(?:Motives[^:]*:\s*)?([^D]*?)(?=Difficulty|Tier|$)/i);
         if (motivesMatch && motivesMatch[1]) {
-            const motivesText = motivesMatch[1].trim();
-            // Check if it looks like motives (comma-separated actions)
-            if (motivesText.length > 5 && motivesText.length < 200 && 
+            let motivesText = motivesMatch[1].trim();
+            
+            // Remove page references (e.g., "Page 215", "PAGE 215", "emonPage 215")
+            motivesText = motivesText.replace(/\s*(?:[a-z]+)?Page\s+\d+.*$/i, '').trim();
+            
+            // Skip if it looks like a truncated name (starts with lowercase, very short, or contains only page refs)
+            const isTruncatedName = /^[a-z]/.test(motivesText) && motivesText.length < 10;
+            const isPageRef = /^(?:[a-z]+)?Page\s+\d+/i.test(motivesText);
+            
+            // Check if it looks like valid motives (comma-separated actions, not a page ref)
+            if (!isTruncatedName && !isPageRef && motivesText.length > 5 && motivesText.length < 200 && 
                 (motivesText.includes(',') || motivesText.split(' ').length < 15)) {
                 adversary.Motives_Tactics = motivesText;
             }
@@ -754,7 +763,10 @@ function extractAdversaryData($, element) {
             for (const feature of features) {
                 const desc = feature.description;
                 // Look for feature patterns within the description (FeatureName—Type: Description)
-                const nestedFeatureRegex = /([A-Z][A-Za-z\s]{3,}?)\s*[—–-]\s*(Passive|Action|Reaction|Fear)[:\s]*([^—–-]*?)(?=([A-Z][A-Za-z\s]{3,}?)\s*[—–-]\s*(?:Passive|Action|Reaction|Fear)[:\s]|$)/g;
+                // Fixed: Ensure we only match when "Fear" is part of a feature type (after dash), not when it's part of action text
+                // The lookahead requires a newline or period followed by whitespace before the next feature pattern
+                // This prevents matching "Fear" when it's part of action text like "Spend a Fear"
+                const nestedFeatureRegex = /([A-Z][A-Za-z\s]{3,}?)\s*[—–-]\s*(Passive|Action|Reaction|Fear)[:\s]+([^—–-]*?)(?=(?:\n\s+|\.\s+)([A-Z][A-Za-z\s]{3,}?)\s*[—–-]\s*(?:Passive|Action|Reaction|Fear)[:\s]|$)/g;
                 const nestedMatches = [];
                 let nestedMatch;
                 
@@ -785,7 +797,16 @@ function extractAdversaryData($, element) {
                         // Get text up to next nested feature or end
                         if (i < nestedMatches.length - 1) {
                             const nextIndex = nestedMatches[i + 1].index;
-                            nestedDesc = desc.substring(nested.index + nested.fullMatch.length - nested.description.length, nextIndex).trim();
+                            // Calculate description start: after the feature name, dash, type, and colon/whitespace
+                            const descStart = nested.index + nested.fullMatch.length - nested.description.length;
+                            nestedDesc = desc.substring(descStart, nextIndex).trim();
+                            // Remove any feature header that might have been included
+                            nestedDesc = nestedDesc.replace(/^([A-Z][A-Za-z\s]+?)\s*[—–-].*$/, '').trim();
+                        } else {
+                            // Last feature: get all text from description start to end
+                            const descStart = nested.index + nested.fullMatch.length - nested.description.length;
+                            nestedDesc = desc.substring(descStart).trim();
+                            // Remove any feature header that might have been included
                             nestedDesc = nestedDesc.replace(/^([A-Z][A-Za-z\s]+?)\s*[—–-].*$/, '').trim();
                         }
                         

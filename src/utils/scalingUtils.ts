@@ -1,4 +1,4 @@
-import type { Adversary, AdversaryStats } from '../types';
+import type { Adversary, AdversaryStats, AdversaryFeature } from '../types';
 
 // Scaling adjustments per tier based on "Making Custom Adversaries.md"
 // Format: [difficulty, threshold_major, threshold_severe, hp, stress, attack_mod]
@@ -120,6 +120,84 @@ export function scaleDamageDice(damageDice: string, tierDelta: number, _role: st
     // Handle negative modifiers
     const modifierStr = newModifier >= 0 ? `+${newModifier}` : `${newModifier}`;
     return `${newDice}d${parsed.dieType}${modifierStr}`;
+}
+
+/**
+ * Scales damage dice patterns found in text descriptions
+ * Handles formats like "1d8+3", "2d6", "6d8", "27 (6d8)", etc.
+ * Preserves HTML tags and other text structure
+ */
+export function scaleDamageDiceInText(text: string, tierDelta: number, role: string): string {
+    if (tierDelta === 0 || !text) {
+        return text;
+    }
+
+    // Use a placeholder to mark already-processed patterns
+    const PLACEHOLDER_PREFIX = '__SCALED_DICE_';
+    const placeholders: string[] = [];
+    let placeholderIndex = 0;
+
+    // Pattern 1: Average damage with dice in parentheses like "27 (6d8)", "9 (2d8)"
+    // Match: \d+\s*\(\s*\d+d\d+([+-]\d+)?\s*\)
+    // Process this first to avoid double-processing
+    const averageDamagePattern = /(\d+)\s*\(\s*(\d+)d(\d+)([+-]\d+)?\s*\)/g;
+    
+    let scaledText = text.replace(averageDamagePattern, (match, avg, dice, dieType, modifier) => {
+        const parsed = parseDamageDice(`${dice}d${dieType}${modifier || ''}`);
+        if (!parsed) return match;
+
+        const scaledDice = scaleDamageDice(`${dice}d${dieType}${modifier || ''}`, tierDelta, role);
+        // Recalculate average: (dice * (dieType + 1) / 2) + modifier
+        const scaledParsed = parseDamageDice(scaledDice);
+        if (!scaledParsed) return match;
+        
+        const newAvg = Math.floor((scaledParsed.dice * (scaledParsed.dieType + 1)) / 2) + scaledParsed.modifier;
+        const placeholder = `${PLACEHOLDER_PREFIX}${placeholderIndex}__`;
+        placeholders[placeholderIndex] = `${newAvg} (${scaledDice})`;
+        placeholderIndex++;
+        return placeholder;
+    });
+
+    // Pattern 2: Simple dice expressions like "1d8+3", "2d6", "6d8"
+    // Match: \d+d\d+ followed by optional modifier [+-]\d+
+    const simpleDicePattern = /(\d+)d(\d+)([+-]\d+)?/g;
+    
+    scaledText = scaledText.replace(simpleDicePattern, (match) => {
+        // Skip placeholders
+        if (match.startsWith(PLACEHOLDER_PREFIX)) {
+            return match;
+        }
+        return scaleDamageDice(match, tierDelta, role);
+    });
+
+    // Restore placeholders
+    for (let i = 0; i < placeholders.length; i++) {
+        scaledText = scaledText.replace(`${PLACEHOLDER_PREFIX}${i}__`, placeholders[i]);
+    }
+
+    return scaledText;
+}
+
+/**
+ * Scales features by scaling damage dice in their descriptions
+ * Returns a new array with scaled features
+ */
+export function scaleFeatures(
+    features: AdversaryFeature[],
+    tierDelta: number,
+    role: string
+): AdversaryFeature[] {
+    if (tierDelta === 0) {
+        return features;
+    }
+
+    return features.map(feature => ({
+        ...feature,
+        entries: feature.entries?.map(entry => ({
+            ...entry,
+            description: scaleDamageDiceInText(entry.description, tierDelta, role),
+        })) || [],
+    }));
 }
 
 /**
