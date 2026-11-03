@@ -32,10 +32,6 @@ export function initializeRunningEncounter(
                 maxStress,
                 thresholdMajor: scaledStats.threshold_major,
                 thresholdSevere: scaledStats.threshold_severe,
-                hpThreshold: getHPThreshold(0, maxHP, {
-                    major: scaledStats.threshold_major,
-                    severe: scaledStats.threshold_severe,
-                }),
             };
             
             instances.push(instance);
@@ -51,20 +47,6 @@ export function initializeRunningEncounter(
     };
 }
 
-export function getHPThreshold(
-    currentHP: number,
-    _maxHP: number,
-    thresholds: { major: number | null; severe: number | null }
-): 'minor' | 'major' | 'severe' {
-    // If thresholds are null (minions), always return 'minor'
-    if (thresholds.major === null || thresholds.severe === null) {
-        return 'minor';
-    }
-    if (currentHP <= thresholds.severe) return 'severe';
-    if (currentHP <= thresholds.major) return 'major';
-    return 'minor';
-}
-
 export function updateInstanceHP(
     instances: EncounterInstance[],
     instanceId: string,
@@ -73,16 +55,9 @@ export function updateInstanceHP(
     return instances.map(instance => {
         if (instance.instanceId !== instanceId) return instance;
         
-        const newHP = Math.max(0, Math.min(instance.maxHP, instance.currentHP + delta));
-        const newThreshold = getHPThreshold(newHP, instance.maxHP, {
-            major: instance.thresholdMajor,
-            severe: instance.thresholdSevere,
-        });
-        
         return {
             ...instance,
-            currentHP: newHP,
-            hpThreshold: newThreshold,
+            currentHP: Math.max(0, Math.min(instance.maxHP, instance.currentHP + delta)),
         };
     });
 }

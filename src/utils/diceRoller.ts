@@ -66,10 +66,11 @@ export const formatDiceRoll = (result: DiceRollResult): string => {
     return `${base}(${rollsText})${modifierText} = ${result.total}`;
 };
 
+/** Wraps dice expressions in HTML text in buttons; a click handler reads data-dice (see useRoll). */
 export const wrapDiceExpressions = (text: string): string => {
     const dicePattern = /\b\d*d\d+(?:\s*[+-]\s*\d+)?\b/gi;
     return text.replace(dicePattern, (match) => {
         const normalized = normalizeExpression(match);
-        return `<span class="dice-roll cursor-pointer underline decoration-dotted underline-offset-2" data-dice="${normalized}" title="Roll ${normalized}" aria-label="Roll ${normalized}">${match}</span>`;
+        return `<button type="button" class="dice" data-dice="${normalized}" aria-label="Roll ${normalized}">${match}</button>`;
     });
 };

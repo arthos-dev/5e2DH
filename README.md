@@ -3,12 +3,11 @@
 
 This project is a React-based tool that converts D&D 5e adversaries (from a CSV source) into Daggerheart-compatible statistics cards.
 
-## Features implemented
-- **Automated Conversion**: Calculates HP, Difficulty, Stress, and Damage based on 5e CR and stats using the provided rules.
-- **Card Interface**: Displays adversaries in a card format similar to the reference image.
-- **Filtering**: Filter by Role, Category, Biome, and Tier.
-- **Search**: Full-text search on names.
-- **Details View**: Click on a card to see the full converted stat block, including features (Traits/Actions).
+## The app
+
+One screen: the bestiary on the left, the encounter on the right. Click an adversary to see its stat block and add it at any tier. Run the encounter to track HP and Stress per adversary. Saved encounters save themselves on every change; the address bar always holds the current encounter, so copying it shares it.
+
+Shortcuts: `/` focuses search, `Esc` closes the stat block.
 
 ## How to Run
 
@@ -60,7 +59,17 @@ https://5e2dh.vercel.app/#encounter=<base64url JSON>
 - `scripts/convert.js`: The script that parses `Bestiary.csv` and generates `src/data/adversaries.json` (5e conversions plus the official Daggerheart adversaries).
 - `scripts/import-srd.js`: Imports the official Daggerheart adversaries and environments from the Daggerheart SRD 2.0 ([og-dhsrd](https://github.com/callmepartario/og-dhsrd) checkout, default `../ext/og-dhsrd` or `$OG_DHSRD_DIR`) into the committed snapshots `data/srd/adversaries.json`, `data/srd/adversary-types.json` and `src/data/environments.json`. `npm run convert` runs it first (it keeps the snapshots when no checkout is present), then `convert.js`.
 - `scripts/calibration-report.js`: Official vs converted stats per tier and role (`--tiers`, `--roles`, `--mix`, `--ids old.json`).
-- `src/components/`: UI Components (`AdversaryCard`, `Filters`, etc.).
+- `scripts/publish-data.js`: Copies the bestiary to `public/data/` before `dev` and `build`. The app fetches it from there instead of bundling it.
+- `src/App.tsx`: State (bestiary, encounter, saved encounters, the running fight) and layout.
+- `src/components/`:
+  - `Library` — search, filters, the adversary list.
+  - `AdversarySheet` — one stat block, with quantity and tier to add it.
+  - `EncounterPanel` — the encounter: name, players, difficulty, lines, saved encounters, Run.
+  - `RunView` — the running fight.
+  - `StatBlock` — stats, experiences, motives and features, scaled by tier; used by the sheet and the running view.
+  - `ui` — icons and the stepper. `Toaster` — toasts (`useToast()`). `Dice3D` — the 3D dice layer.
+- `src/hooks/useRoll.ts`: `roll(expression, label, element)` rolls the 3D dice and shows the result.
+- `src/index.css`: Design tokens (colors for light and dark) and the few shared classes (`btn`, `field`, `label`).
 - `src/types.ts`: TypeScript definitions for the Adversary data model.
 
 ## Note on Conversion Logic

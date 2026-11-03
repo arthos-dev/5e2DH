@@ -1,100 +1,139 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;800&display=swap');
-
 @import "tailwindcss";
-@config "../tailwind.config.js";
 
-/* 
-  Re-adding base styles here since we can use standard CSS or @layer base 
-  if we want, but global classes on body are also fine.
-*/
+/* Design tokens. Every color in the app comes from here; light and dark follow the system setting. */
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --panel: #f7f7f8;
+  --hover: #efeff1;
+  --line: #e4e4e7;
+  --fg: #18181b;
+  --muted: #6b6b73;
+  --faint: #a1a1aa;
+  --accent: #f2c14e;
+  --accent-fg: #241a02;
+  --accent-text: #a16207;
+  --hp: #e5484d;
+  --stress: #7c66dc;
+  --danger: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f10;
+    --panel: #161618;
+    --hover: #1f1f22;
+    --line: #26262a;
+    --fg: #ececee;
+    --muted: #8b8b94;
+    --faint: #5b5b63;
+    --accent: #e9b949;
+    --accent-fg: #1d1502;
+    --accent-text: #e9b949;
+    --hp: #e5484d;
+    --stress: #8e7cf0;
+    --danger: #f87171;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-hover: var(--hover);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-text: var(--accent-text);
+  --color-hp: var(--hp);
+  --color-stress: var(--stress);
+  --color-danger: var(--danger);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
 @layer base {
-    body {
-        background-color: #1A1D23;
-        /* fallback for bg-dagger-dark */
-        color: #E5E7EB;
-    }
+  html,
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
 }
 
-/* Styles for spell descriptions with lists */
-.spell-description ul {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
-    list-style-type: disc;
+@layer components {
+  .btn {
+    @apply inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-40 sm:h-8;
+  }
+  .btn-primary {
+    @apply bg-accent text-accent-fg hover:brightness-105;
+  }
+  .btn-ghost {
+    @apply text-muted hover:bg-hover hover:text-fg;
+  }
+  .btn-icon {
+    @apply w-9 px-0 sm:w-8;
+  }
+  .field {
+    @apply h-9 rounded-md border border-line bg-bg px-2.5 text-sm text-fg placeholder:text-faint sm:h-8;
+  }
+  .label {
+    @apply text-xs text-muted;
+  }
 }
 
-.spell-description li {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
+/* Feature text comes from the data as HTML (<strong>, <em>, lists). */
+.feature-text ul {
+  margin: 0.375rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.feature-text li + li {
+  margin-top: 0.25rem;
+}
+.feature-text strong {
+  font-weight: 600;
 }
 
-.spell-description li:first-child {
-    margin-top: 0;
+/* Dice expressions in feature text are buttons (see wrapDiceExpressions). */
+.dice {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.dice:hover {
+  color: var(--accent-text);
 }
 
-.spell-description li:last-child {
-    margin-bottom: 0;
+/* Native select with a quiet chevron. */
+select.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%238b8b94'%3E%3Cpath d='M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.4rem center;
+  background-size: 1rem;
+  padding-right: 1.6rem;
 }
 
-/* Custom Scrollbar Styles */
-.custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(197, 160, 89, 0.3) transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(197, 160, 89, 0.3);
-    border-radius: 4px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(197, 160, 89, 0.5);
-}
-
-/* Focus visible styles for accessibility */
-@layer base {
-    *:focus-visible {
-        outline: 2px solid #C5A059;
-        outline-offset: 2px;
-    }
-}
-
-/* Skip link for accessibility */
-.skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: #C5A059;
-    color: #1A1D23;
-    padding: 8px;
-    text-decoration: none;
-    z-index: 100;
-    font-weight: bold;
-}
-
-.skip-link:focus {
-    top: 0;
-}
-
-/* Dice-box full screen styling */
+/* dice-box renders into this full-screen layer. */
 #dice-box-container {
-    width: 100% !important;
-    height: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
 }
-
 #dice-box-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }

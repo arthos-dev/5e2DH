@@ -62,13 +62,12 @@ export interface EncounterInstance {
     adversaryId: string; // reference to base Adversary
     customName?: string;
     upscaling: number;
-    currentHP: number;
+    currentHP: number; // HP marked
     currentStress: number; // number of stress boxes marked
     maxHP: number;
     maxStress: number;
     thresholdMajor: number | null; // scaled threshold for major damage
     thresholdSevere: number | null; // scaled threshold for severe damage
-    hpThreshold: 'minor' | 'major' | 'severe'; // current threshold based on HP
 }
 
 export interface RunningEncounter {

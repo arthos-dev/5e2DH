@@ -1,35 +1,19 @@
-import { useState, useCallback } from 'react';
+import { createContext, useContext } from 'react';
 
-export type ToastType = 'success' | 'error' | 'info';
-
-export interface Toast {
-  id: string;
-  message: string;
-  type: ToastType;
+export interface ToastOptions {
+  tone?: 'error';
   duration?: number;
+  action?: { label: string; run: () => void };
 }
 
-export const useToast = () => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+export interface Toast extends ToastOptions {
+  id: number;
+  message: string;
+}
 
-  const showToast = useCallback((message: string, type: ToastType = 'info', duration: number = 3000) => {
-    const id = Math.random().toString(36).substring(7);
-    const toast: Toast = { id, message, type, duration };
+export type ShowToast = (message: string, options?: ToastOptions) => void;
 
-    setToasts(prev => [...prev, toast]);
+export const ToastContext = createContext<ShowToast>(() => {});
 
-    if (duration > 0) {
-      setTimeout(() => {
-        setToasts(prev => prev.filter(t => t.id !== id));
-      }, duration);
-    }
-
-    return id;
-  }, []);
-
-  const removeToast = useCallback((id: string) => {
-    setToasts(prev => prev.filter(t => t.id !== id));
-  }, []);
-
-  return { toasts, showToast, removeToast };
-};
+/** Show a short message at the bottom of the screen. Rendered by <Toaster>. */
+export const useToast = () => useContext(ToastContext);

@@ -1,691 +1,216 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { Adversary, Encounter, EncounterAdversary, RunningEncounter } from './types';
+import { Library } from './components/Library';
+import { AdversarySheet } from './components/AdversarySheet';
+import { EncounterPanel } from './components/EncounterPanel';
+import { RunView } from './components/RunView';
+import { Dice3D } from './components/Dice3D';
+import { useToast } from './hooks/useToast';
+import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage';
+import { initializeRunningEncounter } from './utils/runningEncounterUtils';
+import { loadEncounterFromUrl, updateUrlWithEncounter, clearEncounterHashFromUrl } from './utils/encounterUrl';
+import { adversariesFor, calculateAvailableBattlePoints, calculateSpentBattlePoints, getDifficultyLevel, upgradeLegacyIds } from './utils/encounterUtils';
 
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
-import adversariesData from './data/adversaries.json'
-import type { Adversary, Encounter, EncounterAdversary, RunningEncounter } from './types'
-import { AdversaryCard } from './components/AdversaryCard'
-import { AdversaryDetail } from './components/AdversaryDetail'
-import { Filters } from './components/Filters'
-import { EncounterDeck } from './components/EncounterDeck'
-import { CustomizeAdversaryModal } from './components/CustomizeAdversaryModal'
-import { RunningEncounterView } from './components/RunningEncounter'
-import { ToastContainer } from './components/Toast'
-import { useToast } from './hooks/useToast'
-import { DiceProvider } from './contexts/DiceContext'
-import { Dice3D } from './components/Dice3D'
-import { debounce } from './utils/debounce'
-import { VALID_ROLES, VALID_CATEGORIES, VALID_BIOMES, normalizeRole, normalizeCategory } from './constants'
-import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage'
-import { initializeRunningEncounter } from './utils/runningEncounterUtils'
-import { loadEncounterFromUrl, updateUrlWithEncounter, clearEncounterHashFromUrl } from './utils/encounterUrl'
-import { adversariesFor, upgradeLegacyIds } from './utils/encounterUtils'
+const blankEncounter = (): Encounter => ({ id: 'default', name: 'New Encounter', playerCount: 4, adversaries: [], battlePointModifier: 0 });
+const savedNewestFirst = () => getAllSavedEncounters().sort((a, b) => b.savedAt - a.savedAt);
 
-// Cast data to aligned types if strictly needed
-const allAdversaries = adversariesData as unknown as Adversary[];
+/** The bestiary is fetched rather than bundled (~10 MB); scripts/publish-data.js puts it in public/data/. */
+const loadBestiary = (): Promise<Adversary[]> =>
+  fetch(`${import.meta.env.BASE_URL}data/adversaries.json`).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))));
 
-function App() {
-  const { toasts, showToast, removeToast } = useToast();
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
-  const [role, setRole] = useState('');
-  const [category, setCategory] = useState('');
-  const [biome, setBiome] = useState('');
-  const [tier, setTier] = useState('');
-  const [source, setSource] = useState('');
-  const [selectedAdversary, setSelectedAdversary] = useState<Adversary | null>(null);
+export default function App() {
+  const toast = useToast();
+  const [bestiary, setBestiary] = useState<Adversary[] | null>(null);
+  const [encounter, setEncounter] = useState<Encounter>(blankEncounter);
+  const [saved, setSaved] = useState(savedNewestFirst);
+  const [selected, setSelected] = useState<Adversary | null>(null);
+  const [running, setRunning] = useState<{ encounter: RunningEncounter; adversaries: Adversary[] } | null>(null);
+  const [panelOpen, setPanelOpen] = useState(false); // mobile only
+  // A #encounter= link is dropped from the URL once read, so the first sync after importing one is skipped.
+  const skipUrlSync = useRef(false);
 
-  // Debounced search
-  const debouncedSetSearch = useCallback(
-    debounce((value: string) => {
-      setSearch(value);
-    }, 300),
-    []
-  );
+  const pool = adversariesFor(encounter, bestiary ?? []);
 
-  useEffect(() => {
-    debouncedSetSearch(searchInput);
-  }, [searchInput, debouncedSetSearch]);
-  
-  // Encounter Builder State
-  const [currentEncounter, setCurrentEncounter] = useState<Encounter>({
-    id: 'default',
-    name: 'New Encounter',
-    playerCount: 4,
-    adversaries: [],
-    battlePointModifier: 0,
-  });
-  const [customizeModalOpen, setCustomizeModalOpen] = useState(false);
-  const [customizeUpscaling, setCustomizeUpscaling] = useState(0);
-  
-  // Saved Encounters State
-  const [savedEncounters, setSavedEncounters] = useState<Encounter[]>([]);
-  
-  // Running Encounter State
-  const [isRunningEncounter, setIsRunningEncounter] = useState(false);
-  const [runningEncounter, setRunningEncounter] = useState<RunningEncounter | null>(null);
-  // The bestiary plus the running encounter's own stat blocks.
-  const [runningAdversaries, setRunningAdversaries] = useState<Adversary[]>(allAdversaries);
-
-  // Tab State
-  const [activeTab, setActiveTab] = useState<'manage' | 'edit'>('edit');
-
-  // EncounterDeck visibility state (for mobile)
-  const [isEncounterDeckOpen, setIsEncounterDeckOpen] = useState(false);
-
-  // Ref to track if we're loading from URL (to prevent infinite loop)
-  const isLoadingFromUrl = useRef(false);
-
-  // Open the running view for an encounter; its own stat blocks (customAdversaries) come along.
-  const startRunning = (encounter: Encounter) => {
-    const pool = adversariesFor(encounter, allAdversaries);
-    setRunningAdversaries(pool);
-    setRunningEncounter(initializeRunningEncounter(encounter, pool));
-    setIsRunningEncounter(true);
-  };
-
-  // Load saved encounters on mount
-  useEffect(() => {
-    const saved = getAllSavedEncounters();
-    setSavedEncounters(saved);
+  const run = useCallback((enc: Encounter, all: Adversary[]) => {
+    const adversaries = adversariesFor(enc, all);
+    setRunning({ encounter: initializeRunningEncounter(enc, adversaries), adversaries });
   }, []);
 
-  // Load encounter from URL on mount
+  // Load the bestiary, then the encounter link if there is one.
   useEffect(() => {
-    const fromUrl = loadEncounterFromUrl();
-    const urlEncounter = fromUrl && upgradeLegacyIds(fromUrl.encounter, allAdversaries);
-    // The link has been read: drop #encounter=… so a reload doesn't import it again or restart a fight.
-    clearEncounterHashFromUrl();
-    if (fromUrl && urlEncounter) {
-      const known = adversariesFor(urlEncounter, allAdversaries);
-      isLoadingFromUrl.current = true;
-      
-      // Validate that all adversary IDs exist in current data
-      const missingAdversaries = urlEncounter.adversaries.filter(
-        adv => !known.find(a => a.id === adv.adversaryId)
-      );
-      
-      if (missingAdversaries.length > 0) {
-        showToast(
-          `Warning: ${missingAdversaries.length} adversary(ies) from shared encounter not found in current data`,
-          'error'
-        );
-        // Still load the encounter, but remove missing adversaries
-        urlEncounter.adversaries = urlEncounter.adversaries.filter(
-          adv => known.find(a => a.id === adv.adversaryId)
-        );
-      }
-      
-      if (urlEncounter.adversaries.length > 0 || missingAdversaries.length === 0) {
-        setCurrentEncounter(urlEncounter);
-        setActiveTab('edit');
-        if (fromUrl.autoRun && urlEncounter.adversaries.length > 0) {
-          // Same as pressing "Run encounter"; stopping the fight leaves it in the builder.
-          startRunning(urlEncounter);
-          // ?encounter=… stays as the builder's state, but without autoRun, so a reload opens the builder.
-          if (fromUrl.source === 'query') updateUrlWithEncounter(urlEncounter);
-          showToast(`Running encounter "${urlEncounter.name}"`, 'info');
-        } else {
-          showToast(`Encounter "${urlEncounter.name}" loaded from URL`, 'success');
-        }
-      } else {
-        showToast('Shared encounter contains no valid adversaries', 'error');
-      }
-      
-      // Reset flag after a short delay to allow state to update
-      setTimeout(() => {
-        isLoadingFromUrl.current = false;
-      }, 100);
-    }
-  }, []); // Only run on mount
-
-  // Automatically update URL when encounter changes (but not when loading from URL)
-  useEffect(() => {
-    if (!isLoadingFromUrl.current) {
-      updateUrlWithEncounter(currentEncounter);
-    }
-  }, [currentEncounter]);
-
-
-  // Use canonical lists instead of extracting from data
-  const uniqueRoles = useMemo(() => [...VALID_ROLES].sort(), []);
-  const uniqueCategories = useMemo(() => [...VALID_CATEGORIES].sort(), []);
-  const uniqueBiomes = useMemo(() => [...VALID_BIOMES].sort(), []);
-  const uniqueSources = useMemo(() => {
-    const sources = new Set<string>();
-    allAdversaries.forEach(a => {
-      if (a.source) sources.add(a.source);
-    });
-    return Array.from(sources).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-  }, []);
-
-  // Filter Logic with normalization
-  const filtered = useMemo(() => {
-    return allAdversaries
-      .filter(a => {
-        if (search && !a.name.toLowerCase().includes(search.toLowerCase())) return false;
-        
-        // Normalize role for comparison (handles ELITE → SOLO, SNIPER → RANGED, SKIRMISHER → SKULK)
-        if (role) {
-          const normalizedAdversaryRole = normalizeRole(a.role);
-          const normalizedFilterRole = normalizeRole(role);
-          if (normalizedAdversaryRole !== normalizedFilterRole) return false;
-        }
-        
-        // Normalize category for comparison (handles "Celestial," → "Celestial", case variations, etc.)
-        if (category) {
-          const normalizedAdversaryCategory = normalizeCategory(a.category);
-          const normalizedFilterCategory = normalizeCategory(category);
-          if (normalizedAdversaryCategory !== normalizedFilterCategory) return false;
-        }
-        
-        if (biome && (a.biome === 'Unknown' || !a.biome.includes(biome))) return false;
-        if (tier && a.tier.toString() !== tier) return false;
-        if (source && a.source !== source) return false;
-        return true;
+    let alive = true;
+    loadBestiary()
+      .then((all) => {
+        if (!alive) return;
+        setBestiary(all);
+        const link = loadEncounterFromUrl();
+        clearEncounterHashFromUrl();
+        if (!link) return;
+        const enc = upgradeLegacyIds(link.encounter, all);
+        const known = adversariesFor(enc, all);
+        const found = enc.adversaries.filter((l) => known.some((a) => a.id === l.adversaryId));
+        const missing = enc.adversaries.length - found.length;
+        if (missing) toast(missing === 1 ? "1 adversary in the link wasn't found" : `${missing} adversaries in the link weren't found`, { tone: 'error' });
+        if (!found.length && missing) return;
+        const loaded = { ...enc, adversaries: found };
+        skipUrlSync.current = link.source === 'hash';
+        setEncounter(loaded);
+        if (link.autoRun && found.length) run(loaded, all);
       })
-      .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-  }, [search, role, category, biome, tier, source]);
-
-  // Pagination
-  const [limit, setLimit] = useState(50);
-  const visible = filtered.slice(0, limit);
-
-  // Auto-open customize modal when adversary is selected in Edit mode
-  useEffect(() => {
-    if (selectedAdversary && activeTab === 'edit') {
-      setCustomizeModalOpen(true);
-    } else if (!selectedAdversary) {
-      // Close modal when no adversary is selected
-      setCustomizeModalOpen(false);
-    }
-  }, [selectedAdversary, activeTab]);
-
-  // Reset upscaling when adversary changes or modal closes
-  useEffect(() => {
-    if (!selectedAdversary || !customizeModalOpen) {
-      setCustomizeUpscaling(0);
-    }
-  }, [selectedAdversary, customizeModalOpen]);
-
-  // Encounter Builder Handlers
-  const handleCustomizeSubmit = (quantity: number, upscaling: number, customName: string) => {
-    if (!selectedAdversary) return;
-
-    const newEncounterAdversary: EncounterAdversary = {
-      id: `${selectedAdversary.id}-${Date.now()}`,
-      adversaryId: selectedAdversary.id,
-      customName: customName !== selectedAdversary.name ? customName : undefined,
-      quantity,
-      upscaling,
+      .catch(() => alive && (setBestiary([]), toast("Couldn't load the bestiary", { tone: 'error' })));
+    return () => {
+      alive = false;
     };
+  }, [run, toast]);
 
-    setCurrentEncounter(prev => ({
-      ...prev,
-      adversaries: [...prev.adversaries, newEncounterAdversary],
-    }));
+  // The address bar always holds the current encounter, so copying it shares the encounter.
+  useEffect(() => {
+    if (!bestiary) return;
+    if (skipUrlSync.current) skipUrlSync.current = false;
+    else updateUrlWithEncounter(encounter);
+  }, [encounter, bestiary]);
 
-    const displayName = customName !== selectedAdversary.name ? customName : selectedAdversary.name;
-    showToast(`${quantity}x ${displayName} added to encounter`, 'success');
-    setCustomizeModalOpen(false);
-    setSelectedAdversary(null);
-    setCustomizeUpscaling(0);
+  /** Replace the encounter. Saved encounters save on every change. */
+  const commit = (next: Encounter) => {
+    setEncounter(next);
+    if (next.savedEncounterId) {
+      saveEncounter(next);
+      setSaved(savedNewestFirst());
+    }
+  };
+  const change = (patch: Partial<Encounter>) => commit({ ...encounter, ...patch });
+
+  const add = (adversary: Adversary, quantity: number, upscaling: number) => {
+    const line: EncounterAdversary = { id: `${adversary.id}-${Date.now()}`, adversaryId: adversary.id, quantity, upscaling };
+    change({ adversaries: [...encounter.adversaries, line] });
+    setSelected(null);
   };
 
-  const handleDeleteAdversary = (id: string) => {
-    setCurrentEncounter(prev => ({
-      ...prev,
-      adversaries: prev.adversaries.filter(a => a.id !== id),
-    }));
-    showToast('Adversary removed from encounter', 'info');
+  const remove = (line: EncounterAdversary) => {
+    const before = encounter;
+    change({ adversaries: encounter.adversaries.filter((l) => l.id !== line.id) });
+    const name = line.customName ?? pool.find((a) => a.id === line.adversaryId)?.name ?? 'adversary';
+    toast(`Removed ${name}`, { action: { label: 'Undo', run: () => commit(before) } });
   };
 
-  const handleUpdateEncounterName = (name: string) => {
-    setCurrentEncounter(prev => ({ ...prev, name }));
-  };
-
-  const handleUpdatePlayerCount = (count: number) => {
-    setCurrentEncounter(prev => ({ ...prev, playerCount: Math.max(1, count) }));
-  };
-
-  // Save/Load/Run Handlers
-  const handleSaveEncounter = () => {
+  const save = () => {
     try {
-      const savedId = saveEncounter(currentEncounter);
-      const saved = getAllSavedEncounters();
-      setSavedEncounters(saved);
-      // Update current encounter with saved ID
-      setCurrentEncounter(prev => ({
-        ...prev,
-        savedEncounterId: savedId,
-        savedAt: Date.now(),
-      }));
-      showToast(`Encounter "${currentEncounter.name}" saved successfully`, 'success');
-    } catch (error) {
-      console.error('Failed to save encounter:', error);
-      showToast('Failed to save encounter', 'error');
+      const savedEncounterId = saveEncounter(encounter);
+      commit({ ...encounter, savedEncounterId, savedAt: Date.now() });
+    } catch {
+      toast("Couldn't save", { tone: 'error' });
     }
   };
 
-  const handleLoadEncounter = (id: string) => {
+  const open = (id: string) => {
     const stored = loadEncounter(id);
-    const loaded = stored && upgradeLegacyIds(stored, allAdversaries);
-    if (loaded) {
-      // Switch to Edit tab first, then load encounter immediately
-      setActiveTab('edit');
-      setCurrentEncounter(loaded);
-      showToast(`Encounter "${loaded.name}" loaded`, 'info');
+    if (stored) setEncounter(upgradeLegacyIds(stored, bestiary ?? []));
+  };
+
+  const startNew = () => {
+    const before = encounter;
+    setEncounter(blankEncounter());
+    if (!before.savedEncounterId && before.adversaries.length) {
+      toast(`Discarded ${before.name || 'encounter'}`, { action: { label: 'Undo', run: () => setEncounter(before) } });
     }
   };
 
-  const handleDeleteSavedEncounter = (id: string) => {
+  const removeSaved = (id: string) => {
+    const target = saved.find((s) => s.savedEncounterId === id);
+    if (!target) return;
+    const wasCurrent = encounter.savedEncounterId === id;
+    deleteEncounter(id);
+    setSaved(savedNewestFirst());
+    if (wasCurrent) setEncounter(blankEncounter());
+    toast(`Deleted ${target.name || 'encounter'}`, {
+      action: {
+        label: 'Undo',
+        run: () => {
+          saveEncounter(target);
+          setSaved(savedNewestFirst());
+          if (wasCurrent) setEncounter(target);
+        },
+      },
+    });
+  };
+
+  const share = async () => {
     try {
-      const encounterToDelete = savedEncounters.find(e => e.savedEncounterId === id);
-      deleteEncounter(id);
-      const saved = getAllSavedEncounters();
-      setSavedEncounters(saved);
-      // If we deleted the currently loaded encounter, reset it
-      if (currentEncounter.savedEncounterId === id) {
-        setCurrentEncounter({
-          id: 'default',
-          name: 'New Encounter',
-          playerCount: 4,
-          adversaries: [],
-          battlePointModifier: 0,
-        });
-      }
-      if (encounterToDelete) {
-        showToast(`Encounter "${encounterToDelete.name}" deleted`, 'info');
-      }
-    } catch (error) {
-      console.error('Failed to delete encounter:', error);
-      showToast('Failed to delete encounter', 'error');
+      await navigator.clipboard.writeText(window.location.href);
+      toast('Link copied');
+    } catch {
+      toast("Couldn't copy the link", { tone: 'error' });
     }
   };
 
-  const handleRunEncounter = () => {
-    if (currentEncounter.adversaries.length === 0) return;
-    startRunning(currentEncounter);
-  };
+  const closeSheet = useCallback(() => setSelected(null), []);
 
-  // Run encounter from Manage tab (loads encounter first)
-  const handleRunEncounterFromManage = (id: string) => {
-    const stored = loadEncounter(id);
-    const loaded = stored && upgradeLegacyIds(stored, allAdversaries);
-    if (loaded && loaded.adversaries.length > 0) {
-      startRunning(loaded);
-      showToast(`Running encounter "${loaded.name}"`, 'info');
-    } else {
-      showToast('Cannot run encounter with no adversaries', 'error');
-    }
-  };
+  if (running) {
+    return (
+      <>
+        <Dice3D />
+        <RunView running={running.encounter} adversaries={running.adversaries} onExit={() => setRunning(null)} />
+      </>
+    );
+  }
 
-  const handleStopRunningEncounter = () => {
-    setIsRunningEncounter(false);
-    setRunningEncounter(null);
-  };
-
-  const handleNavigateToManage = () => {
-    setIsRunningEncounter(false);
-    setRunningEncounter(null);
-    setActiveTab('manage');
-  };
-
-  const handleNavigateToEdit = () => {
-    setIsRunningEncounter(false);
-    setRunningEncounter(null);
-    setActiveTab('edit');
-  };
-
-  const handleShareEncounter = async () => {
-    if (currentEncounter.adversaries.length === 0) {
-      showToast('Cannot share an empty encounter', 'error');
-      return;
-    }
-
-    try {
-      // URL is already in the address bar, just copy it
-      const currentUrl = window.location.href;
-      
-      // Check URL length (most browsers support ~2000 chars, but we'll warn at 1500)
-      if (currentUrl.length > 1500) {
-        showToast('Warning: Share URL is very long and may not work in all browsers', 'error');
-      }
-
-      // Try to copy to clipboard
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(currentUrl);
-        showToast('Encounter URL copied to clipboard!', 'success');
-      } else {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = currentUrl;
-        textArea.style.position = 'fixed';
-        textArea.style.opacity = '0';
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-          document.execCommand('copy');
-          showToast('Encounter URL copied to clipboard!', 'success');
-        } catch (err) {
-          // If copy fails, show the URL in a toast
-          showToast(`Share URL: ${currentUrl}`, 'info');
-        }
-        document.body.removeChild(textArea);
-      }
-    } catch (error) {
-      console.error('Failed to share encounter:', error);
-      showToast('Failed to copy URL to clipboard', 'error');
-    }
-  };
+  const count = encounter.adversaries.reduce((n, l) => n + l.quantity, 0);
+  const available = calculateAvailableBattlePoints(encounter.playerCount, encounter.battlePointModifier);
+  const difficulty = getDifficultyLevel(calculateSpentBattlePoints(encounter.adversaries, pool), available);
 
   return (
-    <DiceProvider>
-      {/* Render Dice3D once at the top level to prevent duplicate canvas initialization */}
+    <div className="flex h-dvh">
       <Dice3D />
-      
-      {/* If running encounter, show running view */}
-      {isRunningEncounter && runningEncounter ? (
-        <>
-          <RunningEncounterView
-            runningEncounter={runningEncounter}
-            allAdversaries={runningAdversaries}
-            onClose={handleStopRunningEncounter}
-            onNavigateToManage={handleNavigateToManage}
-            onNavigateToEdit={handleNavigateToEdit}
-            showToast={showToast}
-          />
-          <ToastContainer toasts={toasts} onRemove={removeToast} />
-        </>
-      ) : (
-        <>
-      <div className="min-h-screen bg-dagger-dark flex flex-col font-sans text-gray-200 selection:bg-dagger-gold selection:text-dagger-dark">
-      {/* Skip to main content link */}
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
-
-      {/* Background Decor */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-dagger-gold/5 rounded-full blur-[100px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-purple-900/10 rounded-full blur-[100px]"></div>
-      </div>
-
-      <div className="bg-dagger-panel border-b border-dagger-gold/20 sticky top-0 z-20 shadow-lg backdrop-blur-md bg-opacity-95">
-        <div className="max-w-7xl mx-auto py-2 md:py-3 px-3 md:px-6">
-          {/* Tab Navigation */}
-          <div className="flex items-center gap-2 mb-2">
-            <button
-              onClick={() => setActiveTab('manage')}
-              className={`flex-1 md:flex-none px-4 md:px-6 py-3 md:py-2 rounded border font-serif font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 text-center min-h-[44px] ${
-                activeTab === 'manage'
-                  ? 'bg-dagger-gold text-dagger-dark border-dagger-gold'
-                  : 'bg-dagger-panel text-dagger-gold border-dagger-gold/30 hover:border-dagger-gold hover:bg-dagger-surface'
-              }`}
-              aria-label="Manage encounters"
-            >
-              Manage
-            </button>
-            <button
-              onClick={() => setActiveTab('edit')}
-              className={`flex-1 md:flex-none px-4 md:px-6 py-3 md:py-2 rounded border font-serif font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 text-center min-h-[44px] ${
-                activeTab === 'edit'
-                  ? 'bg-dagger-gold text-dagger-dark border-dagger-gold'
-                  : 'bg-dagger-panel text-dagger-gold border-dagger-gold/30 hover:border-dagger-gold hover:bg-dagger-surface'
-              }`}
-              aria-label="Edit encounter"
-            >
-              Edit
-            </button>
-          </div>
-          {/* Filters - only show in Edit tab */}
-          {activeTab === 'edit' && (
-            <Filters
-              search={searchInput} setSearch={setSearchInput}
-              role={role} setRole={setRole}
-              category={category} setCategory={setCategory}
-              biome={biome} setBiome={setBiome}
-              tier={tier} setTier={setTier}
-              source={source} setSource={setSource}
-              uniqueRoles={uniqueRoles}
-              uniqueCategories={uniqueCategories}
-              uniqueBiomes={uniqueBiomes}
-              uniqueSources={uniqueSources}
-            />
-          )}
-        </div>
-      </div>
-
-      <main id="main-content" className={`flex-1 p-4 md:p-8 overflow-y-auto z-10 relative ${activeTab === 'edit' ? 'md:mr-80' : ''}`}>
-        <div className="max-w-[1600px] mx-auto">
-          {activeTab === 'manage' ? (
-            /* Manage Tab View */
-            <div>
-              <div className="flex justify-between items-center mb-6 px-2">
-                <div className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-                  <span className="text-dagger-gold font-bold">{savedEncounters.length}</span> Saved Encounter{savedEncounters.length !== 1 ? 's' : ''}
-                </div>
-              </div>
-
-              {savedEncounters.length === 0 ? (
-                <div className="text-center mt-20 p-10 border-2 border-dashed border-gray-700 rounded-xl bg-white/5">
-                  <div className="text-6xl mb-4 opacity-50">📋</div>
-                  <h3 className="text-xl font-serif font-bold text-gray-300 mb-2">No Saved Encounters</h3>
-                  <p className="text-gray-500">Switch to Edit tab to build and save encounters.</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {savedEncounters.map((encounter) => (
-                    <div
-                      key={encounter.savedEncounterId}
-                      className="bg-dagger-panel border border-dagger-gold/20 rounded-xl p-6 hover:border-dagger-gold/60 transition-all duration-300 flex flex-col"
-                    >
-                      <div className="flex-1 mb-4">
-                        <h3 className="font-serif font-bold text-xl text-dagger-light mb-2">
-                          {encounter.name}
-                        </h3>
-                        <div className="text-sm text-gray-500">
-                          {encounter.adversaries.length} Adversar{encounter.adversaries.length !== 1 ? 'ies' : 'y'}
-                          {encounter.playerCount && (
-                            <span className="ml-2">• {encounter.playerCount} Player{encounter.playerCount !== 1 ? 's' : ''}</span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleRunEncounterFromManage(encounter.savedEncounterId!)}
-                          className="flex-1 px-4 py-2 bg-dagger-gold text-dagger-dark border border-dagger-gold rounded hover:bg-dagger-gold-light font-serif font-bold tracking-widest uppercase text-sm transition-colors"
-                        >
-                          Run
-                        </button>
-                        <button
-                          onClick={() => handleLoadEncounter(encounter.savedEncounterId!)}
-                          className="w-10 h-10 flex items-center justify-center bg-blue-600/20 text-blue-400 border border-blue-600/30 rounded hover:bg-blue-600/40 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
-                          title="Edit"
-                        >
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => handleDeleteSavedEncounter(encounter.savedEncounterId!)}
-                          className="w-10 h-10 flex items-center justify-center bg-red-600/20 text-red-400 border border-red-600/30 rounded hover:bg-red-600/40 font-serif font-bold tracking-widest uppercase text-sm transition-colors"
-                          title="Delete"
-                        >
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            /* Edit Tab View */
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
-                {visible.map(adv => (
-                  <div key={adv.id} className="h-full">
-                    <AdversaryCard adversary={adv} onClick={() => setSelectedAdversary(adv)} showToast={showToast} />
-                  </div>
-                ))}
-              </div>
-
-              {visible.length < filtered.length && (
-                <div className="mt-12 flex justify-center pb-8">
-                  <button
-                    className="group relative px-8 py-3 bg-dagger-panel border border-dagger-gold/30 text-dagger-gold font-serif font-bold tracking-widest uppercase hover:bg-dagger-gold hover:text-dagger-dark transition-all duration-300 rounded overflow-hidden"
-                    onClick={() => setLimit(l => l + 50)}
-                  >
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></div>
-                    Load More Adversaries ({filtered.length - visible.length} remaining)
-                  </button>
-                </div>
-              )}
-
-              {filtered.length === 0 && (
-                <div className="text-center mt-20 p-10 border-2 border-dashed border-gray-700 rounded-xl bg-white/5">
-                  <div className="text-6xl mb-4 opacity-50">🐉</div>
-                  <h3 className="text-xl font-serif font-bold text-gray-300 mb-2">No Adversaries Found</h3>
-                  <p className="text-gray-500">Try adjusting your filters or search terms.</p>
-                  <button
-                    onClick={() => {
-                      setSearchInput(''); setRole(''); setCategory(''); setBiome(''); setTier(''); setSource('');
-                    }}
-                    className="mt-6 text-dagger-gold hover:text-white underline underline-offset-4"
-                  >
-                    Clear all filters
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-          <footer className="mt-12 pb-6 text-center text-xs text-gray-600">
-            Official Daggerheart adversaries and environments are from the Daggerheart SRD 2.0 (© Critical Role, LLC), via{' '}
-            <a href="https://github.com/callmepartario/og-dhsrd" className="underline hover:text-gray-400" target="_blank" rel="noreferrer">Old Gus' Daggerheart SRD</a>,
-            used under the{' '}
-            <a href="https://darringtonpress.com/license/" className="underline hover:text-gray-400" target="_blank" rel="noreferrer">Darrington Press Community Gaming License</a>.
-            This product is not affiliated with Critical Role or Darrington Press.
-          </footer>
-        </div>
+      <main className="min-w-0 flex-1 overflow-y-auto pb-20 md:pb-0">
+        <Library bestiary={bestiary} onSelect={setSelected} />
+        <footer className="px-4 py-10 text-xs leading-relaxed text-faint md:px-6">
+          Official Daggerheart adversaries and environments are from the Daggerheart SRD 2.0 (© Critical Role, LLC), via{' '}
+          <a href="https://github.com/callmepartario/og-dhsrd" className="underline hover:text-muted" target="_blank" rel="noreferrer">
+            Old Gus' Daggerheart SRD
+          </a>
+          , used under the{' '}
+          <a href="https://darringtonpress.com/license/" className="underline hover:text-muted" target="_blank" rel="noreferrer">
+            Darrington Press Community Gaming License
+          </a>
+          . This product is not affiliated with Critical Role or Darrington Press.
+        </footer>
       </main>
 
-      {/* Side-by-side layout for Edit mode */}
-      {selectedAdversary && activeTab === 'edit' && (
-        <div className="fixed inset-0 z-50 flex items-stretch p-1 md:p-4 gap-3 md:gap-4">
-          {/* Shared backdrop */}
-          <div 
-            className="absolute inset-0 bg-dagger-dark/90 backdrop-blur-sm transition-opacity" 
-            onClick={() => {
-              setSelectedAdversary(null);
-              setCustomizeModalOpen(false);
-              setCustomizeUpscaling(0);
-            }}
-          />
-          
-          {/* Side-by-side container - stacks vertically on mobile */}
-          <div className="relative flex flex-col md:flex-row gap-3 md:gap-4 w-full max-w-[1600px] mx-auto items-stretch max-h-[95vh] md:max-h-full overflow-hidden">
-            <AdversaryDetail 
-              adversary={selectedAdversary} 
-              onClose={() => {
-                setSelectedAdversary(null);
-                setCustomizeModalOpen(false);
-                setCustomizeUpscaling(0);
-              }}
-              isEncounterBuilderActive={true}
-              sideBySideMode={true}
-              upscaling={customizeUpscaling}
-              showToast={showToast}
-            />
-            {customizeModalOpen && (
-              <CustomizeAdversaryModal
-                adversary={selectedAdversary}
-                onClose={() => {
-                  setSelectedAdversary(null);
-                  setCustomizeModalOpen(false);
-                  setCustomizeUpscaling(0);
-                }}
-                onAdd={handleCustomizeSubmit}
-                sideBySideMode={true}
-                upscaling={customizeUpscaling}
-                onUpscalingChange={setCustomizeUpscaling}
-              />
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Original modal behavior for Manage tab */}
-      {selectedAdversary && activeTab !== 'edit' && (
-        <AdversaryDetail 
-          adversary={selectedAdversary} 
-          onClose={() => {
-            setSelectedAdversary(null);
-            setCustomizeModalOpen(false);
-          }}
-          isEncounterBuilderActive={false}
-          onAddToEncounter={undefined}
-          showToast={showToast}
+      <aside
+        className={`${panelOpen ? 'fixed inset-0 z-40 flex' : 'hidden'} flex-col bg-panel md:static md:z-auto md:flex md:w-80 md:shrink-0 md:border-l md:border-line`}
+        aria-label="Encounter"
+      >
+        <EncounterPanel
+          encounter={encounter}
+          adversaries={pool}
+          saved={saved}
+          onChange={change}
+          onRemove={remove}
+          onSave={save}
+          onShare={share}
+          onRun={() => run(encounter, bestiary ?? [])}
+          onNew={startNew}
+          onOpen={open}
+          onDelete={removeSaved}
+          onClose={() => setPanelOpen(false)}
         />
+      </aside>
+
+      {!panelOpen && (
+        <button
+          className="fixed inset-x-3 bottom-3 z-30 flex h-12 items-center gap-3 rounded-xl border border-line bg-panel px-4 text-sm shadow-lg md:hidden mb-[env(safe-area-inset-bottom)]"
+          onClick={() => setPanelOpen(true)}
+        >
+          <span className="truncate font-semibold">{encounter.name || 'Untitled'}</span>
+          <span className="ml-auto shrink-0 text-muted tabular-nums">
+            {count} · {difficulty}
+          </span>
+        </button>
       )}
 
-      {/* Standalone customize modal (only if not in side-by-side mode) */}
-      {customizeModalOpen && selectedAdversary && activeTab !== 'edit' && (
-        <CustomizeAdversaryModal
-          adversary={selectedAdversary}
-          onClose={() => {
-            setCustomizeModalOpen(false);
-            setCustomizeUpscaling(0);
-          }}
-          onAdd={handleCustomizeSubmit}
-          upscaling={customizeUpscaling}
-          onUpscalingChange={setCustomizeUpscaling}
-        />
+      {selected && (
+        <AdversarySheet key={selected.id} adversary={selected} onClose={closeSheet} onAdd={(q, u) => add(selected, q, u)} />
       )}
-
-      {/* EncounterDeck - always visible on desktop, dismissible on mobile */}
-      {activeTab === 'edit' && (
-        <>
-          {/* Show on desktop always, or on mobile when open */}
-          <div className={`${isEncounterDeckOpen ? 'block' : 'hidden'} md:block`}>
-            <EncounterDeck
-              encounter={currentEncounter}
-              allAdversaries={adversariesFor(currentEncounter, allAdversaries)}
-              onClose={() => setIsEncounterDeckOpen(false)} // Close on mobile
-              onUpdateEncounterName={handleUpdateEncounterName}
-              onUpdatePlayerCount={handleUpdatePlayerCount}
-              onDeleteAdversary={handleDeleteAdversary}
-              onSaveEncounter={handleSaveEncounter}
-              onRunEncounter={handleRunEncounter}
-              savedEncounters={savedEncounters}
-              onLoadEncounter={handleLoadEncounter}
-              onDeleteSavedEncounter={handleDeleteSavedEncounter}
-              onShareEncounter={handleShareEncounter}
-              showToast={showToast}
-            />
-          </div>
-          
-          {/* Floating Action Button to reopen deck on mobile when closed */}
-          {!isEncounterDeckOpen && (
-            <button
-              onClick={() => setIsEncounterDeckOpen(true)}
-              className="fixed bottom-6 right-6 md:hidden w-14 h-14 bg-dagger-gold text-dagger-dark rounded-full shadow-lg hover:bg-dagger-gold-light transition-all duration-300 flex items-center justify-center z-40 border-2 border-dagger-gold/50 hover:scale-110"
-              aria-label="Open encounter deck"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </button>
-          )}
-        </>
-      )}
-
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
-      </div>
-        </>
-      )}
-    </DiceProvider>
-  )
+    </div>
+  );
 }
-
-export default App

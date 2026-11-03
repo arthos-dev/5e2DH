@@ -90,7 +90,7 @@ export function normalizeCategory(category: string): string {
   if (!category) return '';
   
   // Trim whitespace and trailing punctuation (commas, periods, etc.)
-  let normalized = category.trim().replace(/[,\.]+$/, '').trim();
+  let normalized = category.trim().replace(/[,.]+$/, '').trim();
   
   // Capitalize first letter, lowercase the rest
   normalized = normalized.charAt(0).toUpperCase() + normalized.slice(1).toLowerCase();

@@ -70,7 +70,6 @@ export const DiceProvider: React.FC<DiceProviderProps> = ({ children }) => {
             return;
         }
 
-        console.log('🎲 Processing queued roll:', nextRoll.expression);
 
         // Mark roll as active BEFORE setting state to avoid race conditions
         isRollActiveRef.current = true;
@@ -84,21 +83,17 @@ export const DiceProvider: React.FC<DiceProviderProps> = ({ children }) => {
 
         // Set currentRoll to start animation
         setCurrentRoll(newRoll);
-        console.log('🎲 Queued roll started. Animation beginning.');
 
         // Queue the onComplete callback with its expression for matching
         if (nextRoll.onComplete) {
             callbackQueueRef.current.push({ expression: nextRoll.expression, callback: nextRoll.onComplete });
-            console.log('🎲 Callback queued. Queue length:', callbackQueueRef.current.length);
         }
     }, []);
 
     const triggerRoll = useCallback((expression: string, position?: { x: number; y: number }, onComplete?: (result: DiceRollResult) => void) => {
-        console.log('🎲 triggerRoll called:', { expression, position, hasCurrentRoll: isRollActiveRef.current });
         
         // If a roll is already active, queue this roll instead of replacing it
         if (isRollActiveRef.current) {
-            console.log('🎲 Roll already active, queuing new roll. Queue length:', rollQueueRef.current.length + 1);
             rollQueueRef.current.push({ expression, position, onComplete });
             return;
         }
@@ -115,12 +110,10 @@ export const DiceProvider: React.FC<DiceProviderProps> = ({ children }) => {
         
         // Set currentRoll immediately to start animation right away
         setCurrentRoll(newRoll);
-        console.log('🎲 Roll started immediately. Animation beginning.');
 
         // Queue the onComplete callback with its expression for matching
         if (onComplete) {
             callbackQueueRef.current.push({ expression, callback: onComplete });
-            console.log('🎲 Callback queued. Queue length:', callbackQueueRef.current.length);
         }
     }, []);
 
@@ -149,7 +142,6 @@ export const DiceProvider: React.FC<DiceProviderProps> = ({ children }) => {
                 callbackQueueRef.current.splice(callbackIndex, 1);
                 resultQueueRef.current.splice(i, 1);
                 
-                console.log('🎲 Processing callback from queue (matched by expression):', result.expression);
                 
                 // Check if there are more to process after removal
                 const hasMore = callbackQueueRef.current.length > 0 && resultQueueRef.current.length > 0;
@@ -181,7 +173,6 @@ export const DiceProvider: React.FC<DiceProviderProps> = ({ children }) => {
     const reportRollResult = useCallback((result: DiceRollResult) => {
         // Queue the result (will be matched with callbacks by expression)
         resultQueueRef.current.push(result);
-        console.log('🎲 Result queued. Result queue length:', resultQueueRef.current.length, 'Expression:', result.expression);
         // Try to process callback queue (will process if matching callback is ready)
         processCallbackQueue();
     }, [processCallbackQueue]);
