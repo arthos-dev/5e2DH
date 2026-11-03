@@ -11,6 +11,102 @@ I also included a style guide for making adversaries, so that you can make adver
 **TIP:** The number of dice rolled increases with tier but the die type tends to stay the same. If you want to make a bruiser, look at using d8 (more consistent) with higher modifiers to d12 (heavier hits) with lower modifiers. Supports will end up in the d6-d8 realm.  
 **Update:** I used this guide to create Incredible Creatures, a Monster-filled manual. You can check it out [Here\!](https://www.drivethrurpg.com/en/product/544239/incredible-creatures-adversaries-for-daggerheart)
 
+## Calibrated against the Daggerheart SRD 2.0 (used by the 5e2DH converter)
+
+*Added for 5e2DH; not part of the original guide.* The tables below are what `scripts/convert.js` uses. They were recalibrated against the **264 official adversaries of the Daggerheart SRD 2.0** (© Critical Role, LLC, DPCGL; core rulebook and the SRD's later additions), and they replace the per-role tables further down wherever the two disagree. Ranges are about the 20th–80th percentile of the official stat blocks of that tier and type, widened where the SRD has fewer than four examples. The dice pools are the SRD's own per-type damage arrays. The converter picks the pool by the 5e creature's damage per round compared with the median for its CR (the median gives the middle pool, 1.6× or more the strongest, 1/1.6× or less the weakest). Official n = number of SRD adversaries of that tier and type.
+
+### Bruiser
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 11 | 12 to 14 | 7 to 9 | 13 to 15 | 5 to 7 | 2 to 4 | 0 to 2 | 2d6 (7), 1d10+2 (7.5), 1d4+6 (8.5), 1d12+3 (9.5), 1d8+6 (10.5) |
+| **Tier 2** | 12 | 14 to 16 | 13 to 15 | 25 to 29 | 6 to 8 | 3 to 5 | 2 to 3 | 2d8+5 (14), 2d10+4 (15), 2d12+3 (16) |
+| **Tier 3** | 8 | 16 to 18 | 20 to 22 | 36 to 40 | 6 to 8 | 3 to 5 | 2 to 5 | 2d12+1 (14), 3d8+4 (17.5), 3d10+2 (18.5), 3d12 (19.5) |
+| **Tier 4** | 5 | 19 to 21 | 35 to 42 | 66 to 71 | 7 to 9 | 4 to 5 | 3 to 5 | 4d6+13 (27), 4d12+15 (41), 4d20 (42) |
+
+### Horde
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 10 | 10 to 12 | 4 to 6 | 8 to 11 | 4 to 6 | 2 to 3 | -2 to 0 | 1d4+2 (4.5), 1d6+3 (6.5), 1d10+2 (7.5), 1d8+4 (8.5) |
+| **Tier 2** | 5 | 13 to 15 | 8 to 11 | 18 to 21 | 4 to 6 | 3 | -1 to 1 | 2d6+4 (11), 2d8+2 (11) |
+| **Tier 3** | 2 | 15 to 16 | 15 to 18 | 30 to 32 | 6 to 8 | 3 to 4 | 0 to 2 | 3d6+6 (16.5) |
+| **Tier 4** | 4 | 17 to 18 | 24 to 26 | 45 to 48 | 7 to 8 | 5 to 6 | 2 to 3 | 4d10 (22), 4d6+10 (24) |
+
+### Leader
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 6 | 12 to 14 | 6 to 8 | 12 to 14 | 6 to 7 | 3 to 4 | 1 to 3 | 1d12+2 (8.5), 1d8+5 (9.5), 1d10+4 (9.5) |
+| **Tier 2** | 11 | 15 to 16 | 12 to 14 | 24 to 27 | 6 to 7 | 4 to 5 | 2 to 4 | 2d8+4 (13), 2d10+3 (14), 2d12+1 (14) |
+| **Tier 3** | 4 | 17 to 19 | 20 to 24 | 36 to 42 | 6 to 8 | 5 to 6 | 4 to 5 | 3d10+4 (20.5), 2d20+4 (25) |
+| **Tier 4** | 5 | 19 to 21 | 33 to 37 | 66 to 70 | 7 to 9 | 5 to 8 | 6 to 8 | 4d10+10 (32), 4d12+8 (34) |
+
+### Minion
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 10 | 9 to 11 | None | None | 1 | 1 | -2 to 0 | 2 flat |
+| **Tier 2** | 9 | 12 to 14 | None | None | 1 | 1 | 0 to 1 | 5 flat |
+| **Tier 3** | 2 | 14 to 15 | None | None | 1 | 1 | 0 to 1 | 7 flat |
+| **Tier 4** | 7 | 17 to 18 | None | None | 1 | 1 to 2 | 2 to 3 | 11 flat |
+
+### Ranged
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 4 | 9 to 12 | 3 to 5 | 6 to 8 | 3 | 2 to 3 | -1 to 2 | 1d6+3 (6.5), 1d8+3 (7.5), 1d10+2 (7.5) |
+| **Tier 2** | 4 | 14 to 15 | 7 to 10 | 15 to 20 | 4 to 5 | 3 to 5 | 2 to 4 | 2d8+4 (13), 2d10+4 (15) |
+| **Tier 3** | 3 | 16 to 18 | 17 to 20 | 30 to 32 | 5 to 6 | 4 to 6 | 3 to 4 | 3d8+3 (16.5), 3d10+3 (19.5) |
+| **Tier 4** | 1 | 18 to 20 | 22 to 30 | 45 to 55 | 4 to 6 | 3 to 5 | 4 to 6 | 4d8+8 (26) |
+
+### Skulk
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 13 | 11 to 13 | 4 to 6 | 8 to 10 | 3 to 4 | 2 to 3 | 0 to 2 | 1d6+2 (5.5), 1d4+4 (6.5), 1d8+3 (7.5) |
+| **Tier 2** | 8 | 13 to 15 | 8 to 10 | 16 to 20 | 4 to 5 | 3 to 5 | 2 to 3 | 2d6+3 (10), 2d8+6 (15), 3d10+3 (19.5) |
+| **Tier 3** | 9 | 14 to 16 | 16 to 18 | 30 to 33 | 5 to 6 | 3 to 5 | 2 to 4 | 3d6+5 (15.5), 2d8+7 (16), 3d8+5 (18.5) |
+| **Tier 4** | 1 | 17 to 19 | 26 to 32 | 50 to 58 | 5 to 6 | 4 to 6 | 4 to 8 | 4d10+10 (32) |
+
+### Solo
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 13 | 13 to 14 | 7 to 8 | 14 to 15 | 8 to 9 | 3 to 4 | 2 to 4 | 1d10+4 (9.5), 1d20 (10.5), 1d12+6 (12.5) |
+| **Tier 2** | 10 | 14 to 16 | 12 to 14 | 22 to 27 | 7 to 10 | 4 to 5 | 2 to 4 | 2d6+3 (10), 2d10+4 (15), 3d6+8 (18.5), 2d12+6 (19), 2d20+3 (24) |
+| **Tier 3** | 13 | 17 to 19 | 19 to 23 | 35 to 43 | 10 to 12 | 6 to 8 | 3 to 7 | 2d12+2 (15), 3d10+2 (18.5), 4d10 (22), 3d12+8 (27.5), 3d20+10 (41.5) |
+| **Tier 4** | 15 | 19 to 20 | 33 to 38 | 60 to 70 | 9 to 12 | 6 to 8 | 7 to 9 | 4d8+12 (30), 4d10+10 (32), 4d12+15 (41) |
+
+### Standard
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 14 | 11 to 13 | 5 to 7 | 9 to 12 | 4 to 5 | 2 to 3 | 0 to 1 | 1d6+2 (5.5), 1d8+2 (6.5), 1d10+1 (6.5) |
+| **Tier 2** | 12 | 13 to 15 | 8 to 11 | 17 to 22 | 4 to 5 | 3 to 4 | 1 to 2 | 2d6+4 (11), 2d8+4 (13), 2d10+2 (13) |
+| **Tier 3** | 6 | 16 to 17 | 17 to 19 | 33 to 36 | 5 to 7 | 4 to 5 | 2 to 3 | 3d6 (10.5), 3d8+5 (18.5), 3d10+3 (19.5) |
+| **Tier 4** | 2 | 18 to 19 | 28 to 32 | 45 to 50 | 5 to 7 | 4 to 5 | 4 to 5 | 4d8+8 (26) |
+
+### Support
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 1 | 12 to 13 | 5 to 7 | 9 to 11 | 3 to 4 | 4 to 5 | 1 to 2 | 1d6+2 (5.5) |
+| **Tier 2** | 3 | 13 to 14 | 8 to 9 | 16 to 18 | 3 to 4 | 5 to 7 | 1 to 2 | 2d4+3 (8), 2d6+4 (11) |
+| **Tier 3** | 4 | 15 to 17 | 16 to 21 | 31 to 36 | 5 to 6 | 4 to 5 | 2 to 3 | 3d4+1 (8.5), 3d6+5 (15.5), 3d10+6 (22.5) |
+| **Tier 4** | 4 | 18 to 19 | 25 to 28 | 42 to 47 | 4 to 6 | 4 to 5 | 4 to 6 | 4d6+10 (24), 4d8+10 (28) |
+
+### Social
+
+| | Official n | Difficulty | Major | Severe | HP | Stress | ATK | Damage (SRD dice pools) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Tier 1** | 4 | 12 to 14 | 4 to 6 | 8 to 10 | 3 | 3 to 5 | -4 to -3 | 1d4+2 (4.5), 1d6+1 (4.5) |
+| **Tier 2** | 4 | 13 to 15 | 7 to 9 | 13 to 18 | 3 to 4 | 3 to 4 | -3 to 0 | 1d4+3 (5.5), 1d6+2 (5.5), 2d6+3 (10) |
+| **Tier 3** | 4 | 16 to 17 | 16 to 20 | 30 to 32 | 4 to 6 | 5 to 6 | 0 to 3 | 3d6+4 (14.5), 3d8+3 (16.5) |
+| **Tier 4** | 1 | 17 to 19 | 25 to 30 | 42 to 50 | 5 to 6 | 5 to 6 | 2 to 4 | 4d6+8 (22) |
+
+Other conventions the converter follows from the SRD: every Solo gets **Relentless (X)** and **Momentum**, and a Solo never makes several standard attacks against one target (5e Multiattack becomes "make a standard attack against up to N targets"). Hordes deal half their average damage once half their HP is marked (Horde (X)). Minion (X) is 4 / 6 / 8 / 12 by tier. Feature damage (breath weapons, area attacks, riders) is rescaled to the stat block's standard damage: up to 1.5× for one target, up to 1× for an area, in line with the official adversaries.
+
 ## Bruisers
 
 * Attacks can hit Major usually and Severe when rolling well. They tend to use a d10-d12 damage die.  

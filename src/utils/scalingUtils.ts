@@ -16,54 +16,55 @@ type ScalingTable = {
     [tierDelta: number]: ScalingAdjustment;
 };
 
-// Role-specific scaling tables
+// Role-specific scaling tables: differences between the tier midpoints of the converter role tables
+// (scripts/convert.js), which are calibrated against the Daggerheart SRD 2.0 adversaries.
 // Each entry represents the adjustment from tier N to tier N+1
 // For downscaling, we negate the values
 const SCALING_TABLES: Record<string, ScalingTable> = {
     BRUISER: {
-        1: { difficulty: 2, threshold_major: 5, threshold_severe: 10, hp: 1, stress: 2, attack_mod: 2 },   // T1→T2
-        2: { difficulty: 2, threshold_major: 7, threshold_severe: 15, hp: 1, stress: 0, attack_mod: 2 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 12, threshold_severe: 25, hp: 1, stress: 0, attack_mod: 2 },  // T3→T4
+        1: { difficulty: 2, threshold_major: 6, threshold_severe: 13, hp: 1, stress: 1, attack_mod: 2 },   // T1→T2
+        2: { difficulty: 2, threshold_major: 7, threshold_severe: 11, hp: 0, stress: 0, attack_mod: 1 },   // T2→T3
+        3: { difficulty: 3, threshold_major: 18, threshold_severe: 31, hp: 1, stress: 1, attack_mod: 1 },   // T3→T4
     },
     HORDE: {
-        1: { difficulty: 2, threshold_major: 5, threshold_severe: 8, hp: 2, stress: 0, attack_mod: 0 },    // T1→T2
-        2: { difficulty: 2, threshold_major: 5, threshold_severe: 12, hp: 0, stress: 1, attack_mod: 1 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 10, threshold_severe: 15, hp: 2, stress: 0, attack_mod: 0 },  // T3→T4
+        1: { difficulty: 3, threshold_major: 5, threshold_severe: 10, hp: 0, stress: 1, attack_mod: 1 },   // T1→T2
+        2: { difficulty: 2, threshold_major: 7, threshold_severe: 12, hp: 2, stress: 1, attack_mod: 1 },   // T2→T3
+        3: { difficulty: 2, threshold_major: 9, threshold_severe: 16, hp: 1, stress: 2, attack_mod: 2 },   // T3→T4
     },
     LEADER: {
-        1: { difficulty: 2, threshold_major: 6, threshold_severe: 10, hp: 0, stress: 0, attack_mod: 1 },   // T1→T2
-        2: { difficulty: 2, threshold_major: 6, threshold_severe: 15, hp: 1, stress: 0, attack_mod: 2 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 12, threshold_severe: 25, hp: 1, stress: 1, attack_mod: 3 },  // T3→T4
+        1: { difficulty: 3, threshold_major: 6, threshold_severe: 13, hp: 0, stress: 1, attack_mod: 1 },   // T1→T2
+        2: { difficulty: 3, threshold_major: 9, threshold_severe: 14, hp: 1, stress: 1, attack_mod: 2 },   // T2→T3
+        3: { difficulty: 2, threshold_major: 13, threshold_severe: 29, hp: 1, stress: 1, attack_mod: 3 },   // T3→T4
     },
     MINION: {
-        1: { difficulty: 2, threshold_major: null, threshold_severe: null, hp: 0, stress: 0, attack_mod: 1 },  // T1→T2
-        2: { difficulty: 2, threshold_major: null, threshold_severe: null, hp: 0, stress: 1, attack_mod: 1 },  // T2→T3
-        3: { difficulty: 2, threshold_major: null, threshold_severe: null, hp: 0, stress: 0, attack_mod: 1 },  // T3→T4
+        1: { difficulty: 3, threshold_major: null, threshold_severe: null, hp: 0, stress: 0, attack_mod: 2 },   // T1→T2
+        2: { difficulty: 2, threshold_major: null, threshold_severe: null, hp: 0, stress: 0, attack_mod: 0 },   // T2→T3
+        3: { difficulty: 3, threshold_major: null, threshold_severe: null, hp: 0, stress: 1, attack_mod: 2 },   // T3→T4
     },
     RANGED: {
-        1: { difficulty: 2, threshold_major: 3, threshold_severe: 6, hp: 1, stress: 0, attack_mod: 1 },    // T1→T2
-        2: { difficulty: 2, threshold_major: 7, threshold_severe: 14, hp: 1, stress: 1, attack_mod: 2 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 5, threshold_severe: 10, hp: 1, stress: 1, attack_mod: 1 },   // T3→T4
+        1: { difficulty: 4, threshold_major: 5, threshold_severe: 11, hp: 2, stress: 2, attack_mod: 3 },   // T1→T2
+        2: { difficulty: 3, threshold_major: 10, threshold_severe: 14, hp: 1, stress: 1, attack_mod: 1 },   // T2→T3
+        3: { difficulty: 2, threshold_major: 8, threshold_severe: 19, hp: 0, stress: -1, attack_mod: 2 },   // T3→T4
     },
     SKULK: {
-        1: { difficulty: 2, threshold_major: 3, threshold_severe: 8, hp: 1, stress: 1, attack_mod: 1 },    // T1→T2
-        2: { difficulty: 2, threshold_major: 8, threshold_severe: 12, hp: 1, stress: 1, attack_mod: 1 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 8, threshold_severe: 10, hp: 1, stress: 1, attack_mod: 1 },   // T3→T4
+        1: { difficulty: 2, threshold_major: 4, threshold_severe: 9, hp: 1, stress: 2, attack_mod: 2 },   // T1→T2
+        2: { difficulty: 1, threshold_major: 8, threshold_severe: 14, hp: 1, stress: 0, attack_mod: 1 },   // T2→T3
+        3: { difficulty: 3, threshold_major: 12, threshold_severe: 23, hp: 0, stress: 1, attack_mod: 3 },   // T3→T4
     },
     SOLO: {
-        1: { difficulty: 2, threshold_major: 5, threshold_severe: 10, hp: 0, stress: 1, attack_mod: 2 },   // T1→T2
-        2: { difficulty: 2, threshold_major: 7, threshold_severe: 15, hp: 2, stress: 1, attack_mod: 2 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 12, threshold_severe: 25, hp: 0, stress: 1, attack_mod: 3 },  // T3→T4
+        1: { difficulty: 2, threshold_major: 6, threshold_severe: 10, hp: 0, stress: 1, attack_mod: 0 },   // T1→T2
+        2: { difficulty: 3, threshold_major: 8, threshold_severe: 15, hp: 3, stress: 3, attack_mod: 2 },   // T2→T3
+        3: { difficulty: 2, threshold_major: 15, threshold_severe: 26, hp: 0, stress: 0, attack_mod: 3 },   // T3→T4
     },
     STANDARD: {
-        1: { difficulty: 2, threshold_major: 3, threshold_severe: 8, hp: 0, stress: 0, attack_mod: 1 },    // T1→T2
-        2: { difficulty: 2, threshold_major: 7, threshold_severe: 15, hp: 1, stress: 1, attack_mod: 1 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 10, threshold_severe: 15, hp: 0, stress: 1, attack_mod: 1 },  // T3→T4
+        1: { difficulty: 2, threshold_major: 4, threshold_severe: 9, hp: 0, stress: 1, attack_mod: 1 },   // T1→T2
+        2: { difficulty: 3, threshold_major: 9, threshold_severe: 15, hp: 2, stress: 1, attack_mod: 1 },   // T2→T3
+        3: { difficulty: 2, threshold_major: 12, threshold_severe: 13, hp: 0, stress: 0, attack_mod: 2 },   // T3→T4
     },
     SUPPORT: {
-        1: { difficulty: 2, threshold_major: 3, threshold_severe: 8, hp: 1, stress: 1, attack_mod: 1 },    // T1→T2
-        2: { difficulty: 2, threshold_major: 7, threshold_severe: 12, hp: 0, stress: 0, attack_mod: 1 },   // T2→T3
-        3: { difficulty: 2, threshold_major: 8, threshold_severe: 10, hp: 1, stress: 1, attack_mod: 1 },   // T3→T4
+        1: { difficulty: 1, threshold_major: 3, threshold_severe: 7, hp: 0, stress: 2, attack_mod: 0 },   // T1→T2
+        2: { difficulty: 3, threshold_major: 10, threshold_severe: 17, hp: 2, stress: -1, attack_mod: 1 },   // T2→T3
+        3: { difficulty: 3, threshold_major: 8, threshold_severe: 11, hp: 0, stress: 0, attack_mod: 3 },   // T3→T4
     },
 };
 

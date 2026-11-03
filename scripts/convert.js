@@ -14,6 +14,7 @@ import {
 const csvPath = path.resolve('./Bestiary.csv');
 // Official Daggerheart adversaries: snapshot of the Daggerheart SRD 2.0 written by scripts/import-srd.js
 const srdAdversariesPath = path.resolve('./data/srd/adversaries.json');
+const srdTypesPath = path.resolve('./data/srd/adversary-types.json');
 const spellsPath = path.resolve('./Spells.csv');
 const outputPath = path.resolve('./src/data/adversaries.json');
 
@@ -53,86 +54,86 @@ function loadSpellsDatabase() {
 }
 
 // ============================================================================
-// Role-specific stat tables based on "Making Custom Adversaries" guide
+// Role-specific stat tables, calibrated against the 264 official adversaries of the Daggerheart SRD 2.0
+// (data/srd/adversaries.json; see CONVERTER-REVIEW.md, Round 2). Ranges are roughly the 20th–80th percentile
+// of the official stat blocks of that tier and type, widened where the SRD has fewer than four examples
+// (T4 Ranged/Skulk/Social/Standard, T3 Horde/Minion, T1 Support), and kept monotonic across tiers.
+// Damage dice are the SRD's own per-type, per-tier arrays (data/srd/adversary-types.json); minions deal flat damage.
 // ============================================================================
 const ROLE_STAT_TABLES = {
     BRUISER: {
-        1: { difficulty: [12, 14], major: [7, 9], severe: [13, 15], hp: [5, 7], stress: [3, 4], atk: [0, 2], damage: ["1d12+2", "1d10+4", "1d8+6"] },
-        2: { difficulty: [14, 16], major: [12, 14], severe: [23, 26], hp: [5, 7], stress: [4, 6], atk: [2, 4], damage: ["2d12+3", "2d10+2", "2d8+6"] },
-        3: { difficulty: [16, 18], major: [19, 22], severe: [35, 40], hp: [6, 8], stress: [4, 6], atk: [3, 5], damage: ["3d12+1", "3d10+4", "3d8+8"] },
-        4: { difficulty: [18, 20], major: [30, 37], severe: [63, 70], hp: [7, 9], stress: [4, 6], atk: [5, 8], damage: ["4d12+15", "4d10+10", "4d8+12"] }
+        1: { difficulty: [12, 14], major: [7, 9], severe: [13, 15], hp: [5, 7], stress: [2, 4], atk: [0, 2] },
+        2: { difficulty: [14, 16], major: [13, 15], severe: [25, 29], hp: [6, 8], stress: [3, 5], atk: [2, 3] },
+        3: { difficulty: [16, 18], major: [20, 22], severe: [36, 40], hp: [6, 8], stress: [3, 5], atk: [2, 5] },
+        4: { difficulty: [19, 21], major: [35, 42], severe: [66, 71], hp: [7, 9], stress: [4, 5], atk: [3, 5] }
     },
     HORDE: {
-        1: { difficulty: [10, 12], major: [5, 10], severe: [8, 12], hp: [4, 6], stress: [2, 3], atk: [-2, 0], damage: ["1d10+2", "1d8+3", "1d6+4"] },
-        2: { difficulty: [12, 14], major: [10, 15], severe: [16, 20], hp: [5, 6], stress: [2, 3], atk: [-1, 1], damage: ["2d10+2", "2d8+6", "2d6+3"] },
-        3: { difficulty: [14, 16], major: [15, 25], severe: [26, 32], hp: [6, 7], stress: [3, 4], atk: [0, 2], damage: ["3d10+2", "3d8+4", "3d6+6"] },
-        4: { difficulty: [16, 18], major: [20, 30], severe: [35, 45], hp: [7, 8], stress: [4, 5], atk: [1, 3], damage: ["4d10+4", "4d8+8", "4d6+10"] }
+        1: { difficulty: [10, 12], major: [4, 6], severe: [8, 11], hp: [4, 6], stress: [2, 3], atk: [-2, 0] },
+        2: { difficulty: [13, 15], major: [8, 11], severe: [18, 21], hp: [4, 6], stress: [3, 3], atk: [-1, 1] },
+        3: { difficulty: [15, 16], major: [15, 18], severe: [30, 32], hp: [6, 8], stress: [3, 4], atk: [0, 2] },
+        4: { difficulty: [17, 18], major: [24, 26], severe: [45, 48], hp: [7, 8], stress: [5, 6], atk: [2, 3] }
     },
     LEADER: {
-        1: { difficulty: [12, 14], major: [7, 9], severe: [13, 15], hp: [5, 7], stress: [3, 4], atk: [2, 4], damage: ["1d12+1", "1d10+3", "1d8+5"] },
-        2: { difficulty: [14, 16], major: [12, 14], severe: [23, 26], hp: [5, 7], stress: [4, 5], atk: [3, 5], damage: ["2d12+1", "2d10+3", "2d8+6"] },
-        3: { difficulty: [17, 19], major: [19, 22], severe: [35, 40], hp: [6, 8], stress: [5, 6], atk: [5, 7], damage: ["3d10+1", "3d8+8"] },
-        4: { difficulty: [19, 21], major: [30, 37], severe: [63, 70], hp: [7, 9], stress: [6, 8], atk: [8, 10], damage: ["4d12+6", "4d10+8", "4d8+10"] }
+        1: { difficulty: [12, 14], major: [6, 8], severe: [12, 14], hp: [6, 7], stress: [3, 4], atk: [1, 3] },
+        2: { difficulty: [15, 16], major: [12, 14], severe: [24, 27], hp: [6, 7], stress: [4, 5], atk: [2, 4] },
+        3: { difficulty: [17, 19], major: [20, 24], severe: [36, 42], hp: [6, 8], stress: [5, 6], atk: [4, 5] },
+        4: { difficulty: [19, 21], major: [33, 37], severe: [66, 70], hp: [7, 9], stress: [5, 8], atk: [6, 8] }
     },
     MINION: {
-        // Flat damage like the official minions (median of the core-rulebook minions per tier: 2, 5, 5-8, 11);
-        // the guide's "1-3"/"2-4" ranges were not rollable and ran low at Tier 2.
-        1: { difficulty: [10, 12], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-2, 0], damage: ["2"] },
-        2: { difficulty: [12, 14], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-1, 1], damage: ["5"] },
-        3: { difficulty: [14, 16], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [0, 2], damage: ["7"] },
-        4: { difficulty: [16, 18], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [1, 3], damage: ["11"] }
+        // Flat damage like the official minions (SRD medians 2, 5, 5–8, 11), no thresholds.
+        1: { difficulty: [9, 11], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-2, 0], damage: ["2"] },
+        2: { difficulty: [12, 14], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [0, 1], damage: ["5"] },
+        3: { difficulty: [14, 15], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [0, 1], damage: ["7"] },
+        4: { difficulty: [17, 18], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [2, 3], damage: ["11"] }
     },
     RANGED: {
-        1: { difficulty: [10, 12], major: [3, 5], severe: [6, 9], hp: [3, 4], stress: [2, 3], atk: [1, 2], damage: ["1d12+1", "1d10+3", "1d8+5"] },
-        2: { difficulty: [13, 15], major: [5, 8], severe: [13, 18], hp: [3, 5], stress: [2, 3], atk: [2, 5], damage: ["2d12+1", "2d10+3", "2d8+6"] },
-        3: { difficulty: [15, 17], major: [12, 15], severe: [25, 30], hp: [4, 6], stress: [3, 4], atk: [3, 4], damage: ["3d10+1", "3d8+8"] },
-        4: { difficulty: [17, 19], major: [18, 25], severe: [30, 40], hp: [4, 6], stress: [4, 5], atk: [4, 6], damage: ["4d12+6", "4d10+8", "4d8+10"] }
+        1: { difficulty: [9, 12], major: [3, 5], severe: [6, 8], hp: [3, 3], stress: [2, 3], atk: [-1, 2] },
+        2: { difficulty: [14, 15], major: [7, 10], severe: [15, 20], hp: [4, 5], stress: [3, 5], atk: [2, 4] },
+        3: { difficulty: [16, 18], major: [17, 20], severe: [30, 32], hp: [5, 6], stress: [4, 6], atk: [3, 4] },
+        4: { difficulty: [18, 20], major: [22, 30], severe: [45, 55], hp: [4, 6], stress: [3, 5], atk: [4, 6] }
     },
     SKULK: {
-        1: { difficulty: [10, 12], major: [5, 7], severe: [8, 12], hp: [3, 4], stress: [2, 3], atk: [1, 2], damage: ["1d8+3", "1d6+2", "1d4+4"] },
-        2: { difficulty: [12, 14], major: [7, 9], severe: [16, 20], hp: [3, 5], stress: [3, 4], atk: [2, 5], damage: ["2d8+3", "2d6+3", "2d4+6"] },
-        3: { difficulty: [14, 16], major: [15, 20], severe: [27, 32], hp: [4, 6], stress: [4, 5], atk: [3, 7], damage: ["3d8+4", "3d6+5", "3d4+10"] },
-        4: { difficulty: [16, 18], major: [20, 30], severe: [35, 45], hp: [4, 6], stress: [4, 6], atk: [4, 8], damage: ["4d12+10", "4d10+4", "4d6+10"] }
+        1: { difficulty: [11, 13], major: [4, 6], severe: [8, 10], hp: [3, 4], stress: [2, 3], atk: [0, 2] },
+        2: { difficulty: [13, 15], major: [8, 10], severe: [16, 20], hp: [4, 5], stress: [3, 5], atk: [2, 3] },
+        3: { difficulty: [14, 16], major: [16, 18], severe: [30, 33], hp: [5, 6], stress: [3, 5], atk: [2, 4] },
+        4: { difficulty: [17, 19], major: [26, 32], severe: [50, 58], hp: [5, 6], stress: [4, 6], atk: [4, 8] }
     },
     SOLO: {
-        1: { difficulty: [12, 14], major: [7, 9], severe: [13, 15], hp: [8, 10], stress: [3, 4], atk: [3, 3], damage: ["1d20", "1d12+2", "1d10+4"] },
-        2: { difficulty: [14, 16], major: [12, 14], severe: [23, 26], hp: [8, 10], stress: [4, 5], atk: [3, 4], damage: ["2d20+3", "2d10+2", "2d8+6"] },
-        3: { difficulty: [17, 19], major: [19, 22], severe: [35, 40], hp: [10, 12], stress: [5, 6], atk: [4, 7], damage: ["3d20", "3d12+6", "3d10+8"] },
-        4: { difficulty: [19, 21], major: [30, 37], severe: [63, 70], hp: [10, 12], stress: [6, 8], atk: [7, 10], damage: ["4d12+15", "4d10+10", "4d8+12"] }
-    },
-    LEGENDARY: {
-        1: { difficulty: [12, 14], major: [7, 9], severe: [13, 15], hp: [8, 10], stress: [3, 4], atk: [3, 3], damage: ["1d20", "1d12+2", "1d10+4"] },
-        2: { difficulty: [14, 16], major: [12, 14], severe: [23, 26], hp: [8, 10], stress: [4, 5], atk: [3, 4], damage: ["2d20+3", "2d10+2", "2d8+6"] },
-        3: { difficulty: [17, 19], major: [19, 22], severe: [35, 40], hp: [10, 12], stress: [5, 6], atk: [4, 7], damage: ["3d20", "3d12+6", "3d10+8"] },
-        4: { difficulty: [19, 21], major: [30, 37], severe: [63, 70], hp: [10, 12], stress: [6, 8], atk: [7, 10], damage: ["4d12+15", "4d10+10", "4d8+12"] }
+        1: { difficulty: [13, 14], major: [7, 8], severe: [14, 15], hp: [8, 9], stress: [3, 4], atk: [2, 4] },
+        2: { difficulty: [14, 16], major: [12, 14], severe: [22, 27], hp: [7, 10], stress: [4, 5], atk: [2, 4] },
+        3: { difficulty: [17, 19], major: [19, 23], severe: [35, 43], hp: [10, 12], stress: [6, 8], atk: [3, 7] },
+        4: { difficulty: [19, 20], major: [33, 38], severe: [60, 70], hp: [9, 12], stress: [6, 8], atk: [7, 9] }
     },
     STANDARD: {
-        1: { difficulty: [11, 13], major: [5, 8], severe: [8, 12], hp: [4, 5], stress: [3, 4], atk: [0, 2], damage: ["1d8+1", "1d6+2", "1d4+4"] },
-        2: { difficulty: [13, 15], major: [8, 12], severe: [16, 20], hp: [5, 6], stress: [3, 4], atk: [1, 3], damage: ["2d8+2", "2d6+3", "2d4+4"] },
-        3: { difficulty: [15, 17], major: [15, 20], severe: [27, 32], hp: [5, 6], stress: [4, 5], atk: [2, 4], damage: ["3d8+2", "3d6+3", "2d12+2"] },
-        4: { difficulty: [17, 19], major: [25, 35], severe: [35, 55], hp: [5, 6], stress: [4, 5], atk: [3, 5], damage: ["4d10+2", "4d8+4", "4d6+10"] }
+        1: { difficulty: [11, 13], major: [5, 7], severe: [9, 12], hp: [4, 5], stress: [2, 3], atk: [0, 1] },
+        2: { difficulty: [13, 15], major: [8, 11], severe: [17, 22], hp: [4, 5], stress: [3, 4], atk: [1, 2] },
+        3: { difficulty: [16, 17], major: [17, 19], severe: [33, 36], hp: [5, 7], stress: [4, 5], atk: [2, 3] },
+        4: { difficulty: [18, 19], major: [28, 32], severe: [45, 50], hp: [5, 7], stress: [4, 5], atk: [4, 5] }
     },
     SUPPORT: {
-        1: { difficulty: [12, 14], major: [5, 8], severe: [9, 12], hp: [3, 4], stress: [4, 5], atk: [0, 2], damage: ["1d8", "1d6+2", "1d4+4"] },
-        2: { difficulty: [13, 15], major: [8, 12], severe: [16, 20], hp: [3, 5], stress: [4, 6], atk: [1, 3], damage: ["2d8+1", "2d6+2", "2d4+3"] },
-        3: { difficulty: [15, 17], major: [15, 20], severe: [28, 35], hp: [4, 6], stress: [5, 6], atk: [2, 4], damage: ["3d8", "3d6+3", "2d12+1"] },
-        4: { difficulty: [17, 19], major: [20, 30], severe: [35, 45], hp: [4, 6], stress: [5, 6], atk: [3, 5], damage: ["3d10+3", "4d8+4", "4d6+8"] }
-    },
-    COLOSSAL: {
-        // Colossal uses framework thresholds and segment stats
-        // For simplicity, we'll use average segment stats as base
-        1: { difficulty: [13, 14], major: [8, 13], severe: [18, 22], hp: [3, 4], stress: [5, 6], atk: [1, 3], damage: ["1d6+3", "1d10+1"] },
-        2: { difficulty: [14, 15], major: [15, 20], severe: [24, 32], hp: [3, 4], stress: [5, 6], atk: [2, 4], damage: ["2d8+6", "2d10+4"] },
-        3: { difficulty: [15, 16], major: [25, 35], severe: [44, 54], hp: [4, 5], stress: [6, 7], atk: [2, 4], damage: ["3d6+10", "3d8+6"] },
-        4: { difficulty: [16, 17], major: [30, 40], severe: [60, 70], hp: [4, 5], stress: [6, 8], atk: [3, 5], damage: ["4d10+6", "4d8+12"] }
+        1: { difficulty: [12, 13], major: [5, 7], severe: [9, 11], hp: [3, 4], stress: [4, 5], atk: [1, 2] },
+        2: { difficulty: [13, 14], major: [8, 9], severe: [16, 18], hp: [3, 4], stress: [5, 7], atk: [1, 2] },
+        3: { difficulty: [15, 17], major: [16, 21], severe: [31, 36], hp: [5, 6], stress: [4, 5], atk: [2, 3] },
+        4: { difficulty: [18, 19], major: [25, 28], severe: [42, 47], hp: [4, 6], stress: [4, 5], atk: [4, 6] }
     },
     SOCIAL: {
-        1: { difficulty: [10, 12], major: [3, 5], severe: [6, 9], hp: [3, 3], stress: [2, 3], atk: [-4, -1], damage: ["1d6+1", "1d4+1"] },
-        2: { difficulty: [13, 15], major: [5, 8], severe: [13, 18], hp: [3, 3], stress: [2, 3], atk: [-3, 0], damage: ["2d6+2", "1d4+3"] },
-        3: { difficulty: [15, 17], major: [15, 20], severe: [27, 32], hp: [4, 4], stress: [2, 3], atk: [-2, 2], damage: ["3d6+3", "3d4+6"] },
-        4: { difficulty: [17, 19], major: [25, 35], severe: [35, 50], hp: [4, 4], stress: [2, 3], atk: [2, 6], damage: ["4d8+5", "4d6+4", "4d4+8"] }
+        1: { difficulty: [12, 14], major: [4, 6], severe: [8, 10], hp: [3, 3], stress: [3, 5], atk: [-4, -3] },
+        2: { difficulty: [13, 15], major: [7, 9], severe: [13, 18], hp: [3, 4], stress: [3, 4], atk: [-3, 0] },
+        3: { difficulty: [16, 17], major: [16, 20], severe: [30, 32], hp: [4, 6], stress: [5, 6], atk: [0, 3] },
+        4: { difficulty: [17, 19], major: [25, 30], severe: [42, 50], hp: [5, 6], stress: [5, 6], atk: [2, 4] }
     }
 };
+
+// Official damage dice per type and tier, sorted by average (low → high).
+const SRD_TYPES = JSON.parse(fs.readFileSync(srdTypesPath, 'utf8'));
+for (const t of SRD_TYPES) {
+    const table = ROLE_STAT_TABLES[t.type];
+    if (!table) continue;
+    for (const tier of [1, 2, 3, 4]) {
+        if (table[tier].damage) continue; // minions: flat damage
+        table[tier].damage = [...t.damage[tier]].sort((x, y) => averageDice(x) - averageDice(y));
+    }
+}
 
 // ============================================================================
 // Helper Functions
@@ -165,12 +166,73 @@ function getCRPositionInTier(cr, tier) {
     return (clampedCR - tierMin) / (tierMax - tierMin);
 }
 
-// Helper to select damage dice from options
-function selectDamageDice(damageOptions, role, tier) {
+// 5e offense of a stat block: the best single attack (all its damage parts) and the attacks per turn from Multiattack.
+function fiveEOffense(row) {
+    let best = 0;
+    for (const line of (row.Actions || "").split("\n")) {
+        const dot = line.indexOf(".");
+        const atk = dot === -1 ? null : parseAttack(line.substring(dot + 1).trim());
+        if (!atk) continue;
+        best = Math.max(best, atk.damages.reduce((sum, d) => sum + averageDice(d.dice), 0));
+    }
+    const multi = (row.Actions || "").split("\n").find((l) => /^multiattack\b/i.test(l.trim()));
+    const count = multi ? parseAttackCount(multi.substring(multi.indexOf(".") + 1)) : 1;
+    return { best, count, dpr: best * count };
+}
+
+// Median 5e damage per round by CR over Bestiary.csv (filled by convertAdversaries before converting).
+let MEDIAN_DPR = [];
+function buildMedianDPR(rows) {
+    const byCR = new Map();
+    for (const row of rows) {
+        if (!row.Name || !row.CR || /^\s*none/i.test(row.CR)) continue;
+        const { dpr } = fiveEOffense(row);
+        if (dpr <= 0) continue;
+        const cr = parseCR(row.CR);
+        byCR.set(cr, [...(byCR.get(cr) ?? []), dpr]);
+    }
+    const crs = [...byCR.keys()].sort((a, b) => a - b);
+    MEDIAN_DPR = crs.map((cr) => {
+        // Pool neighbouring CRs until there are at least 15 stat blocks.
+        let pool = [...byCR.get(cr)];
+        for (let k = 1, i = crs.indexOf(cr); pool.length < 15 && k < crs.length; k++) {
+            if (crs[i - k] !== undefined) pool.push(...byCR.get(crs[i - k]));
+            if (crs[i + k] !== undefined) pool.push(...byCR.get(crs[i + k]));
+        }
+        pool.sort((a, b) => a - b);
+        return [cr, pool[Math.floor(pool.length / 2)]];
+    });
+}
+function medianDPR(cr) {
+    let best = MEDIAN_DPR[0];
+    for (const e of MEDIAN_DPR) if (Math.abs(e[0] - cr) < Math.abs(best[0] - cr)) best = e;
+    return best ? best[1] : 0;
+}
+
+// Pick the damage dice within the official array (sorted low → high) by how hard the 5e creature hits for its CR:
+// damage per round at the CR median → the middle of the array; 1.6× (or more) → the top; 1/1.6× (or less) → the bottom.
+function selectDamageDice(damageOptions, offense, cr) {
     if (!damageOptions || damageOptions.length === 0) return "1d6+1";
-    // For now, select middle option, can be enhanced later
-    const index = Math.floor(damageOptions.length / 2);
-    return damageOptions[index];
+    if (damageOptions.length === 1) return damageOptions[0];
+    const median = medianDPR(cr);
+    if (!offense || !(offense.dpr > 0) || !(median > 0)) return damageOptions[Math.floor((damageOptions.length - 1) / 2)];
+    const position = Math.max(0, Math.min(1, 0.5 + Math.log(offense.dpr / median) / (2 * Math.log(1.6))));
+    return damageOptions[Math.round(position * (damageOptions.length - 1))];
+}
+
+// Dice with a given average for a tier, written like the SRD's: as many dice as the tier (fewer for small amounts),
+// the largest die (d4–d12) that leaves a non-negative modifier, e.g. 40 at Tier 4 -> "4d12+14".
+function diceForAverage(target, tier) {
+    const t = Math.max(1, Math.round(target));
+    const n = Math.max(1, Math.min(tier, Math.floor(t / 3.5)));
+    for (const d of [12, 10, 8, 6, 4]) {
+        const base = n * (d + 1) / 2;
+        if (base <= t) {
+            const mod = Math.round(t - base);
+            return mod > 0 ? `${n}d${d}+${mod}` : `${n}d${d}`;
+        }
+    }
+    return String(t);
 }
 
 // ============================================================================
@@ -227,6 +289,28 @@ function parseAC(acStr) {
 // ============================================================================
 // Role Detection and Stat Calculation
 // ============================================================================
+
+// Median 5e HP for a CR (interpolated in MEDIAN_HP_BY_CR).
+function medianHPForCR(cr) {
+    let best = MEDIAN_HP_BY_CR[0];
+    for (const e of MEDIAN_HP_BY_CR) if (Math.abs(e[0] - cr) < Math.abs(best[0] - cr)) best = e;
+    return best[1];
+}
+
+// Spells that heal, protect or empower allies, or hinder enemies without dealing damage.
+const SUPPORT_SPELLS = /\b(cure wounds|healing word|mass cure wounds|mass healing word|prayer of healing|heal|mass heal|aid|bless|bane|beacon of hope|shield of faith|sanctuary|protection from evil and good|warding bond|death ward|haste|slow|heroism|enhance ability|greater invisibility|hold person|hold monster|bestow curse|hex|hypnotic pattern|confusion|mass suggestion|revivify|raise dead|spirit guardians|freedom of movement|lesser restoration|greater restoration|guidance|resistance|spiritual weapon)\b/g;
+
+function isSupportCreature(row, nameLower, actions, traits) {
+    if (/\b(cleric|priest|priestess|acolyte|druid|shaman|healer|bard|chaplain|medic|herbalist)\b/.test(nameLower)) return true;
+    const text = `${actions}\n${traits}\n${(row["Bonus Actions"] || "").toLowerCase()}\n${(row.Reactions || "").toLowerCase()}`;
+    // Heals, shields or empowers others
+    if (/\b(?:an ally|allies|another creature|each (?:friendly|allied) creature|one (?:friendly |allied )?creature (?:it|she|he) can see)\b[^.]*\b(?:regains? \d*\s*(?:\(\d+d\d+[^)]*\)\s*)?hit points|temporary hit points|gains? (?:a )?\+\d|has advantage|(?:gains?|have) advantage|bonus to (?:attack|its|their))/.test(text)) return true;
+    if (/\b(?:allies|ally)\b[^.]*\b(?:within|that can (?:see|hear))\b[^.]*\b(?:add|gain|has|have)\b/.test(text) && !/\bpack tactics\b/.test(traits)) return true;
+    // Casters whose spell list is mostly support/control
+    const spellText = text.match(/spellcasting[\s\S]*/)?.[0] ?? "";
+    const supportSpells = new Set(spellText.match(SUPPORT_SPELLS) ?? []);
+    return supportSpells.size >= 2;
+}
 
 // Enhanced role detection based on guide
 function detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor) {
@@ -309,27 +393,22 @@ function detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor) {
         return "RANGED";
     }
     
-    // Support (has buff/debuff abilities, lower damage focus, spellcasters that aid)
-    if (actions.includes("heal") || actions.includes("bless") || actions.includes("curse") ||
-        actions.includes("aid") || actions.includes("shield") || actions.includes("protection") ||
-        traits.includes("aura") || actions.includes("buff") || actions.includes("debuff") ||
-        nameLower.includes("cleric") || nameLower.includes("priest") || nameLower.includes("druid") ||
-        nameLower.includes("bard") || nameLower.includes("wizard") || nameLower.includes("sorcerer") ||
-        (int >= 12 && (actions.includes("spell") || traits.includes("spellcasting") || 
-         actions.includes("magic") || traits.includes("magic")))) {
+    // Support: creatures whose actions heal or buff allies or hinder the PCs (SRD: "Supports enhance allies or disrupt
+    // the PCs"; 5% of the official adversaries). Word-boundary matches only ("aid" used to match "said", "shield"
+    // every Shield spell), and being a spellcaster is no longer enough: casters with damage spells stay Ranged/Standard.
+    if (isSupportCreature(row, nameLower, actions, traits)) {
         return "SUPPORT";
     }
-    
+
     // Leader (high intelligence + humanoid/fiend, or has command abilities)
     if ((int > 15 && (typeLower.includes("humanoid") || typeLower.includes("fiend"))) ||
-        actions.includes("command") || actions.includes("lead") || nameLower.includes("commander") ||
-        nameLower.includes("captain") || nameLower.includes("leader") || nameLower.includes("warlord") ||
-        nameLower.includes("general") || nameLower.includes("chieftain")) {
+        /\b(leadership|commands? (?:its |their )?(?:allies|followers|troops|minions))\b/.test(actions + " " + traits)) {
         return "LEADER";
     }
-    
-    // Bruiser (high HP relative to CR, high damage, melee focus)
-    if (hpRaw > daggerHP * divisor * 1.5 || 
+
+    // Bruiser (high HP for its CR, or heavily armored below CR 10)
+    // (The old test "hpRaw > daggerHP * divisor * 1.5" could never be true.)
+    if (hpRaw > 1.5 * medianHPForCR(cr) ||
         (hpRaw > 100 && cr < 10) ||
         (acRaw >= 18 && cr < 10)) {
         return "BRUISER";
@@ -350,20 +429,20 @@ function detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor) {
 }
 
 // Calculate role-based stats
-function calculateRoleStats(role, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist) {
+function calculateRoleStats(role, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, offense) {
     const roleUpper = role.toUpperCase();
     const table = ROLE_STAT_TABLES[roleUpper];
     
     if (!table || !table[tier]) {
         // Fallback to STANDARD if role not found
         const fallbackTable = ROLE_STAT_TABLES.STANDARD[tier] || ROLE_STAT_TABLES.STANDARD[1];
-        return calculateStatsFromTable(fallbackTable, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, "STANDARD");
+        return calculateStatsFromTable(fallbackTable, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, "STANDARD", offense);
     }
     
-    return calculateStatsFromTable(table[tier], tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, roleUpper);
+    return calculateStatsFromTable(table[tier], tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, roleUpper, offense);
 }
 
-function calculateStatsFromTable(table, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, role) {
+function calculateStatsFromTable(table, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, role, offense) {
     // Difficulty - start with role base, adjust for AC
     let difficulty = getValueInRange(table.difficulty, cr, tier);
     
@@ -423,7 +502,7 @@ function calculateStatsFromTable(table, tier, cr, hpRaw, acRaw, int, isBeastOrPl
     let atkMod = getValueInRange(table.atk, cr, tier);
     
     // Damage Dice
-    let damage = selectDamageDice(table.damage, role, tier);
+    let damage = selectDamageDice(table.damage, offense, cr);
     
     return {
         difficulty,
@@ -842,7 +921,7 @@ function addRoleSpecificFeatures(features, role, cr, tier, opts = {}) {
         }
         if (!hasFeature("minion")) {
             // Determine X based on tier
-            const minionValue = tier === 1 ? 3 : tier === 2 ? 5 : tier === 3 ? 7 : 9;
+            const minionValue = tier === 1 ? 4 : tier === 2 ? 6 : tier === 3 ? 8 : 12; // SRD medians
             newFeatures.push({
                 name: `Minion (${minionValue})`,
                 description: convertMarkdownToHTML(`**Passive:** This adversary is defeated when it takes any damage. For every ${minionValue} damage a PC deals to this adversary, defeat an additional Minion within range that the attack would hit.`)
@@ -862,20 +941,28 @@ function addRoleSpecificFeatures(features, role, cr, tier, opts = {}) {
     
     // HORDE: Horde (X) - the core hordes deal reduced damage once half their HP is marked
     if (roleUpper === "HORDE" && !hasFeature("horde")) {
-        const hordeDamage = { 1: "1d4+2", 2: "2d4+3", 3: "3d4+2", 4: "4d4+4" }[tier];
+        const hordeDamage = diceForAverage(averageDice(String(opts.damage || "")) / 2, tier);
+        const kind = /mag$/.test(opts.damage || "") ? "magic" : "physical";
         newFeatures.push({
             name: `Horde (${hordeDamage})`,
-            description: convertMarkdownToHTML(`**Passive:** When this Horde has marked half or more of their HP, their standard attack deals ${hordeDamage} damage instead.`)
+            description: convertMarkdownToHTML(`**Passive:** When this Horde has marked half or more of their HP, their standard attack deals ${hordeDamage} ${kind} damage instead.`)
         });
     }
 
-    // SOLO: Relentless (X) for high-CR solos and for any solo with 5e Legendary Actions (its extra turns)
-    if (roleUpper === "SOLO" && (cr >= 15 || opts.legendary)) {
+    // SOLO: the SRD says to give every Solo Relentless and Momentum. Relentless (3) for CR 20+ (the 5e legendary
+    // bosses), (2) otherwise.
+    if (roleUpper === "SOLO") {
         if (!hasFeature("relentless")) {
             const relentlessValue = cr >= 20 ? 3 : 2;
             newFeatures.push({
                 name: `Relentless (${relentlessValue})`,
-                description: convertMarkdownToHTML(`**Passive:** This adversary can be spotlighted up to ${relentlessValue} times per conflict. Spend Fear as usual to spotlight them.`)
+                description: convertMarkdownToHTML(`**Passive:** This adversary can be spotlighted up to ${relentlessValue} times per GM turn. Spend Fear as usual to spotlight them.`)
+            });
+        }
+        if (!hasFeature("momentum")) {
+            newFeatures.push({
+                name: "Momentum",
+                description: convertMarkdownToHTML("**Reaction:** When this adversary makes a successful attack against a PC, you gain a Fear.")
             });
         }
     }
@@ -971,7 +1058,7 @@ function convertActionsToDaggerheart(text, role, cr, tier, opts = {}) {
         if (/^legendary action uses/i.test(name)) continue;
         if (opts.legendary && isTrivialLegendaryAction(description)) continue;
         if (/^multiattack/i.test(name)) {
-            converted.push(convertMultiattack(name, description));
+            converted.push(role.toUpperCase() === "SOLO" ? convertSoloMultiattack(description) : convertMultiattack(name, description));
             continue;
         }
         converted.push(convertSingleAction(name, description, role, cr, tier, opts));
@@ -988,6 +1075,18 @@ function convertMultiattack(name, description) {
     return {
         name,
         description: convertMarkdownToHTML(`**Action:** Mark a Stress to make ${count} standard attacks, against one target or split between targets in range.${extraText}`)
+    };
+}
+
+// Solos have Relentless (X): a spotlight that made N attacks could be repeated X times per GM turn (Iymrith:
+// 3 × 3 T4 attacks). Official Solos never make several standard attacks against one target; they hit several
+// targets at once instead (Kraken "Many Tentacles", Cipactli "Many Mouths", Fallen Warlord "Shattering Strike").
+const NUMBER_NAMES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight"];
+function convertSoloMultiattack(description) {
+    const count = parseAttackCount(description);
+    return {
+        name: "Sweeping Attacks",
+        description: convertMarkdownToHTML(`**Action:** Mark a Stress to make a standard attack against up to ${NUMBER_NAMES[count] ?? count} different targets within range.`)
     };
 }
 
@@ -1373,6 +1472,7 @@ function convertSpellcasting(description, featureType = 'Action') {
 // ============================================================================
 
 function convertAdversaries(rows) {
+    buildMedianDPR(rows);
     const converted = [];
     for (const row of rows) {
         if (!row.Name || !row.CR) continue;
@@ -1415,7 +1515,8 @@ function convertRow(row) {
     const role = detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor);
 
     // Calculate role-based stats
-    const stats = calculateRoleStats(role, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist);
+    const offense = fiveEOffense(row);
+    const stats = calculateRoleStats(role, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist, offense);
     stats.damage_dice = `${stats.damage_dice} ${primaryDamageKind(row.Actions)}`;
 
     // Biome/Environment
@@ -1450,6 +1551,9 @@ function convertRow(row) {
         features.push({ name: "Actions", entries: allActions });
     }
     
+    // Feature damage in Daggerheart scale (minions deal flat damage and have no 5e-sized features worth scaling)
+    if (role !== "MINION") rescaleFeatureDamage(features, stats.damage_dice, offense, cr, tier);
+
     // Add role-specific features
     const enhancedFeatures = addRoleSpecificFeatures(features, role, cr, tier, {
         legendary: Boolean(row["Legendary Actions"]),
@@ -1477,6 +1581,37 @@ function convertRow(row) {
         source: "DND5e",
         book: row.Source
     };
+}
+
+// Feature damage in the tier's scale (proposal 4). 5e features keep 5e dice (Iymrith's breath: 16d10), so every
+// damage expression is rescaled relative to the stat block: its share of the creature's best 5e attack, times the
+// average of the Daggerheart standard damage. Official adversaries' feature damage sits at about 0.5–1.5× their
+// standard attack (area attacks 0.6–1.0×), so single-target damage is capped at 1.5× and area damage at 1×.
+const FIVE_E_TYPES = 'bludgeoning|piercing|slashing|fire|cold|lightning|thunder|acid|poison|necrotic|radiant|psychic|force';
+const DAMAGE_EXPR = new RegExp(`\\b(\\d+d\\d+(?:\\s*[+−-]\\s*\\d+)?)\\s+(physical|magic|${FIVE_E_TYPES})\\s+damage(?:\\s+\\((\\w+)\\))?`, 'gi');
+const AREA_EFFECT = /\b(each creature|each target|all targets|every creature|each other creature|creatures? (?:in|within) (?:the|that|a|an) (?:cone|line|sphere|cube|cylinder|emanation|area|radius)|in a (?:cone|line|sphere|cube|cylinder|emanation)|all other creatures)\b/i;
+function rescaleDamageText(text, standardDice, reference, tier) {
+    const standardAvg = averageDice(standardDice);
+    return text.split(/(?=<li>)/).map((segment) => {
+        const cap = AREA_EFFECT.test(segment) ? 1.0 : 1.5;
+        return segment.replace(DAMAGE_EXPR, (m, dice, kind, flavour) => {
+            const ratio = Math.min(cap, averageDice(dice.replace(/\s+/g, '').replace('−', '-')) / reference);
+            // About the standard attack's damage: write the stat block's own dice
+            const scaled = Math.abs(ratio - 1) <= 0.1 ? standardDice : diceForAverage(standardAvg * ratio, tier);
+            const lower = kind.toLowerCase();
+            if (lower === 'physical' || lower === 'magic') return `${scaled} ${lower} damage${flavour ? ` (${flavour})` : ''}`;
+            return formatDamage({ dice: scaled, type: lower });
+        });
+    }).join('');
+}
+function rescaleFeatureDamage(features, standardDice, offense, cr, tier) {
+    const dice = String(standardDice).replace(/\s*(phy|mag)$/, '');
+    const standardAvg = averageDice(dice);
+    const reference = offense.best > 0 ? offense.best : medianDPR(cr) / 2;
+    if (!(standardAvg > 0) || !(reference > 0)) return;
+    for (const group of features) {
+        for (const entry of group.entries) entry.description = rescaleDamageText(entry.description, dice, reference, tier);
+    }
 }
 
 // "phy" or "mag" for the stat-block damage: taken from the creature's first attack

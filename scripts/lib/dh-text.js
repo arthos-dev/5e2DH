@@ -137,14 +137,60 @@ export function convertDistances(text) {
     return t;
 }
 
-// 5e conditions with a direct DH counterpart.
+// 5e conditions -> Daggerheart. Prone and grappled have direct counterparts (Vulnerable, Restrained); the others keep
+// their 5e name for flavour with the Daggerheart effect in parentheses (proposal 8).
+const CONDITION_EFFECTS = {
+    frightened: 'Vulnerable',
+    stunned: 'Restrained and Vulnerable',
+    paralyzed: 'Restrained and Vulnerable',
+    incapacitated: "can't act",
+    poisoned: 'disadvantage on action rolls',
+    blinded: 'Vulnerable',
+};
+const CONDITION_WORDS = Object.keys(CONDITION_EFFECTS).join('|');
 export function convertConditions(text) {
     if (!text) return text;
     return text
         .replace(/\bhas the Prone condition\b/gi, 'is knocked prone')
         .replace(/\b(knocked|falls?) prone\b(?! \(Vulnerable\))/gi, (m) => `${m} (Vulnerable)`)
         .replace(/\bthe Grappled condition\b/gi, 'the Restrained condition')
-        .replace(/\bis grappled\b/gi, 'is Restrained');
+        .replace(/\bis grappled\b/gi, 'is Restrained')
+        .replace(/\b(is|are|be|becomes?|has|have|gains?|takes?|with) the Restrained condition\b/gi, (m, v) => `${/^(has|have|gains?|takes?|with)$/i.test(v) ? 'is' : v} Restrained`)
+        .replace(/\b(is|are|be|becomes?) restrained\b/g, '$1 Restrained')
+        // "has the Poisoned condition" -> "is poisoned (disadvantage on action rolls)"
+        .replace(new RegExp(`\\b(has|have|gains?) the (${CONDITION_WORDS}) condition\\b`, 'gi'), (m, v, c, offset, all) => {
+            const verb = /^(has|gains)$/i.test(v) ? 'is' : /\b(or|to|and|must|can|may|will|would)\s+$/i.test(all.slice(Math.max(0, offset - 8), offset)) ? 'be' : 'are';
+            return `${verb} ${c.toLowerCase()} (${CONDITION_EFFECTS[c.toLowerCase()]})`;
+        })
+        .replace(new RegExp(`(?<!(?:can't|cannot|not|n't) )\\b(is|are|be|becomes?|become) (${CONDITION_WORDS})\\b(?! \\()`, 'gi'), (m, v, c) => `${v} ${c.toLowerCase()} (${CONDITION_EFFECTS[c.toLowerCase()]})`)
+        .replace(/\bsuffers? (?:one|1) level of exhaustion\b/gi, (m) => (/^suffers/i.test(m) ? 'marks a Stress' : 'mark a Stress'))
+        .replace(/\bgains? (?:one|1) (?:level of )?exhaustion(?: level)?\b/gi, (m) => (/^gains/i.test(m) ? 'marks a Stress' : 'mark a Stress'));
+}
+
+// 5e durations -> Daggerheart: there are no rounds or turns. "Repeat the save at the end of each of its turns" becomes
+// clearing the condition with a roll (the SRD's "until they clear it with a successful Instinct Roll");
+// "for 1 minute" lasts the scene; "until the end of its next turn" lasts until they next act.
+const TRAITS_RE = '(Strength|Agility|Finesse|Instinct|Presence|Knowledge)';
+export function convertDurations(text) {
+    if (!text) return text;
+    let t = text;
+    const lastTrait = (upTo) => {
+        const all = [...t.slice(0, upTo).matchAll(new RegExp(`\\b${TRAITS_RE}(?: or ${TRAITS_RE})? Reaction Roll`, 'g'))];
+        return all.length ? all[all.length - 1][1] : null;
+    };
+    t = t.replace(/\s*\b(?:for|lasting) 1 minute(\s*\(or until[^)]*\))?\.?\s*(?:The|A|An|Each)\s+(?:affected\s+)?(?:target|creature)\s+(?:can|may)?\s*repeats?\s+the\s+(?:\w+\s+)?Reaction Roll\s+at the end of each of (?:its|their|his|her) turns(?:\s*\([^)]*\))?,\s*ending the effect(?: on itself)?(?: early)? on a success(?:ful one)?\./gi, (m, _, offset) => {
+        const trait = lastTrait(t.indexOf(m));
+        return ` until they clear it with a successful ${trait ? `${trait} Roll` : 'Reaction Roll'}.`;
+    });
+    t = t.replace(/\b(?:The|A|An|Each)\s+(?:affected\s+)?(?:target|creature)\s+(?:can|may)?\s*repeats?\s+the\s+(?:\w+\s+)?Reaction Roll\s+at the end of each of (?:its|their|his|her) turns(?:\s*\([^)]*\))?,\s*ending the effect(?: on itself)?(?: early)? on a success(?:ful one)?\./gi, (m) => {
+        const trait = lastTrait(t.indexOf(m));
+        return `They can clear it with a successful ${trait ? `${trait} Roll` : 'Reaction Roll'} each time they act.`;
+    });
+    t = t.replace(/\bfor 1 minute\b/gi, 'until the end of the scene');
+    t = t.replace(/\buntil the (?:start|end) of (?:its|their|his|her|the target's|the creature's|that creature's) next turn\b/gi, 'until they next act');
+    t = t.replace(/\buntil the (?:start|end) of (the [\w' -]+?)'s next turn\b/gi, (m, who) => `until ${who} is next spotlighted`);
+    t = t.replace(/\bat the (?:start|end) of each of (?:its|their|his|her) turns\b/gi, 'each time they act');
+    return t;
 }
 
 // "27 (6d8) Fire damage" -> "6d8 magic damage (fire)"; "13 (2d8 + 4) Slashing damage" -> "2d8+4 physical damage".
@@ -178,4 +224,4 @@ export function convertTerminology(text) {
 }
 
 // The whole pipeline for free text.
-export const toDaggerheartText = (text) => convertConditions(convertDamageText(convertDistances(convertSaves(convertTerminology(text)))));
+export const toDaggerheartText = (text) => convertDurations(convertConditions(convertDamageText(convertDistances(convertSaves(convertTerminology(text))))));
