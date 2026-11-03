@@ -31,7 +31,9 @@ This project is a React-based tool that converts D&D 5e adversaries (from a CSV 
     The output will be in `converter/dist`.
 
 ## Project Structure
-- `scripts/convert.js`: The script that parses `Bestiary.csv` and generates `src/data/adversaries.json`.
+- `scripts/convert.js`: The script that parses `Bestiary.csv` and generates `src/data/adversaries.json` (5e conversions plus the official Daggerheart adversaries).
+- `scripts/import-srd.js`: Imports the official Daggerheart adversaries and environments from the Daggerheart SRD 2.0 ([og-dhsrd](https://github.com/callmepartario/og-dhsrd) checkout, default `../ext/og-dhsrd` or `$OG_DHSRD_DIR`) into the committed snapshots `data/srd/adversaries.json`, `data/srd/adversary-types.json` and `src/data/environments.json`. `npm run convert` runs it first (it keeps the snapshots when no checkout is present), then `convert.js`.
+- `scripts/calibration-report.js`: Official vs converted stats per tier and role (`--tiers`, `--roles`, `--mix`, `--ids old.json`).
 - `src/components/`: UI Components (`AdversaryCard`, `Filters`, etc.).
 - `src/types.ts`: TypeScript definitions for the Adversary data model.
 
@@ -42,3 +44,7 @@ The conversion logic in `scripts/convert.js` strictly follows the "Rules for Con
 - **HP**: Derived from 5e HP divided by the rule's factor.
 - **Stress**: Derived from Intelligence score.
 - **Role**: Estimated based on name keywords, stats, and type.
+
+## Attribution
+
+The official Daggerheart adversaries and environments come from the **Daggerheart SRD 2.0**, © Critical Role, LLC, used under the terms of the [Darrington Press Community Gaming License](https://darringtonpress.com/license/) (DPCGL), by way of Old Gus' hypertext edition of the SRD ([callmepartario/og-dhsrd](https://github.com/callmepartario/og-dhsrd)). The converter's role tables are calibrated against the SRD's adversary statistics and per-type damage dice. This product is not affiliated with Critical Role, LLC or Darrington Press. Daggerheart is a trademark of Critical Role, LLC.

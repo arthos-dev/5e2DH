@@ -548,6 +548,13 @@ function App() {
               )}
             </>
           )}
+          <footer className="mt-12 pb-6 text-center text-xs text-gray-600">
+            Official Daggerheart adversaries and environments are from the Daggerheart SRD 2.0 (© Critical Role, LLC), via{' '}
+            <a href="https://github.com/callmepartario/og-dhsrd" className="underline hover:text-gray-400" target="_blank" rel="noreferrer">Old Gus' Daggerheart SRD</a>,
+            used under the{' '}
+            <a href="https://darringtonpress.com/license/" className="underline hover:text-gray-400" target="_blank" rel="noreferrer">Darrington Press Community Gaming License</a>.
+            This product is not affiliated with Critical Role or Darrington Press.
+          </footer>
         </div>
       </main>
 

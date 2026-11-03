@@ -31,6 +31,8 @@ export interface Adversary {
     original_cr: string;
     source: string;
     book?: string; // source book, e.g. "MM'25", "SKT", "Daggerheart"
+    description?: string; // official adversaries: the SRD's one-line summary
+    srd_pages?: string[]; // official adversaries: book pages from the Daggerheart SRD, e.g. ["DH Core 236"]
 }
 
 export interface EncounterAdversary {
