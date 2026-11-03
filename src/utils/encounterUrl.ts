@@ -1,6 +1,22 @@
 import type { Encounter } from '../types';
 
 /**
+ * The JSON inside an encounter link (?encounter=… or #encounter=…, base64 or base64url).
+ * Unknown fields are ignored, so older and newer links keep working.
+ */
+export interface EncounterLinkPayload extends Encounter {
+  // Open the encounter straight in the running view instead of the builder (e.g. from the Storm King's Codex).
+  autoRun?: boolean;
+}
+
+/** An encounter read from the current URL. */
+export interface EncounterFromUrl {
+  encounter: Encounter;
+  autoRun: boolean;
+  source: 'query' | 'hash';
+}
+
+/**
  * Encodes an encounter to a base64 URL-safe string
  */
 export function encodeEncounterToUrl(encounter: Encounter): string {
@@ -28,17 +44,18 @@ export function encodeEncounterToUrl(encounter: Encounter): string {
 /**
  * Decodes a base64 URL-safe string back to an encounter
  */
-export function decodeEncounterFromUrl(urlParam: string): Encounter | null {
+export function decodeEncounterFromUrl(urlParam: string): EncounterLinkPayload | null {
   try {
     // Decode base64 and handle URL encoding
     // URLSearchParams turns "+" into a space; base64 needs it back. Accept base64url (-, _) too.
     const b64 = urlParam.replace(/ /g, '+').replace(/-/g, '+').replace(/_/g, '/');
     const jsonString = decodeURIComponent(escape(atob(b64)));
-    const encounter = JSON.parse(jsonString) as Encounter;
+    const encounter = JSON.parse(jsonString) as EncounterLinkPayload;
 
-    // Validate the encounter structure
+    // Validate the encounter structure (only known fields; anything else is ignored)
     if (
       typeof encounter !== 'object' ||
+      encounter === null ||
       typeof encounter.name !== 'string' ||
       typeof encounter.playerCount !== 'number' ||
       !Array.isArray(encounter.adversaries) ||
@@ -93,18 +110,23 @@ export function generateShareableUrl(encounter: Encounter): string {
 /**
  * Loads an encounter from the current URL if present
  */
-export function loadEncounterFromUrl(): Encounter | null {
+export function loadEncounterFromUrl(): EncounterFromUrl | null {
   try {
     // ?encounter=… or #encounter=… (the hash form keeps long links with full stat blocks out of server request limits)
     const urlParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-    const encounterParam = urlParams.get('encounter') ?? hashParams.get('encounter');
+    const queryParam = urlParams.get('encounter');
+    const encounterParam = queryParam ?? hashParams.get('encounter');
     
     if (!encounterParam) {
       return null;
     }
 
-    return decodeEncounterFromUrl(encounterParam);
+    const decoded = decodeEncounterFromUrl(encounterParam);
+    if (!decoded) return null;
+    // autoRun is a link instruction, not part of the encounter: keep it out of state and saved encounters.
+    const { autoRun, ...encounter } = decoded;
+    return { encounter, autoRun: autoRun === true, source: queryParam !== null ? 'query' : 'hash' };
   } catch (error) {
     console.error('Failed to load encounter from URL:', error);
     return null;
@@ -120,6 +142,20 @@ export function clearEncounterFromUrl(): void {
     url.searchParams.delete('encounter');
     if (url.hash.includes('encounter=')) url.hash = '';
     window.history.replaceState({}, '', url.toString());
+  } catch (error) {
+    console.error('Failed to clear encounter from URL:', error);
+  }
+}
+
+/**
+ * Removes #encounter=… from the URL so a reload doesn't import the link again
+ */
+export function clearEncounterHashFromUrl(): void {
+  try {
+    const url = new URL(window.location.href);
+    if (!new URLSearchParams(url.hash.replace(/^#/, '')).has('encounter')) return;
+    url.hash = '';
+    window.history.replaceState(window.history.state, '', url.toString());
   } catch (error) {
     console.error('Failed to clear encounter from URL:', error);
   }

@@ -30,6 +30,32 @@ This project is a React-based tool that converts D&D 5e adversaries (from a CSV 
     ```
     The output will be in `converter/dist`.
 
+## Encounter links
+
+An encounter can be opened from a link (parsed in `src/utils/encounterUrl.ts`):
+
+```
+https://5e2dh.vercel.app/#encounter=<base64url JSON>
+```
+
+`?encounter=` works too, and plain base64 is accepted. The JSON:
+
+```jsonc
+{
+  "id": "string",
+  "name": "string",
+  "playerCount": 4,
+  "battlePointModifier": 0,
+  "adversaries": [{ "id": "line-1", "adversaryId": "<name>--<book>", "quantity": 2, "upscaling": 0, "customName": "optional" }],
+  "customAdversaries": [ /* optional: full stat blocks; adversaryId may point at their ids */ ],
+  "autoRun": true // optional: open the running view instead of the builder
+}
+```
+
+- Unknown fields are ignored, so older and newer links keep working.
+- `autoRun: true` does what the "Run encounter" button does, custom adversaries included. Missing or anything other than `true` opens the builder. Stopping the fight leaves the encounter in the builder.
+- The `#encounter=` hash is removed once the link is read, so a reload does not import it again or restart the fight.
+
 ## Project Structure
 - `scripts/convert.js`: The script that parses `Bestiary.csv` and generates `src/data/adversaries.json` (5e conversions plus the official Daggerheart adversaries).
 - `scripts/import-srd.js`: Imports the official Daggerheart adversaries and environments from the Daggerheart SRD 2.0 ([og-dhsrd](https://github.com/callmepartario/og-dhsrd) checkout, default `../ext/og-dhsrd` or `$OG_DHSRD_DIR`) into the committed snapshots `data/srd/adversaries.json`, `data/srd/adversary-types.json` and `src/data/environments.json`. `npm run convert` runs it first (it keeps the snapshots when no checkout is present), then `convert.js`.
