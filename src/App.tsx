@@ -4,7 +4,6 @@ import { Library } from './components/Library';
 import { AdversarySheet } from './components/AdversarySheet';
 import { EncounterPanel } from './components/EncounterPanel';
 import { RunView } from './components/RunView';
-import { Dice3D } from './components/Dice3D';
 import { useToast } from './hooks/useToast';
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage';
 import { initializeRunningEncounter } from './utils/runningEncounterUtils';
@@ -147,10 +146,7 @@ export default function App() {
 
   if (running) {
     return (
-      <>
-        <Dice3D />
-        <RunView running={running.encounter} adversaries={running.adversaries} onExit={() => setRunning(null)} />
-      </>
+      <RunView running={running.encounter} adversaries={running.adversaries} onExit={() => setRunning(null)} />
     );
   }
 
@@ -160,7 +156,6 @@ export default function App() {
 
   return (
     <div className="flex h-dvh">
-      <Dice3D />
       <main className="min-w-0 flex-1 overflow-y-auto pb-20 md:pb-0">
         <Library bestiary={bestiary} onSelect={setSelected} />
         <footer className="px-4 py-10 text-xs leading-relaxed text-faint md:px-6">

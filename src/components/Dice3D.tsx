@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import DiceBox from '@3d-dice/dice-box';
-import { useDice, type DiceRollResult } from '../contexts/DiceContext';
+import DiceBox, { type RollGroup } from '@3d-dice/dice-box';
+import { useDice, type DiceRollResult } from '../hooks/useDice';
 import { parseDiceExpression } from '../utils/diceRoller';
 
 // Global singleton to prevent multiple initializations
@@ -14,8 +14,9 @@ export const Dice3D: React.FC = () => {
     const cleanupTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const currentRollExpressionRef = useRef<string | null>(null);
     const isInitializedRef = useRef(false);
-    const [diceBoxInstance, setDiceBoxInstance] = useState<DiceBox | null>(null);
-    const [isInitialized, setIsInitialized] = useState(false);
+    // A remount reuses the global instance (see the singleton check below).
+    const [diceBoxInstance, setDiceBoxInstance] = useState<DiceBox | null>(() => globalDiceBoxInstance);
+    const [isInitialized, setIsInitialized] = useState(() => globalDiceBoxInstance !== null);
     const [keepVisible, setKeepVisible] = useState(false);
     const { currentRoll, clearRoll, reportRollResult } = useDice();
 
@@ -26,11 +27,10 @@ export const Dice3D: React.FC = () => {
         // Global singleton check - prevent multiple initializations across all instances
         if (globalInitializationInProgress || globalDiceBoxInstance) {
             // If global instance exists, use it
+            // (state already holds it: see the useState initializers above)
             if (globalDiceBoxInstance) {
                 diceBoxRef.current = globalDiceBoxInstance;
-                setDiceBoxInstance(globalDiceBoxInstance);
                 isInitializedRef.current = true;
-                setIsInitialized(true);
             }
             return;
         }
@@ -151,7 +151,7 @@ export const Dice3D: React.FC = () => {
                     globalInitializationInProgress = false;
                     
                     return; // Success, exit the loop
-                } catch (error: any) {
+                } catch (error) {
                     // Continue to next path
                     console.warn('Failed to initialize dice-box with asset path:', assetPath, error);
                 }
@@ -178,7 +178,6 @@ export const Dice3D: React.FC = () => {
             // Don't destroy the global instance - it should persist for the app lifetime
             // Only clear local refs
             diceBoxRef.current = null;
-            setDiceBoxInstance(null);
             isInitializedRef.current = false;
         };
     }, []); // Empty dependency array - only run on mount/unmount
@@ -261,7 +260,7 @@ export const Dice3D: React.FC = () => {
                 const result = await diceBox.roll(diceBoxNotation);
                 
                 // Get the proper grouped results from getRollResults() - this is the preferred method
-                let rollResults: any = null;
+                let rollResults: RollGroup[] | null = null;
                 if (diceBox.getRollResults) {
                     rollResults = diceBox.getRollResults();
                 }
@@ -346,7 +345,7 @@ export const Dice3D: React.FC = () => {
                     }
                     cleanupTimeoutRef.current = null;
                 }, 1800); // Wait 1.8 seconds to ensure dice are visible after settling (settleTimeout ~1000ms + 800ms visibility)
-            } catch (error: any) {
+            } catch {
                 // Clear any pending timeout if there's an error
                 if (cleanupTimeoutRef.current) {
                     clearTimeout(cleanupTimeoutRef.current);

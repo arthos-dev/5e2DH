@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useDice } from '../contexts/DiceContext';
+import { useDice } from './useDice';
 import { formatDiceRoll, parseDiceExpression } from '../utils/diceRoller';
 import { useToast } from './useToast';
 

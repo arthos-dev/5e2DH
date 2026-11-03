@@ -18,13 +18,13 @@ declare module '@3d-dice/dice-box' {
 
     export interface Die {
         value: number;
-        [key: string]: any;
+        [key: string]: unknown;
     }
 
     export interface RollGroup {
         rolls?: Die[];
         value?: number;
-        [key: string]: any;
+        [key: string]: unknown;
     }
 
     export default class DiceBox {

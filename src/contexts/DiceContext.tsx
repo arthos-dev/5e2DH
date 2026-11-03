@@ -1,34 +1,6 @@
-import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import type { ReactNode } from 'react';
-
-export interface DiceRollResult {
-    rolls: number[];
-    total: number;
-    expression: string;
-}
-
-interface DiceRoll {
-    expression: string;
-    position?: { x: number; y: number };
-    onComplete?: (result: DiceRollResult) => void;
-}
-
-interface DiceContextType {
-    triggerRoll: (expression: string, position?: { x: number; y: number }, onComplete?: (result: DiceRollResult) => void) => void;
-    currentRoll: DiceRoll | null;
-    clearRoll: () => void;
-    reportRollResult: (result: DiceRollResult) => void;
-}
-
-const DiceContext = createContext<DiceContextType | undefined>(undefined);
-
-export const useDice = () => {
-    const context = useContext(DiceContext);
-    if (!context) {
-        throw new Error('useDice must be used within a DiceProvider');
-    }
-    return context;
-};
+import { DiceContext, type DiceRoll, type DiceRollResult } from '../hooks/useDice';
 
 interface DiceProviderProps {
     children: ReactNode;
@@ -117,7 +89,7 @@ export const DiceProvider: React.FC<DiceProviderProps> = ({ children }) => {
         }
     }, []);
 
-    const processCallbackQueue = useCallback(() => {
+    const processCallbackQueue = useCallback(function processCallbackQueue() {
         // If already processing, don't process again (prevents concurrent processing)
         if (isProcessingCallbacksRef.current) {
             return;
