@@ -2,6 +2,7 @@
 import fs from 'fs';
 import Papa from 'papaparse';
 import path from 'path';
+import { assignStableIds } from './lib/stable-id.js';
 
 // ============================================================================
 // Constants
@@ -2124,7 +2125,8 @@ function convertDaggerheartRow(row) {
         features,
         motives_tactics,
         experiences,
-        source: "Daggerheart"
+        source: "Daggerheart",
+        book: "Daggerheart"
     };
 }
 
@@ -2207,7 +2209,8 @@ function convertRow(row) {
         motives_tactics: motivesTactics,
         experiences: experiences,
         original_cr: row.CR,
-        source: "DND5e"
+        source: "DND5e",
+        book: row.Source
     };
 }
 
@@ -2342,6 +2345,9 @@ if (fs.existsSync(daggerheartCsvPath)) {
 } else {
     console.warn(`adversaries-extracted.csv not found at ${daggerheartCsvPath}`);
 }
+
+// Stable ids (name + book), so encounters and the Codex keep pointing at the same adversary after a re-run.
+assignStableIds(allAdversaries);
 
 // Write combined output
 fs.writeFileSync(outputPath, JSON.stringify(allAdversaries, null, 2));

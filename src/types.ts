@@ -30,6 +30,7 @@ export interface Adversary {
     experiences?: Array<{name: string, value: number}>;
     original_cr: string;
     source: string;
+    book?: string; // source book, e.g. "MM'25", "SKT", "Daggerheart"
 }
 
 export interface EncounterAdversary {
@@ -48,6 +49,9 @@ export interface Encounter {
     battlePointModifier: number; // applied modifier (-2, -1, 0, +1, +2, etc.)
     savedAt?: number; // timestamp when saved
     savedEncounterId?: string; // unique ID for saved encounters
+    // Full stat blocks for adversaries that aren't in the bestiary (e.g. sent from the Storm King's Codex).
+    // EncounterAdversary.adversaryId may point at one of these ids.
+    customAdversaries?: Adversary[];
 }
 
 export interface EncounterInstance {

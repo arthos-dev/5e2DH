@@ -11,6 +11,7 @@ export function encodeEncounterToUrl(encounter: Encounter): string {
     playerCount: encounter.playerCount,
     adversaries: encounter.adversaries,
     battlePointModifier: encounter.battlePointModifier,
+    ...(encounter.customAdversaries?.length ? { customAdversaries: encounter.customAdversaries } : {}),
   };
 
   try {
@@ -30,7 +31,9 @@ export function encodeEncounterToUrl(encounter: Encounter): string {
 export function decodeEncounterFromUrl(urlParam: string): Encounter | null {
   try {
     // Decode base64 and handle URL encoding
-    const jsonString = decodeURIComponent(escape(atob(urlParam)));
+    // URLSearchParams turns "+" into a space; base64 needs it back. Accept base64url (-, _) too.
+    const b64 = urlParam.replace(/ /g, '+').replace(/-/g, '+').replace(/_/g, '/');
+    const jsonString = decodeURIComponent(escape(atob(b64)));
     const encounter = JSON.parse(jsonString) as Encounter;
 
     // Validate the encounter structure
@@ -58,6 +61,19 @@ export function decodeEncounterFromUrl(urlParam: string): Encounter | null {
       }
     }
 
+    // Stat blocks sent along with the encounter (e.g. from the Storm King's Codex)
+    if (encounter.customAdversaries !== undefined) {
+      if (
+        !Array.isArray(encounter.customAdversaries) ||
+        encounter.customAdversaries.some(
+          (a) => !a || typeof a.id !== 'string' || typeof a.name !== 'string' || typeof a.tier !== 'number' || !a.stats || !Array.isArray(a.features)
+        )
+      ) {
+        console.error('Invalid custom adversaries in URL');
+        return null;
+      }
+    }
+
     return encounter;
   } catch (error) {
     console.error('Failed to decode encounter from URL:', error);
@@ -79,8 +95,10 @@ export function generateShareableUrl(encounter: Encounter): string {
  */
 export function loadEncounterFromUrl(): Encounter | null {
   try {
+    // ?encounter=… or #encounter=… (the hash form keeps long links with full stat blocks out of server request limits)
     const urlParams = new URLSearchParams(window.location.search);
-    const encounterParam = urlParams.get('encounter');
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const encounterParam = urlParams.get('encounter') ?? hashParams.get('encounter');
     
     if (!encounterParam) {
       return null;
@@ -100,6 +118,7 @@ export function clearEncounterFromUrl(): void {
   try {
     const url = new URL(window.location.href);
     url.searchParams.delete('encounter');
+    if (url.hash.includes('encounter=')) url.hash = '';
     window.history.replaceState({}, '', url.toString());
   } catch (error) {
     console.error('Failed to clear encounter from URL:', error);

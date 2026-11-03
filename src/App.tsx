@@ -17,6 +17,7 @@ import { VALID_ROLES, VALID_CATEGORIES, VALID_BIOMES, normalizeRole, normalizeCa
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage'
 import { initializeRunningEncounter } from './utils/runningEncounterUtils'
 import { loadEncounterFromUrl, updateUrlWithEncounter } from './utils/encounterUrl'
+import { adversariesFor, upgradeLegacyIds } from './utils/encounterUtils'
 
 // Cast data to aligned types if strictly needed
 const allAdversaries = adversariesData as unknown as Adversary[];
@@ -61,6 +62,8 @@ function App() {
   // Running Encounter State
   const [isRunningEncounter, setIsRunningEncounter] = useState(false);
   const [runningEncounter, setRunningEncounter] = useState<RunningEncounter | null>(null);
+  // The bestiary plus the running encounter's own stat blocks.
+  const [runningAdversaries, setRunningAdversaries] = useState<Adversary[]>(allAdversaries);
 
   // Tab State
   const [activeTab, setActiveTab] = useState<'manage' | 'edit'>('edit');
@@ -79,13 +82,15 @@ function App() {
 
   // Load encounter from URL on mount
   useEffect(() => {
-    const urlEncounter = loadEncounterFromUrl();
+    const fromUrl = loadEncounterFromUrl();
+    const urlEncounter = fromUrl && upgradeLegacyIds(fromUrl, allAdversaries);
     if (urlEncounter) {
+      const known = adversariesFor(urlEncounter, allAdversaries);
       isLoadingFromUrl.current = true;
       
       // Validate that all adversary IDs exist in current data
       const missingAdversaries = urlEncounter.adversaries.filter(
-        adv => !allAdversaries.find(a => a.id === adv.adversaryId)
+        adv => !known.find(a => a.id === adv.adversaryId)
       );
       
       if (missingAdversaries.length > 0) {
@@ -95,7 +100,7 @@ function App() {
         );
         // Still load the encounter, but remove missing adversaries
         urlEncounter.adversaries = urlEncounter.adversaries.filter(
-          adv => allAdversaries.find(a => a.id === adv.adversaryId)
+          adv => known.find(a => a.id === adv.adversaryId)
         );
       }
       
@@ -243,7 +248,8 @@ function App() {
   };
 
   const handleLoadEncounter = (id: string) => {
-    const loaded = loadEncounter(id);
+    const stored = loadEncounter(id);
+    const loaded = stored && upgradeLegacyIds(stored, allAdversaries);
     if (loaded) {
       // Switch to Edit tab first, then load encounter immediately
       setActiveTab('edit');
@@ -279,16 +285,19 @@ function App() {
 
   const handleRunEncounter = () => {
     if (currentEncounter.adversaries.length === 0) return;
-    const running = initializeRunningEncounter(currentEncounter, allAdversaries);
+    const running = initializeRunningEncounter(currentEncounter, adversariesFor(currentEncounter, allAdversaries));
+    setRunningAdversaries(adversariesFor(currentEncounter, allAdversaries));
     setRunningEncounter(running);
     setIsRunningEncounter(true);
   };
 
   // Run encounter from Manage tab (loads encounter first)
   const handleRunEncounterFromManage = (id: string) => {
-    const loaded = loadEncounter(id);
+    const stored = loadEncounter(id);
+    const loaded = stored && upgradeLegacyIds(stored, allAdversaries);
     if (loaded && loaded.adversaries.length > 0) {
-      const running = initializeRunningEncounter(loaded, allAdversaries);
+      const running = initializeRunningEncounter(loaded, adversariesFor(loaded, allAdversaries));
+      setRunningAdversaries(adversariesFor(loaded, allAdversaries));
       setRunningEncounter(running);
       setIsRunningEncounter(true);
       showToast(`Running encounter "${loaded.name}"`, 'info');
@@ -366,7 +375,7 @@ function App() {
         <>
           <RunningEncounterView
             runningEncounter={runningEncounter}
-            allAdversaries={allAdversaries}
+            allAdversaries={runningAdversaries}
             onClose={handleStopRunningEncounter}
             onNavigateToManage={handleNavigateToManage}
             onNavigateToEdit={handleNavigateToEdit}
@@ -622,7 +631,7 @@ function App() {
           <div className={`${isEncounterDeckOpen ? 'block' : 'hidden'} md:block`}>
             <EncounterDeck
               encounter={currentEncounter}
-              allAdversaries={allAdversaries}
+              allAdversaries={adversariesFor(currentEncounter, allAdversaries)}
               onClose={() => setIsEncounterDeckOpen(false)} // Close on mobile
               onUpdateEncounterName={handleUpdateEncounterName}
               onUpdatePlayerCount={handleUpdatePlayerCount}

@@ -36,3 +36,24 @@ export function getDifficultyLevel(spent: number, available: number): string {
   if (ratio < 1.1) return 'Hard';
   return 'Very Hard';
 }
+
+// The bestiary plus an encounter's own stat blocks (customAdversaries, e.g. sent from the Storm King's Codex).
+export function adversariesFor(encounter: { customAdversaries?: Adversary[] } | null | undefined, bestiary: Adversary[]): Adversary[] {
+    const extra = encounter?.customAdversaries ?? [];
+    return extra.length ? [...extra, ...bestiary] : bestiary;
+}
+
+// Ids used to be "<Name>_<random>"; they are now stable "<name>--<book>" slugs. Saved encounters and old shared links
+// still hold the old form, so map an unknown id of that shape to the first adversary with the same name.
+export function upgradeLegacyIds<T extends { adversaries: EncounterAdversary[]; customAdversaries?: Adversary[] }>(encounter: T, bestiary: Adversary[]): T {
+    const known = adversariesFor(encounter, bestiary);
+    return {
+        ...encounter,
+        adversaries: encounter.adversaries.map((a) => {
+            if (known.some((k) => k.id === a.adversaryId)) return a;
+            const m = /^(.*)_[a-z0-9]{6,12}$/.exec(a.adversaryId);
+            const byName = m && known.find((k) => k.name === m[1]);
+            return byName ? { ...a, adversaryId: byName.id } : a;
+        }),
+    };
+}
