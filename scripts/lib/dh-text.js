@@ -157,6 +157,9 @@ export function convertConditions(text) {
         .replace(/\bis grappled\b/gi, 'is Restrained')
         .replace(/\b(is|are|be|becomes?|has|have|gains?|takes?|with) the Restrained condition\b/gi, (m, v) => `${/^(has|have|gains?|takes?|with)$/i.test(v) ? 'is' : v} Restrained`)
         .replace(/\b(is|are|be|becomes?) restrained\b/g, '$1 Restrained')
+        // "has the Blinded and Poisoned conditions" -> "is blinded (Vulnerable) and poisoned (disadvantage on action rolls)"
+        .replace(new RegExp(`\\b(has|have) the (${CONDITION_WORDS}) and (${CONDITION_WORDS}) conditions\\b`, 'gi'), (m, v, a, b) =>
+            `${/^have$/i.test(v) ? 'are' : 'is'} ${a.toLowerCase()} (${CONDITION_EFFECTS[a.toLowerCase()]}) and ${b.toLowerCase()} (${CONDITION_EFFECTS[b.toLowerCase()]})`)
         // "has the Poisoned condition" -> "is poisoned (disadvantage on action rolls)"
         .replace(new RegExp(`\\b(has|have|gains?) the (${CONDITION_WORDS}) condition\\b`, 'gi'), (m, v, c, offset, all) => {
             const verb = /^(has|gains)$/i.test(v) ? 'is' : /\b(or|to|and|must|can|may|will|would)\s+$/i.test(all.slice(Math.max(0, offset - 8), offset)) ? 'be' : 'are';
@@ -188,7 +191,7 @@ export function convertDurations(text) {
     });
     t = t.replace(/\bfor 1 minute\b/gi, 'until the end of the scene');
     t = t.replace(/\buntil the (?:start|end) of (?:its|their|his|her|the target's|the creature's|that creature's) next turn\b/gi, 'until they next act');
-    t = t.replace(/\buntil the (?:start|end) of (the [\w' -]+?)'s next turn\b/gi, (m, who) => `until ${who} is next spotlighted`);
+    t = t.replace(/\buntil the (?:start|end) of (the [\w' -]+?|[A-Z][\w'-]+(?: [A-Z][\w'-]+)*)'s next turn\b/g, (m, who) => `until ${who} is next spotlighted`);
     t = t.replace(/\bat the (?:start|end) of each of (?:its|their|his|her) turns\b/gi, 'each time they act');
     return t;
 }

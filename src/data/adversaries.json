@@ -1319,11 +1319,11 @@
           },
           {
             "name": "Cloud of Insects",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 3d12+4 magic damage (poison), and the target has Disadvantage on Reaction Rolls to maintain Concentration until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 3d12+4 magic damage (poison), and the target has Disadvantage on Reaction Rolls to maintain Concentration until they next act. Either way,"
           },
           {
             "name": "Frightful Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Fear. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Fear."
           },
           {
             "name": "Pounce",
@@ -1398,11 +1398,11 @@
           },
           {
             "name": "Cloaked Flight",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed."
           },
           {
             "name": "Sonic Boom",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Shatter. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Shatter."
           },
           {
             "name": "Momentum",
@@ -1481,7 +1481,7 @@
           },
           {
             "name": "Scorching Sands",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 3d12+9 magic damage (fire), and the target's Speed is halved until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 3d12+9 magic damage (fire), and the target's Speed is halved until they next act. Either way,"
           },
           {
             "name": "Momentum",
@@ -1647,11 +1647,11 @@
           },
           {
             "name": "Giggling Magic",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 3d12+6 magic damage (psychic). Until they next act, the target rolls 1d6 whenever it makes an ability check or attack and subtracts the number rolled from the D20 Test. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 3d12+6 magic damage (psychic). Until they next act, the target rolls 1d6 whenever it makes an ability check or attack and subtracts the number rolled from the D20 Test. Either way,"
           },
           {
             "name": "Mind Jolt",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Mind Spike (level 4 version). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Mind Spike (level 4 version)."
           },
           {
             "name": "Momentum",
@@ -1817,7 +1817,7 @@
           },
           {
             "name": "Spore Salvo",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature within Close range of the dragon that it can see must make a Strength Reaction Roll. Targets who fail take 3d8+2 magic damage (poison), and the target is poisoned (disadvantage on action rolls). It repeats the Reaction Roll each time they act, ending the effect on itself on a success. After 1 minute, it succeeds automatically. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature within Close range of the dragon that it can see must make a Strength Reaction Roll. Targets who fail take 3d8+2 magic damage (poison), and the target is poisoned (disadvantage on action rolls). It repeats the Reaction Roll each time they act, ending the effect on itself on a success. After 1 minute, it succeeds automatically. Either way,"
           },
           {
             "name": "Momentum",
@@ -1999,7 +1999,7 @@
           },
           {
             "name": "Banish",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 4d6+2 magic damage, and the target is incapacitated (can't act) and is transported to a harmless demiplane until the dragon is next spotlighted, at which point it reappears in an unoccupied space of the dragon's choice within Far range of the dragon. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 4d6+2 magic damage, and the target is incapacitated (can't act) and is transported to a harmless demiplane until the dragon is next spotlighted, at which point it reappears in an unoccupied space of the dragon's choice within Far range of the dragon. Either way,"
           },
           {
             "name": "Guiding Light",
@@ -2086,7 +2086,7 @@
           },
           {
             "name": "Noxious Miasma",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 2d8+1 magic damage (poison), and the target takes a -2 penalty to Difficulty until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 2d8+1 magic damage (poison), and the target takes a -2 penalty to Difficulty until they next act. Either way,"
           },
           {
             "name": "Momentum",
@@ -2547,11 +2547,11 @@
           },
           {
             "name": "Commanding Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Command (level 2 version). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Command (level 2 version)."
           },
           {
             "name": "Fiery Rays",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Scorching Ray. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Scorching Ray."
           },
           {
             "name": "Momentum",
@@ -2729,11 +2729,11 @@
           },
           {
             "name": "Chill",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Hold Monster. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Hold Monster."
           },
           {
             "name": "Cold Gale",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Line (Far range) must make an Agility Reaction Roll. Targets who fail take 4d8+3 magic damage (cold), and the target is pushed up to Close range straight away from the dragon. Targets who succeed take half damage. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Line (Far range) must make an Agility Reaction Roll. Targets who fail take 4d8+3 magic damage (cold), and the target is pushed up to Close range straight away from the dragon. Targets who succeed take half damage. Either way,"
           },
           {
             "name": "Momentum",
@@ -2903,7 +2903,7 @@
           },
           {
             "name": "Unearth Ruins",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon magically raises broken, ancient ruins in a Cylinder (Close range) centered on a point it can see within Far range. Ground in the Cylinder becomes Difficult Terrain. Each creature in the Cylinder when it appears is subjected to the following effect. Strength Reaction Roll: . Targets who fail take 2d6 physical damage, and the target is knocked prone (Vulnerable). Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon magically raises broken, ancient ruins in a Cylinder (Close range) centered on a point it can see within Far range. Ground in the Cylinder becomes Difficult Terrain. Each creature in the Cylinder when it appears is subjected to the following effect. Strength Reaction Roll: . Targets who fail take 2d6 physical damage, and the target is knocked prone (Vulnerable). Either way,"
           },
           {
             "name": "Momentum",
@@ -3156,11 +3156,11 @@
           },
           {
             "name": "Freezing Burst",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 2d8 magic damage (cold), and the target's Speed is 0 until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 2d8 magic damage (cold), and the target's Speed is 0 until they next act. Either way,"
           },
           {
             "name": "Frightful Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability."
           },
           {
             "name": "Momentum",
@@ -5179,7 +5179,7 @@
           },
           {
             "name": "Reproving Ray",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Far range. On a success, deal 4d12+15 magic damage. If the target is a creature, it must make a Presence Reaction Roll. On a failure, the target is incapacitated (can't act) until the start of Alustriel's next turn. On a successful Reaction Roll, the target's movement is slowed until the start of Alustriel's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Far range. On a success, deal 4d12+15 magic damage. If the target is a creature, it must make a Presence Reaction Roll. On a failure, the target is incapacitated (can't act) until Alustriel is next spotlighted. On a successful Reaction Roll, the target's movement is slowed until Alustriel is next spotlighted."
           },
           {
             "name": "Argent Blaze (Requires Silver Fire)",
@@ -5660,7 +5660,7 @@
           },
           {
             "name": "Weapons of Yore",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Ancient weapons embedded in Alyxian's hide detach from Alyxian and fly about in a sphere (Very Close range) centered on a point Alyxian can see within Far range of himself. A creature takes 2d12+2 physical damage when it enters that area for the first time on a turn or starts its turn there. The effect lasts until the end of Alyxian's next turn, when the weapons return to Alyxian and embed themselves in his hide once again (causing him no harm)."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Ancient weapons embedded in Alyxian's hide detach from Alyxian and fly about in a sphere (Very Close range) centered on a point Alyxian can see within Far range of himself. A creature takes 2d12+2 physical damage when it enters that area for the first time on a turn or starts its turn there. The effect lasts until Alyxian is next spotlighted, when the weapons return to Alyxian and embed themselves in his hide once again (causing him no harm)."
           },
           {
             "name": "Momentum",
@@ -6571,7 +6571,7 @@
           },
           {
             "name": "Smoke Bomb",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Amrik hurls a smoke bomb up to Close range away. The bomb explodes on impact, creating a cloud of black smoke that fills a sphere (Very Close range). The area within the cloud is heavily obscured. A strong wind disperses the cloud, which otherwise remains until the end of Amrik's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Amrik hurls a smoke bomb up to Close range away. The bomb explodes on impact, creating a cloud of black smoke that fills a sphere (Very Close range). The area within the cloud is heavily obscured. A strong wind disperses the cloud, which otherwise remains until Amrik is next spotlighted."
           }
         ]
       }
@@ -6980,11 +6980,11 @@
           },
           {
             "name": "Cloud of Insects",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 4d12+15 magic damage (poison), and the target has Disadvantage on Reaction Rolls to maintain Concentration until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 4d12+15 magic damage (poison), and the target has Disadvantage on Reaction Rolls to maintain Concentration until they next act. Either way,"
           },
           {
             "name": "Frightful Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Fear. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Fear."
           },
           {
             "name": "Momentum",
@@ -7055,11 +7055,11 @@
           },
           {
             "name": "Cloaked Flight",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed."
           },
           {
             "name": "Sonic Boom",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Shatter (level 3 version). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Shatter (level 3 version)."
           },
           {
             "name": "Momentum",
@@ -7138,7 +7138,7 @@
           },
           {
             "name": "Scorching Sands",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 4d12+18 magic damage (fire), and the target's Speed is halved until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make an Agility Reaction Roll. Targets who fail take 4d12+18 magic damage (fire), and the target's Speed is halved until they next act. Either way,"
           },
           {
             "name": "Momentum",
@@ -7304,11 +7304,11 @@
           },
           {
             "name": "Giggling Magic",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 4d12+10 magic damage (psychic). Until they next act, the target rolls 1d8 whenever it makes an ability check or attack and subtracts the number rolled from the D20 Test. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 4d12+10 magic damage (psychic). Until they next act, the target rolls 1d8 whenever it makes an ability check or attack and subtracts the number rolled from the D20 Test. Either way,"
           },
           {
             "name": "Mind Jolt",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Mind Spike (level 5 version). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Mind Spike (level 5 version)."
           },
           {
             "name": "Momentum",
@@ -7557,7 +7557,7 @@
           },
           {
             "name": "Spore Salvo",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature within Close range of the dragon that it can see must make a Strength Reaction Roll. Targets who fail take 4d10+1 magic damage (poison), and the target is poisoned (disadvantage on action rolls). It repeats the Reaction Roll each time they act, ending the effect on itself on a success. After 1 minute, it succeeds automatically. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature within Close range of the dragon that it can see must make a Strength Reaction Roll. Targets who fail take 4d10+1 magic damage (poison), and the target is poisoned (disadvantage on action rolls). It repeats the Reaction Roll each time they act, ending the effect on itself on a success. After 1 minute, it succeeds automatically. Either way,"
           },
           {
             "name": "Momentum",
@@ -7652,7 +7652,7 @@
           },
           {
             "name": "Boiling Aura",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon turtle radiates intense heat. Until the dragon turtle is next spotlighted, whenever a creature starts its turn within Close range of the dragon turtle, that creature must succeed on a Strength Reaction Roll or take 4d12+19 magic damage (fire). Being underwater doesn't grant resistance against this damage."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon turtle radiates intense heat. Until the start of the dragon turtle's next turn, whenever a creature starts its turn within Close range of the dragon turtle, that creature must succeed on a Strength Reaction Roll or take 4d12+19 magic damage (fire). Being underwater doesn't grant resistance against this damage."
           },
           {
             "name": "Momentum",
@@ -7829,7 +7829,7 @@
           },
           {
             "name": "Banish",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 4d12+2 magic damage, and the target is incapacitated (can't act) and is transported to a harmless demiplane until the dragon is next spotlighted, at which point it reappears in an unoccupied space of the dragon's choice within Far range of the dragon. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the dragon can see within Far range must make a Presence Reaction Roll. Targets who fail take 4d12+2 magic damage, and the target is incapacitated (can't act) and is transported to a harmless demiplane until the dragon is next spotlighted, at which point it reappears in an unoccupied space of the dragon's choice within Far range of the dragon. Either way,"
           },
           {
             "name": "Guiding Light",
@@ -7916,7 +7916,7 @@
           },
           {
             "name": "Noxious Miasma",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 4d8+2 magic damage (poison), and the target takes a -2 penalty to Difficulty until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 4d8+2 magic damage (poison), and the target takes a -2 penalty to Difficulty until they next act. Either way,"
           },
           {
             "name": "Momentum",
@@ -8161,11 +8161,11 @@
           },
           {
             "name": "Commanding Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Command (level 2 version). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Command (level 2 version)."
           },
           {
             "name": "Fiery Rays",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Scorching Ray (level 3 version). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Scorching Ray (level 3 version)."
           },
           {
             "name": "Momentum",
@@ -8430,11 +8430,11 @@
           },
           {
             "name": "Chill",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Hold Monster. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Spellcasting to cast Hold Monster."
           },
           {
             "name": "Cold Gale",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Line (Far range) must make an Agility Reaction Roll. Targets who fail take 4d6+2 magic damage (cold), and the target is pushed up to Close range straight away from the dragon. Targets who succeed take half damage. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Line (Far range) must make an Agility Reaction Roll. Targets who fail take 4d6+2 magic damage (cold), and the target is pushed up to Close range straight away from the dragon. Targets who succeed take half damage. Either way,"
           },
           {
             "name": "Momentum",
@@ -8604,7 +8604,7 @@
           },
           {
             "name": "Unearth Ruins",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon magically raises broken, ancient ruins in a Cylinder (Close range) centered on a point it can see within Far range. Ground in the Cylinder becomes Difficult Terrain. Each creature in the Cylinder when it appears is subjected to the following effect. Strength Reaction Roll: . Targets who fail take 4d6+1 physical damage, and the target is knocked prone (Vulnerable). Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon magically raises broken, ancient ruins in a Cylinder (Close range) centered on a point it can see within Far range. Ground in the Cylinder becomes Difficult Terrain. Each creature in the Cylinder when it appears is subjected to the following effect. Strength Reaction Roll: . Targets who fail take 4d6+1 physical damage, and the target is knocked prone (Vulnerable). Either way,"
           },
           {
             "name": "Momentum",
@@ -8865,11 +8865,11 @@
           },
           {
             "name": "Freezing Burst",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 4d8+1 magic damage (cold), and the target's Speed is 0 until they next act. Either way, The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Sphere (Close range) centered on a point the dragon can see within Far range must make a Strength Reaction Roll. Targets who fail take 4d8+1 magic damage (cold), and the target's Speed is 0 until they next act. Either way,"
           },
           {
             "name": "Frightful Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability. The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability."
           },
           {
             "name": "Momentum",
@@ -11258,7 +11258,7 @@
           },
           {
             "name": "Malicious Magic",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The hag uses Spellcasting to cast Dimension Door or Hypnotic Pattern. The hag can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The hag uses Spellcasting to cast Dimension Door or Hypnotic Pattern."
           },
           {
             "name": "Tongue Twister",
@@ -14319,7 +14319,7 @@
           },
           {
             "name": "Empowering Aegis",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Asteria summons a spectral version of her shield, which orbits and bolsters one creature of Asteria's choice that she can see within Far range of herself. The spectral shield lasts until the start of Asteria's next turn. While the shield is orbiting the creature, the creature has half cover, is immune to the frightened condition, and makes weapon attacks with advantage."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Asteria summons a spectral version of her shield, which orbits and bolsters one creature of Asteria's choice that she can see within Far range of herself. The spectral shield lasts until Asteria is next spotlighted. While the shield is orbiting the creature, the creature has half cover, is immune to the frightened condition, and makes weapon attacks with advantage."
           },
           {
             "name": "Momentum",
@@ -18375,7 +18375,7 @@
           },
           {
             "name": "Thunder Strike",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 2d12+2 magic damage (thunder). If the target is a creature, it must succeed on a Strength Reaction Roll or be deafened and stunned until the start of Bak Mei's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 2d12+2 magic damage (thunder). If the target is a creature, it must succeed on a Strength Reaction Roll or be deafened and stunned until Bak Mei is next spotlighted."
           },
           {
             "name": "Staff of Striking",
@@ -20182,7 +20182,7 @@
           },
           {
             "name": "Battlefield Inspiration",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The angel chooses up to three creatures it can see within Close range of it. Until the angel is next spotlighted, each target can add a d4 to its attacks and Reaction Rolls."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The angel chooses up to three creatures it can see within Close range of it. Until the end of the angel's next turn, each target can add a d4 to its attacks and Reaction Rolls."
           },
           {
             "name": "Momentum",
@@ -20797,7 +20797,7 @@
           },
           {
             "name": "Antimagic Cone",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The beholder's central eye emits an antimagic wave in a Cone (Very Far range). Until the beholder is next spotlighted, that area acts as an Antimagic Field spell, and that area works against the beholder's own Eye Rays."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The beholder's central eye emits an antimagic wave in a Cone (Very Far range). Until the start of the beholder's next turn, that area acts as an Antimagic Field spell, and that area works against the beholder's own Eye Rays."
           },
           {
             "name": "Chomp",
@@ -21217,7 +21217,7 @@
           },
           {
             "name": "Decaying Breath",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Beledros exhales decaying energy in a cone (Far range). Each creature in that area must make a Strength Reaction Roll, taking 4d8+12 magic damage (necrotic) and 4d8+12 magic damage (poison) on a failure, or half as much damage on a successful one. A creature that takes damage from the breath can't regain HP until the start of Beledros's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Beledros exhales decaying energy in a cone (Far range). Each creature in that area must make a Strength Reaction Roll, taking 4d8+12 magic damage (necrotic) and 4d8+12 magic damage (poison) on a failure, or half as much damage on a successful one. A creature that takes damage from the breath can't regain HP until Beledros is next spotlighted."
           },
           {
             "name": "Miasmal Flow",
@@ -21809,7 +21809,7 @@
           },
           {
             "name": "Ray of Fear",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Big Momma's eye emits an invisible, magical ray that targets one creature Big Momma can see within Far range of itself. The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) of Big Momma until the start of Big Momma's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Big Momma's eye emits an invisible, magical ray that targets one creature Big Momma can see within Far range of itself. The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) of Big Momma until Big Momma is next spotlighted."
           }
         ]
       }
@@ -23578,11 +23578,11 @@
           },
           {
             "name": "Decay",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The blob deals 4d6+3 magic damage (necrotic) to each creature engulfed by it. The blob can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The blob deals 4d6+3 magic damage (necrotic) to each creature engulfed by it."
           },
           {
             "name": "Grasping Glob",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The blob uses Restraining Glob. The blob can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The blob uses Restraining Glob."
           },
           {
             "name": "Momentum",
@@ -26308,7 +26308,7 @@
           },
           {
             "name": "Taunt",
-            "description": "<strong>Passive:</strong> Brahma can use its action to target one creature she can see within Close range of her. If the target can hear Brahma, it must succeed on a Presence Reaction Roll or have disadvantage on ability checks, attacks, and Reaction Rolls until the start of Brahma's next turn."
+            "description": "<strong>Passive:</strong> Brahma can use its action to target one creature she can see within Close range of her. If the target can hear Brahma, it must succeed on a Presence Reaction Roll or have disadvantage on ability checks, attacks, and Reaction Rolls until Brahma is next spotlighted."
           }
         ]
       },
@@ -29322,7 +29322,7 @@
           },
           {
             "name": "Spider Aura",
-            "description": "<strong>Passive:</strong> Camlash is surrounded by tiny biting spiders that magically appear and disappear from moment to moment. At the start of each of Camlash's turns, each creature within Very Close range of Camlash takes 2d8+1 magic damage (poison) and must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until the start of Camlash's next turn."
+            "description": "<strong>Passive:</strong> Camlash is surrounded by tiny biting spiders that magically appear and disappear from moment to moment. At the start of each of Camlash's turns, each creature within Very Close range of Camlash takes 2d8+1 magic damage (poison) and must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until Camlash is next spotlighted."
           },
           {
             "name": "Relentless (2)",
@@ -33228,7 +33228,7 @@
           },
           {
             "name": "Starry Radiance",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Cipolla's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until the end of Cipolla's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Cipolla's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until Cipolla is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -33361,7 +33361,7 @@
           },
           {
             "name": "Unsettling Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Clapperclaw targets one creature it can see within Close range of it. The target must succeed on an Instinct Reaction Roll or be magically frightened until the end of Clapperclaw's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Clapperclaw targets one creature it can see within Close range of it. The target must succeed on an Instinct Reaction Roll or be magically frightened until Clapperclaw is next spotlighted."
           }
         ]
       }
@@ -40433,7 +40433,7 @@
           },
           {
             "name": "Silver Tongue",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. One creature Dardew can see within Far range must make a Presence Reaction Roll. On a failure: The creature has the Charmed condition until the start of Dardew's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. One creature Dardew can see within Far range must make a Presence Reaction Roll. On a failure: The creature has the Charmed condition until Dardew is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -41056,7 +41056,7 @@
           },
           {
             "name": "Command",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The scion casts Command (level 2 version), using the same spellcasting ability as Spellcasting. The scion can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The scion casts Command (level 2 version), using the same spellcasting ability as Spellcasting."
           },
           {
             "name": "Momentum",
@@ -41634,11 +41634,11 @@
           },
           {
             "name": "Dread Authority",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The death knight uses Spellcasting to cast Command. The death knight can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The death knight uses Spellcasting to cast Command."
           },
           {
             "name": "Fell Word",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the death knight can see within Far range must make a Strength Reaction Roll. Targets who fail take 4d10 magic damage (necrotic), and the target's HP maximum decreases by an amount equal to the damage taken. Either way, The death knight can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the death knight can see within Far range must make a Strength Reaction Roll. Targets who fail take 4d10 magic damage (necrotic), and the target's HP maximum decreases by an amount equal to the damage taken. Either way,"
           },
           {
             "name": "Lunge",
@@ -41762,7 +41762,7 @@
           },
           {
             "name": "Chaos Blade",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 2d8+1 physical damage plus 2d8 magic damage (necrotic). Until the slaad is next spotlighted, the target has a condition determined by rolling 1d4: on a 1, Charmed; on a 2, Frightened; on a 3, Poisoned; or on a 4, Incapacitated."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 2d8+1 physical damage plus 2d8 magic damage (necrotic). Until the start of the slaad's next turn, the target has a condition determined by rolling 1d4: on a 1, Charmed; on a 2, Frightened; on a 3, Poisoned; or on a 4, Incapacitated."
           },
           {
             "name": "Spellcasting",
@@ -43170,11 +43170,11 @@
           },
           {
             "name": "Energy Drain",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the demilich can see within Far range must make a Strength Reaction Roll. On a failure: The target's HP maximum decreases by 4d6. Either way, The demilich can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the demilich can see within Far range must make a Strength Reaction Roll. On a failure: The target's HP maximum decreases by 4d6. Either way,"
           },
           {
             "name": "Grave-Dust Flight",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The demilich flies up to its Fly Speed, shedding grave dust. Each creature within Melee range of the demilich as it moves is targeted once by the following effect. Strength Reaction Roll: . On a failure: The target is blinded (Vulnerable) until the demilich is next spotlighted. Either way, The demilich can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The demilich flies up to its Fly Speed, shedding grave dust. Each creature within Melee range of the demilich as it moves is targeted once by the following effect. Strength Reaction Roll: . On a failure: The target is blinded (Vulnerable) until the demilich is next spotlighted. Either way,"
           },
           {
             "name": "Momentum",
@@ -43453,7 +43453,7 @@
           },
           {
             "name": "Gaze",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Demogorgon turns his magical gaze toward one creature he can see within Far range of him. The target must succeed on an Instinct Reaction Roll or suffer one of the following effects (choose one or roll a d6):1–2: Beguiling Gaze. The target is stunned (Restrained and Vulnerable) until the start of Demogorgon's next turn or until Demogorgon is no longer within line of sight.3–4: Confusing Gaze. The target suffers the effect of the confusion spell without making a Reaction Roll. The effect lasts until the start of Demogorgon's next turn. Demogorgon doesn't need to concentrate on the spell.5–6: Hypnotic Gaze. The target is charmed by Demogorgon until the start of Demogorgon's next turn. Demogorgon chooses how the charmed target uses its action, reaction, and movement."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Demogorgon turns his magical gaze toward one creature he can see within Far range of him. The target must succeed on an Instinct Reaction Roll or suffer one of the following effects (choose one or roll a d6):1–2: Beguiling Gaze. The target is stunned (Restrained and Vulnerable) until Demogorgon is next spotlighted or until Demogorgon is no longer within line of sight.3–4: Confusing Gaze. The target suffers the effect of the confusion spell without making a Reaction Roll. The effect lasts until Demogorgon is next spotlighted. Demogorgon doesn't need to concentrate on the spell.5–6: Hypnotic Gaze. The target is charmed by Demogorgon until Demogorgon is next spotlighted. Demogorgon chooses how the charmed target uses its action, reaction, and movement."
           },
           {
             "name": "Gaze",
@@ -44643,11 +44643,11 @@
           },
           {
             "name": "Blasphemous Word",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Diderius utters a blasphemous word. Each non-undead creature within Very Close range of Diderius that can hear the magical utterance must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the end of Diderius's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Diderius utters a blasphemous word. Each non-undead creature within Very Close range of Diderius that can hear the magical utterance must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Diderius is next spotlighted."
           },
           {
             "name": "Channel Negative Energy",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Diderius magically unleashes negative energy. Creatures within Far range of Diderius, including ones behind barriers and around corners, can't regain HP until the end of Diderius's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Diderius magically unleashes negative energy. Creatures within Far range of Diderius, including ones behind barriers and around corners, can't regain HP until Diderius is next spotlighted."
           },
           {
             "name": "Whirlwind of Sand",
@@ -46463,11 +46463,11 @@
           },
           {
             "name": "Sickening Ray",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dracolich uses Spellcasting to cast Ray of Sickness (level 2 version). The dracolich can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dracolich uses Spellcasting to cast Ray of Sickness (level 2 version)."
           },
           {
             "name": "Terrifying Presence",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the dracolich must make an Instinct Reaction Roll. Targets who fail take 4d6+2 magic damage (psychic), and the target is frightened (Vulnerable) until they next act. Either way, The dracolich can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the dracolich must make an Instinct Reaction Roll. Targets who fail take 4d6+2 magic damage (psychic), and the target is frightened (Vulnerable) until they next act. Either way,"
           },
           {
             "name": "Momentum",
@@ -48946,7 +48946,7 @@
           },
           {
             "name": "Heretic",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 4d10+10 physical damage. The target must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until the start of Drelnza's next turn. Celestials have disadvantage on the Reaction Roll."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 4d10+10 physical damage. The target must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until Drelnza is next spotlighted. Celestials have disadvantage on the Reaction Roll."
           },
           {
             "name": "Charm",
@@ -55175,7 +55175,7 @@
           },
           {
             "name": "Rumbling Movement",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The cataclysm moves up to its Speed, Fly Speed, or Swim Speed without provoking Opportunity Attacks. Each creature within Melee range of the cataclysm as it moves is targeted once by the following effect. Strength Reaction Roll: . On a failure: The target is knocked prone (Vulnerable). Either way, The cataclysm can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The cataclysm moves up to its Speed, Fly Speed, or Swim Speed without provoking Opportunity Attacks. Each creature within Melee range of the cataclysm as it moves is targeted once by the following effect. Strength Reaction Roll: . On a failure: The target is knocked prone (Vulnerable). Either way,"
           },
           {
             "name": "Momentum",
@@ -56510,11 +56510,11 @@
           },
           {
             "name": "Bolster",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The empyrean gains 10 temporary HP, and the empyrean and each ally within Close range of it gain Advantage on D20 Tests until the empyrean is next spotlighted. The empyrean can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The empyrean gains 10 temporary HP, and the empyrean and each ally within Close range of it gain Advantage on D20 Tests until the empyrean is next spotlighted."
           },
           {
             "name": "Shockwave of Glory",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the empyrean must make a Strength Reaction Roll. Targets who fail take 4d8+3 magic damage, and the target is knocked prone (Vulnerable). Targets who succeed take half damage. Either way, The empyrean can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the empyrean must make a Strength Reaction Roll. Targets who fail take 4d8+3 magic damage, and the target is knocked prone (Vulnerable). Targets who succeed take half damage. Either way,"
           },
           {
             "name": "Momentum",
@@ -58010,7 +58010,7 @@
           },
           {
             "name": "Snake Bite",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 4d6 physical damage. The target must succeed on a Strength Reaction Roll or be poisoned (disadvantage on action rolls) until the start of Euryale's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 4d6 physical damage. The target must succeed on a Strength Reaction Roll or be poisoned (disadvantage on action rolls) until Euryale is next spotlighted."
           },
           {
             "name": "Spellcasting (Medusa Form Only)",
@@ -64511,7 +64511,7 @@
         "entries": [
           {
             "name": "Chime",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The wonder chirps a merry, metronomic tune. The wonder chooses one ally that it can see within Far range. Until the wonder is next spotlighted, the target has Advantage on the next ability check it makes with a Musical Instrument or Tinker's Tools."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The wonder chirps a merry, metronomic tune. The wonder chooses one ally that it can see within Far range. Until the start of the wonder's next turn, the target has Advantage on the next ability check it makes with a Musical Instrument or Tinker's Tools."
           },
           {
             "name": "Sprint",
@@ -65189,7 +65189,7 @@
           },
           {
             "name": "Squirming Dodge",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Until the fragment is next spotlighted, any attack made against the fragment has disadvantage, and the fragment makes Reaction Rolls with advantage."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Until the start of the fragment's next turn, any attack made against the fragment has disadvantage, and the fragment makes Reaction Rolls with advantage."
           },
           {
             "name": "Momentum",
@@ -77103,7 +77103,7 @@
           },
           {
             "name": "Chaos Claw",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 2d6+1 physical damage plus 2d8 magic damage (necrotic). Until the slaad is next spotlighted, the target has a condition determined by rolling 1d4: on a 1, Charmed; on a 2, Frightened; on a 3, Poisoned; or on a 4, Incapacitated."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 2d6+1 physical damage plus 2d8 magic damage (necrotic). Until the start of the slaad's next turn, the target has a condition determined by rolling 1d4: on a 1, Charmed; on a 2, Frightened; on a 3, Poisoned; or on a 4, Incapacitated."
           },
           {
             "name": "Spellcasting",
@@ -77907,7 +77907,7 @@
           },
           {
             "name": "Chaos Staff",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range (or Far range if thrown). On a success, deal 2d12+1 magic damage. Until the slaad is next spotlighted, the target has a condition determined by rolling 1d4: on a 1, Charmed; on a 2, Frightened; on a 3, Poisoned; or on a 4, Incapacitated."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range (or Far range if thrown). On a success, deal 2d12+1 magic damage. Until the start of the slaad's next turn, the target has a condition determined by rolling 1d4: on a 1, Charmed; on a 2, Frightened; on a 3, Poisoned; or on a 4, Incapacitated."
           },
           {
             "name": "Spellcasting",
@@ -80384,7 +80384,7 @@
           },
           {
             "name": "Menacing Blows (1/Turn)",
-            "description": "<strong>Reaction:</strong> Gunvald deals an extra 1d12 damage when he hits a target with a weapon attack. If the target is a creature, it must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until the start of Gunvald's next turn."
+            "description": "<strong>Reaction:</strong> Gunvald deals an extra 1d12 damage when he hits a target with a weapon attack. If the target is a creature, it must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until Gunvald is next spotlighted."
           },
           {
             "name": "Second Wind",
@@ -82978,7 +82978,7 @@
           },
           {
             "name": "Stunning Strike",
-            "description": "<strong>Reaction:</strong> When Hellenrae hits a target with a melee weapon attack, the target must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the end of Hellenrae's next turn."
+            "description": "<strong>Reaction:</strong> When Hellenrae hits a target with a melee weapon attack, the target must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Hellenrae is next spotlighted."
           },
           {
             "name": "Unarmored Defense",
@@ -84488,7 +84488,7 @@
           },
           {
             "name": "Unarmed Strike",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal the standard damage. 1d10+7 bludgeoning, magic damage. If the target is a creature, Hlam can choose one of the following additional effects:The target must succeed on a Strength Reaction Roll or drop one item it is holding (Hlam's choice). The target must succeed on an Agility Reaction Roll or be knocked prone (Vulnerable). The target must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the end of Hlam's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal the standard damage. 1d10+7 bludgeoning, magic damage. If the target is a creature, Hlam can choose one of the following additional effects:The target must succeed on a Strength Reaction Roll or drop one item it is holding (Hlam's choice). The target must succeed on an Agility Reaction Roll or be knocked prone (Vulnerable). The target must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Hlam is next spotlighted."
           },
           {
             "name": "Dart",
@@ -86512,7 +86512,7 @@
           },
           {
             "name": "Intoxicating Sting",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 2d6 physical damage plus 2d6+1 magic damage (poison). The target must succeed on an Instinct Reaction Roll or have the charmed condition until the start of Hulgaz's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 2d6 physical damage plus 2d6+1 magic damage (poison). The target must succeed on an Instinct Reaction Roll or have the charmed condition until Hulgaz is next spotlighted."
           },
           {
             "name": "Brimstone Vapor",
@@ -92824,7 +92824,7 @@
           },
           {
             "name": "Force Strike",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 3d6 magic damage. If the target is a creature, it must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the end of Jade Tigress's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 3d6 magic damage. If the target is a creature, it must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Jade Tigress is next spotlighted."
           },
           {
             "name": "Poisoned Dart",
@@ -92970,7 +92970,7 @@
           },
           {
             "name": "Cinder Breath",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Jalynvyr Nir'Thinn exhales a cone (Close range) of smoldering ash. Each creature in that area must succeed on an Agility Reaction Roll or be blinded (Vulnerable) until the end of Jalynvyr Nir'Thinn's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Jalynvyr Nir'Thinn exhales a cone (Close range) of smoldering ash. Each creature in that area must succeed on an Agility Reaction Roll or be blinded (Vulnerable) until Jalynvyr Nir'Thinn is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -94168,7 +94168,7 @@
           },
           {
             "name": "Hypnotic Gaze",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Jijibisha's eyes sparkle with opalescent light as it targets one creature it can see within Close range of it. If the target can see Jijibisha, the target must succeed on an Instinct Reaction Roll against this magic or be charmed until the end of Jijibisha's next turn. The charmed target is stunned (Restrained and Vulnerable). If the target's Reaction Roll is successful, the target is immune to Jijibisha's gaze for the next 24 hours."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Jijibisha's eyes sparkle with opalescent light as it targets one creature it can see within Close range of it. If the target can see Jijibisha, the target must succeed on an Instinct Reaction Roll against this magic or be charmed until Jijibisha is next spotlighted. The charmed target is stunned (Restrained and Vulnerable). If the target's Reaction Roll is successful, the target is immune to Jijibisha's gaze for the next 24 hours."
           },
           {
             "name": "Teleport",
@@ -95761,7 +95761,7 @@
           },
           {
             "name": "Taunt",
-            "description": "<strong>Passive:</strong> Kalain can use its action on her turn to target one creature within Close range of it. If the target can hear Kalain, the target must succeed on a Presence Reaction Roll or have disadvantage on ability checks, attacks, and Reaction Rolls until the start of Kalain's next turn."
+            "description": "<strong>Passive:</strong> Kalain can use its action on her turn to target one creature within Close range of it. If the target can hear Kalain, the target must succeed on a Presence Reaction Roll or have disadvantage on ability checks, attacks, and Reaction Rolls until Kalain is next spotlighted."
           }
         ]
       },
@@ -96293,7 +96293,7 @@
           },
           {
             "name": "Tyrant's Blade",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 2d6+1 physical damage plus 2d8+1 magic damage (psychic). The target is frightened (Vulnerable) until the start of Karas's next turn. If the target is already Frightened, it instead takes ."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 2d6+1 physical damage plus 2d8+1 magic damage (psychic). The target is frightened (Vulnerable) until Karas is next spotlighted. If the target is already Frightened, it instead takes ."
           },
           {
             "name": "Withdraw",
@@ -96637,7 +96637,7 @@
           },
           {
             "name": "Menacing Glare",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Kas targets one creature he can see within Far range of himself. The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until the start of Kas's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Kas targets one creature he can see within Far range of himself. The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until Kas is next spotlighted."
           },
           {
             "name": "Rise, Fallen Soldier",
@@ -98537,7 +98537,7 @@
           },
           {
             "name": "Thunderous Stomp",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Hekaton stomps the ground, triggering a thunderclap. All other creatures within Close range of him must succeed on a Strength Reaction Roll or take 2d12+2 magic damage (thunder) and be deafened until the start of Hekaton's next turn. On a successful Reaction Roll, a creature takes half as much damage and isn't deafened. The thunderclap can be heard out to a range of 1,Very Far range."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Hekaton stomps the ground, triggering a thunderclap. All other creatures within Close range of him must succeed on a Strength Reaction Roll or take 2d12+2 magic damage (thunder) and be deafened until Hekaton is next spotlighted. On a successful Reaction Roll, a creature takes half as much damage and isn't deafened. The thunderclap can be heard out to a range of 1,Very Far range."
           },
           {
             "name": "Momentum",
@@ -100246,7 +100246,7 @@
           },
           {
             "name": "Bolster",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Kopoha bolsters all nonhostile creatures within Far range of it until they next act. Bolstered creatures can't be charmed or frightened, and they gain advantage on ability checks and Reaction Rolls until the end of Kopoha's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Kopoha bolsters all nonhostile creatures within Far range of it until they next act. Bolstered creatures can't be charmed or frightened, and they gain advantage on ability checks and Reaction Rolls until Kopoha is next spotlighted."
           },
           {
             "name": "Trembling Strike",
@@ -100301,11 +100301,11 @@
         "entries": [
           {
             "name": "Rancid Knife",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 1d4+1 physical damage plus 1d4+1 magic damage (poison). The target is poisoned (disadvantage on action rolls) until the start of Korex's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 1d4+1 physical damage plus 1d4+1 magic damage (poison). The target is poisoned (disadvantage on action rolls) until Korex is next spotlighted."
           },
           {
             "name": "Entrancing Pipes",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. One creature Korex can see within Far range must make an Instinct Reaction Roll. Targets who fail take 1d8+2 magic damage (psychic), and the target has the Charmed condition until the start of Korex's next turn. Targets who succeed take half damage."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. One creature Korex can see within Far range must make an Instinct Reaction Roll. Targets who fail take 1d8+2 magic damage (psychic), and the target has the Charmed condition until Korex is next spotlighted. Targets who succeed take half damage."
           },
           {
             "name": "Skitter",
@@ -100518,7 +100518,7 @@
           },
           {
             "name": "Curse",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Kostchtchie curses one creature he can see within Far range of him. The cursed creature gains vulnerability to all damage dealt by Kostchtchie until the end of Kostchtchie's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Kostchtchie curses one creature he can see within Far range of him. The cursed creature gains vulnerability to all damage dealt by Kostchtchie until Kostchtchie is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -100609,7 +100609,7 @@
           },
           {
             "name": "Toxic Ink",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the kraken while it is underwater must make a Strength Reaction Roll. On a failure: The target has the Blinded and Poisoned conditions until the kraken is next spotlighted. The kraken then moves up to its Speed. Either way, The kraken can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the kraken while it is underwater must make a Strength Reaction Roll. On a failure: The target is blinded (Vulnerable) and poisoned (disadvantage on action rolls) until the kraken is next spotlighted. The kraken then moves up to its Speed. Either way,"
           },
           {
             "name": "Momentum",
@@ -102139,7 +102139,7 @@
         "entries": [
           {
             "name": "Chill Touch (Cantrip)",
-            "description": "<strong>Action:</strong> Make an attack against a target within Far range. On a success, deal 4d10+1 magic damage (necrotic). The target can't regain HP until the start of Illmarrow's next turn. If the target is undead, it also has disadvantage on attacks against Illmarrow until they next act."
+            "description": "<strong>Action:</strong> Make an attack against a target within Far range. On a success, deal 4d10+1 magic damage (necrotic). The target can't regain HP until Illmarrow is next spotlighted. If the target is undead, it also has disadvantage on attacks against Illmarrow until they next act."
           },
           {
             "name": "Paralyzing Claw",
@@ -104450,11 +104450,11 @@
           },
           {
             "name": "Disrupt Life",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature that isn't an Undead in a Emanation (Close range) originating from the lich must make a Strength Reaction Roll. Targets who fail take 4d10+10 magic damage (necrotic). Targets who succeed take half damage. Either way, The lich can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature that isn't an Undead in a Emanation (Close range) originating from the lich must make a Strength Reaction Roll. Targets who fail take 4d10+10 magic damage (necrotic). Targets who succeed take half damage. Either way,"
           },
           {
             "name": "Frightening Gaze",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The lich casts Fear, using the same spellcasting ability as Spellcasting. The lich can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The lich casts Fear, using the same spellcasting ability as Spellcasting."
           },
           {
             "name": "Protective Magic",
@@ -106436,7 +106436,7 @@
           },
           {
             "name": "Forsaken Brand",
-            "description": "<strong>Action:</strong> Make an attack against a target within Melee range. On a success, deal 3d6+2 physical damage plus 4d8+2 magic damage (necrotic). If the target is a creature, it can't regain HP until the start of Soth's next turn."
+            "description": "<strong>Action:</strong> Make an attack against a target within Melee range. On a success, deal 3d6+2 physical damage plus 4d8+2 magic damage (necrotic). If the target is a creature, it can't regain HP until Soth is next spotlighted."
           },
           {
             "name": "Cataclysmic Fire",
@@ -106960,7 +106960,7 @@
           },
           {
             "name": "Eye Rays",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Lorthuun shoots three of the following magical eye rays at random (reroll duplicates), choosing one to three targets it can see within Far range of it:1. Charm Ray. The targeted creature must succeed on an Instinct Reaction Roll or be charmed by Lorthuun for 1 hour, or until Lorthuun harms the creature.2. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.3. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.4. Slowing Ray. The targeted creature must succeed on an Agility Reaction Roll. On a failure, the target's speed is halved until the end of the scene. In addition, the creature can't take reactions, and it can take either an action or its action on its turn, not both. They can clear it with a successful Agility Roll each time they act.5. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 3d12+4 magic damage (necrotic) on a failure, or half as much damage on a successful one.6. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll or Lorthuun moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until the start of Lorthuun's next turn or until Lorthuun is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Lorthuun can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Lorthuun shoots three of the following magical eye rays at random (reroll duplicates), choosing one to three targets it can see within Far range of it:1. Charm Ray. The targeted creature must succeed on an Instinct Reaction Roll or be charmed by Lorthuun for 1 hour, or until Lorthuun harms the creature.2. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.3. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.4. Slowing Ray. The targeted creature must succeed on an Agility Reaction Roll. On a failure, the target's speed is halved until the end of the scene. In addition, the creature can't take reactions, and it can take either an action or its action on its turn, not both. They can clear it with a successful Agility Roll each time they act.5. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 3d12+4 magic damage (necrotic) on a failure, or half as much damage on a successful one.6. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll or Lorthuun moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until Lorthuun is next spotlighted or until Lorthuun is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Lorthuun can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container."
           },
           {
             "name": "Eye Ray",
@@ -108448,11 +108448,11 @@
           },
           {
             "name": "Quench Magic",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Maegera targets one creature that it can see within Far range of it. Any resistance or immunity to fire damage that the target gains from a spell or magic item is suppressed. The effect lasts until the end of Maegera's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Maegera targets one creature that it can see within Far range of it. Any resistance or immunity to fire damage that the target gains from a spell or magic item is suppressed. The effect lasts until Maegera is next spotlighted."
           },
           {
             "name": "Smoke Cloud",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Maegera exhales a billowing cloud of hot smoke and embers that fills a Far range cube. Each creature in the area takes 2d8 magic damage (fire). The cloud lasts until the end of Maegera's next turn. Creatures completely in the cloud are blinded (Vulnerable) and can't be seen."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Maegera exhales a billowing cloud of hot smoke and embers that fills a Far range cube. Each creature in the area takes 2d8 magic damage (fire). The cloud lasts until Maegera is next spotlighted. Creatures completely in the cloud are blinded (Vulnerable) and can't be seen."
           },
           {
             "name": "Create Fire Elemental",
@@ -109485,7 +109485,7 @@
           },
           {
             "name": "Forge Hammer",
-            "description": "<strong>Action:</strong> Make an attack against a target within Very Close range (or Far range if thrown). On a success, deal 4d10+10 physical damage. The target can't take reactions until the end of Malaxxix's next turn. Hit or Miss: The hammer then magically returns to Malaxxix's hand."
+            "description": "<strong>Action:</strong> Make an attack against a target within Very Close range (or Far range if thrown). On a success, deal 4d10+10 physical damage. The target can't take reactions until Malaxxix is next spotlighted. Hit or Miss: The hammer then magically returns to Malaxxix's hand."
           },
           {
             "name": "Whip",
@@ -109493,7 +109493,7 @@
           },
           {
             "name": "Mezzoloth Vortex",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Malaxxix summons a vortex of whirling mezzoloths at a point it can see within Far range of itself. The vortex is a cylinder (Close range) centered on that point. Each creature other than Malaxxix in that area must make an Agility Reaction Roll. On a failure, a creature takes 4d10+10 magic damage and is Restrained while within the cylinder. On a successful Reaction Roll, a creature takes half as much damage and is pushed to the nearest unoccupied space outside the cylinder. The vortex lasts until the start of Malaxxix's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Malaxxix summons a vortex of whirling mezzoloths at a point it can see within Far range of itself. The vortex is a cylinder (Close range) centered on that point. Each creature other than Malaxxix in that area must make an Agility Reaction Roll. On a failure, a creature takes 4d10+10 magic damage and is Restrained while within the cylinder. On a successful Reaction Roll, a creature takes half as much damage and is pushed to the nearest unoccupied space outside the cylinder. The vortex lasts until Malaxxix is next spotlighted."
           },
           {
             "name": "Fiendish Stride",
@@ -109677,7 +109677,7 @@
           },
           {
             "name": "Nightmare Blast",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Far range. On a success, deal 2d6+1 magic damage (psychic). The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until the start of Malinia's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Far range. On a success, deal 2d6+1 magic damage (psychic). The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until Malinia is next spotlighted."
           },
           {
             "name": "Defensive Flight",
@@ -111298,7 +111298,7 @@
           },
           {
             "name": "Taunt",
-            "description": "<strong>Passive:</strong> Mattrim can use its action on its turn to target one creature within Close range of it. If the target can hear Mattrim, the target must succeed on a Presence Reaction Roll or have disadvantage on ability checks, attacks, and Reaction Rolls until the start of Mattrim's next turn."
+            "description": "<strong>Passive:</strong> Mattrim can use its action on its turn to target one creature within Close range of it. If the target can hear Mattrim, the target must succeed on a Presence Reaction Roll or have disadvantage on ability checks, attacks, and Reaction Rolls until Mattrim is next spotlighted."
           }
         ]
       },
@@ -115576,11 +115576,11 @@
           },
           {
             "name": "Claw",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 1d8+2 physical damage. If the target is a creature, it must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until the end of Mister Threadneedle's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 1d8+2 physical damage. If the target is a creature, it must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until Mister Threadneedle is next spotlighted."
           },
           {
             "name": "Terrifying Glare",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Mister Threadneedle targets one creature it can see within Close range of it. If the target can see Mister Threadneedle, the target must succeed on an Instinct Reaction Roll or be magically frightened until the end of Mister Threadneedle's next turn. The frightened target is paralyzed (Restrained and Vulnerable)."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Mister Threadneedle targets one creature it can see within Close range of it. If the target can see Mister Threadneedle, the target must succeed on an Instinct Reaction Roll or be magically frightened until Mister Threadneedle is next spotlighted. The frightened target is paralyzed (Restrained and Vulnerable)."
           }
         ]
       }
@@ -118003,11 +118003,11 @@
           },
           {
             "name": "Dread Command",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The mummy casts Command (level 2 version), using the same spellcasting ability as Spellcasting. The mummy can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The mummy casts Command (level 2 version), using the same spellcasting ability as Spellcasting."
           },
           {
             "name": "Glare",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The mummy uses Dreadful Glare. The mummy can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The mummy uses Dreadful Glare."
           },
           {
             "name": "Whirlwind of Sand",
@@ -118148,7 +118148,7 @@
           },
           {
             "name": "Blood Lash",
-            "description": "<strong>Action:</strong> Make an attack against a target within Very Close range. On a success, deal 3d10+4 magic damage (necrotic). If the target is a creature, it can't regain HP until the start of Murgaxor's next turn."
+            "description": "<strong>Action:</strong> Make an attack against a target within Very Close range. On a success, deal 3d10+4 magic damage (necrotic). If the target is a creature, it can't regain HP until Murgaxor is next spotlighted."
           },
           {
             "name": "Blood Boil",
@@ -119102,7 +119102,7 @@
           },
           {
             "name": "Dreadful Glare",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Nafik targets one creature he can see within Far range of himself. The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until the end of Nafik's next turn. A target that succeeds on the Reaction Roll is immune to Nafik's Dreadful Glare for the next 24 hours."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Nafik targets one creature he can see within Far range of himself. The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until Nafik is next spotlighted. A target that succeeds on the Reaction Roll is immune to Nafik's Dreadful Glare for the next 24 hours."
           }
         ]
       }
@@ -121453,7 +121453,7 @@
           },
           {
             "name": "Poisonous Cloud",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Poison gas fills a sphere (Close range) centered on a point Neronvain can see within Far range of him. The gas spreads around corners and remains until the start of Neronvain's next turn. Each creature that starts its turn in the gas must succeed on a Strength Reaction Roll or be poisoned (disadvantage on action rolls) until they clear it with a successful Strength Roll."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Poison gas fills a sphere (Close range) centered on a point Neronvain can see within Far range of him. The gas spreads around corners and remains until Neronvain is next spotlighted. Each creature that starts its turn in the gas must succeed on a Strength Reaction Roll or be poisoned (disadvantage on action rolls) until they clear it with a successful Strength Roll."
           },
           {
             "name": "Momentum",
@@ -121512,7 +121512,7 @@
           },
           {
             "name": "Eye Ray",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Nerozar uses a random magical eye ray, choosing a target that it can see within Far range of it.1. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.2. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.3. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 2d12+2 magic damage (necrotic) on a failure, or half as much damage on a successful one.4. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll, or Nerozar moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until the start of Nerozar's next turn or until Nerozar is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Nerozar can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or container."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Nerozar uses a random magical eye ray, choosing a target that it can see within Far range of it.1. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.2. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.3. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 2d12+2 magic damage (necrotic) on a failure, or half as much damage on a successful one.4. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll, or Nerozar moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until Nerozar is next spotlighted or until Nerozar is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Nerozar can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or container."
           }
         ]
       }
@@ -125155,7 +125155,7 @@
           },
           {
             "name": "Cloud of Cards",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Oddlewin conjures magical cards that slash at the air in a cube (Melee range) within Far range of Oddlewin until the start of Oddlewin's next turn. A creature that starts its turn in the cube or that enters that area for the first time on a turn takes 1d6+2 physical damage."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Oddlewin conjures magical cards that slash at the air in a cube (Melee range) within Far range of Oddlewin until Oddlewin is next spotlighted. A creature that starts its turn in the cube or that enters that area for the first time on a turn takes 1d6+2 physical damage."
           },
           {
             "name": "Spellcasting",
@@ -126425,7 +126425,7 @@
           },
           {
             "name": "Nightmare Blast",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Far range. On a success, deal 2d6+1 magic damage (psychic). The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until the start of Ontharyx's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Far range. On a success, deal 2d6+1 magic damage (psychic). The target must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until Ontharyx is next spotlighted."
           },
           {
             "name": "Defensive Flight",
@@ -127289,7 +127289,7 @@
           },
           {
             "name": "Creeping Death",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Orcus chooses a point on the ground that he can see within Far range of him. A cylinder of swirling necrotic energy 60 feet tall and with a radius (Very Close range) rises from that point and lasts until the end of Orcus's next turn. Creatures in that area have vulnerability to necrotic damage."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Orcus chooses a point on the ground that he can see within Far range of him. A cylinder of swirling necrotic energy 60 feet tall and with a radius (Very Close range) rises from that point and lasts until Orcus is next spotlighted. Creatures in that area have vulnerability to necrotic damage."
           },
           {
             "name": "Momentum",
@@ -132028,7 +132028,7 @@
           },
           {
             "name": "Rally",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The pirate chooses up to three other creatures it can see within Close range. Until the pirate is next spotlighted, the targets have Advantage on attacks and Reaction Rolls."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The pirate chooses up to three other creatures it can see within Close range. Until the start of the pirate's next turn, the targets have Advantage on attacks and Reaction Rolls."
           },
           {
             "name": "Defensive Stance",
@@ -132531,7 +132531,7 @@
           },
           {
             "name": "Starry Radiance",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Piyarz's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until the end of Piyarz's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Piyarz's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until Piyarz is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -133460,7 +133460,7 @@
           },
           {
             "name": "Starry Radiance",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Porro's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until the end of Porro's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Porro's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until Porro is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -136268,7 +136268,7 @@
           },
           {
             "name": "Assess Weakness",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The quavilithku sizes up a creature it can see within Far range of itself. Until the quavilithku is next spotlighted, it has advantage on attacks against the creature."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The quavilithku sizes up a creature it can see within Far range of itself. Until the start of the quavilithku's next turn, it has advantage on attacks against the creature."
           },
           {
             "name": "Momentum",
@@ -137827,7 +137827,7 @@
           },
           {
             "name": "Baleful Command",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each enemy in a Emanation (Close range) originating from the rakshasa must make an Instinct Reaction Roll. Targets who fail take 3d10+1 magic damage (psychic), and the target has the Frightened and Incapacitated conditions until the rakshasa is next spotlighted."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each enemy in a Emanation (Close range) originating from the rakshasa must make an Instinct Reaction Roll. Targets who fail take 3d10+1 magic damage (psychic), and the target is frightened (Vulnerable) and incapacitated (can't act) until the rakshasa is next spotlighted."
           },
           {
             "name": "Spellcasting",
@@ -138584,7 +138584,7 @@
           },
           {
             "name": "Incite Fanaticism",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The abishai chooses up to four other creatures within Far range of it that can see it. Until the abishai is next spotlighted, each of those creatures makes attacks with advantage and can't be frightened."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. The abishai chooses up to four other creatures within Far range of it that can see it. Until the start of the abishai's next turn, each of those creatures makes attacks with advantage and can't be frightened."
           },
           {
             "name": "Power of the Dragon Queen",
@@ -145234,7 +145234,7 @@
           },
           {
             "name": "Brain Tendrils",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Ruxithid unleashes a flurry of crystalline psychic tendrils from his brain, targeting one creature that he can see within Close range of himself. The target must succeed on an Agility Reaction Roll or take 2d6+1 magic damage (psychic) and be stunned (Restrained and Vulnerable) until the start of Ruxithid's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Ruxithid unleashes a flurry of crystalline psychic tendrils from his brain, targeting one creature that he can see within Close range of himself. The target must succeed on an Agility Reaction Roll or take 2d6+1 magic damage (psychic) and be stunned (Restrained and Vulnerable) until Ruxithid is next spotlighted."
           },
           {
             "name": "Combat Command",
@@ -147023,7 +147023,7 @@
           },
           {
             "name": "Paralyzing Touch",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 4d8+12 magic damage (cold). The target is paralyzed (Restrained and Vulnerable) until the start of Sammaster's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 4d8+12 magic damage (cold). The target is paralyzed (Restrained and Vulnerable) until Sammaster is next spotlighted."
           },
           {
             "name": "Spellcasting",
@@ -147722,7 +147722,7 @@
           },
           {
             "name": "Enervating Blade",
-            "description": "<strong>Action:</strong> Make an attack against a target within Melee range. On a success, deal 2d10+4 magic damage (necrotic). If the target is a creature, it can't regain HP until the start of Sarlamir's next turn."
+            "description": "<strong>Action:</strong> Make an attack against a target within Melee range. On a success, deal 2d10+4 magic damage (necrotic). If the target is a creature, it can't regain HP until Sarlamir is next spotlighted."
           },
           {
             "name": "Throwing Axe",
@@ -151039,7 +151039,7 @@
           },
           {
             "name": "Veil of Shadow",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Shadow Stealth, and one creature of its choice that it can see within Very Close range of it takes 3d6+3 magic damage (necrotic). The dragon can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The dragon uses Shadow Stealth, and one creature of its choice that it can see within Very Close range of it takes 3d6+3 magic damage (necrotic)."
           },
           {
             "name": "Momentum",
@@ -151527,7 +151527,7 @@
           },
           {
             "name": "Illuminating Shadow Breath",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Shadrix exhales an entwined burst of blinding radiance and unnerving shadow in a cone (Far range). Each creature in that area must make a Strength Reaction Roll. On a failure, a creature takes 4d8+12 magic damage (radiant) and 4d8+12 magic damage (psychic) and is blinded (Vulnerable) until the start of Shadrix's next turn. On a successful Reaction Roll, a creature takes half as much damage and isn't blinded."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Shadrix exhales an entwined burst of blinding radiance and unnerving shadow in a cone (Far range). Each creature in that area must make a Strength Reaction Roll. On a failure, a creature takes 4d8+12 magic damage (radiant) and 4d8+12 magic damage (psychic) and is blinded (Vulnerable) until Shadrix is next spotlighted. On a successful Reaction Roll, a creature takes half as much damage and isn't blinded."
           },
           {
             "name": "Spellcasting",
@@ -151825,7 +151825,7 @@
           },
           {
             "name": "Starry Radiance",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Shalfey's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until the end of Shalfey's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Dazzling light bursts from Shalfey's fingertips in a cone (Close range). Each creature in that area must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until Shalfey is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -151888,7 +151888,7 @@
           },
           {
             "name": "Psychic Rend",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Close range (or Far range if thrown). On a success, deal 3d8+5 magic damage (psychic). The target must succeed on an Instinct Reaction Roll or be stunned (Restrained and Vulnerable) until the start of Shalfi's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Close range (or Far range if thrown). On a success, deal 3d8+5 magic damage (psychic). The target must succeed on an Instinct Reaction Roll or be stunned (Restrained and Vulnerable) until Shalfi is next spotlighted."
           },
           {
             "name": "Shortsword",
@@ -153955,7 +153955,7 @@
           },
           {
             "name": "Shimmering Shield",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Silverlily creates a shimmering, magical field around itself or another creature it can see within Far range of it. The target gains a +2 bonus to Difficulty until the end of Silverlily's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Silverlily creates a shimmering, magical field around itself or another creature it can see within Far range of it. The target gains a +2 bonus to Difficulty until Silverlily is next spotlighted."
           },
           {
             "name": "Heal Self",
@@ -154938,7 +154938,7 @@
           },
           {
             "name": "Stupefying Touch",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Siren touches one creature she can see within Melee range of her. The creature must succeed on a Knowledge Reaction Roll or take 2d10+1 magic damage (psychic) and be stunned (Restrained and Vulnerable) until the start of Siren's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Siren touches one creature she can see within Melee range of her. The creature must succeed on a Knowledge Reaction Roll or take 2d10+1 magic damage (psychic) and be stunned (Restrained and Vulnerable) until Siren is next spotlighted."
           },
           {
             "name": "Harass",
@@ -157673,7 +157673,7 @@
           },
           {
             "name": "Blinding Gaze",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the solar can see within Far range must make a Strength Reaction Roll. On a failure: The target is blinded (Vulnerable) until the end of the scene. Either way, The solar can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the solar can see within Far range must make a Strength Reaction Roll. On a failure: The target is blinded (Vulnerable) until the end of the scene. Either way,"
           },
           {
             "name": "Radiant Teleport",
@@ -159435,7 +159435,7 @@
           },
           {
             "name": "Weight of Years",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the sphinx can see within Far range must make a Strength Reaction Roll. On a failure: The target marks a Stress. While the target has any Exhaustion levels, it appears 3d10 years older. Either way, The sphinx can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the sphinx can see within Far range must make a Strength Reaction Roll. On a failure: The target marks a Stress. While the target has any Exhaustion levels, it appears 3d10 years older. Either way,"
           },
           {
             "name": "Momentum",
@@ -159585,7 +159585,7 @@
           },
           {
             "name": "Weight of Years",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the sphinx can see within Far range must make a Strength Reaction Roll. On a failure: The target marks a Stress. While the target has any Exhaustion levels, it appears 3d10 years older. Either way, The sphinx can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. One creature the sphinx can see within Far range must make a Strength Reaction Roll. On a failure: The target marks a Stress. While the target has any Exhaustion levels, it appears 3d10 years older. Either way,"
           },
           {
             "name": "Momentum",
@@ -161774,7 +161774,7 @@
           },
           {
             "name": "Shimmering Shield",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Stargleam creates a shimmering, magical field around itself or another creature it can see within Far range of it. The target gains a +2 bonus to Difficulty until the end of Stargleam's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Stargleam creates a shimmering, magical field around itself or another creature it can see within Far range of it. The target gains a +2 bonus to Difficulty until Stargleam is next spotlighted."
           },
           {
             "name": "Heal Self",
@@ -162053,7 +162053,7 @@
           },
           {
             "name": "Force Strike",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 3d6 magic damage. If the target is a creature, it must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the start of Steel Crane's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 3d6 magic damage. If the target is a creature, it must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Steel Crane is next spotlighted."
           },
           {
             "name": "Whip",
@@ -163251,7 +163251,7 @@
           },
           {
             "name": "Stinger",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 3d10+2 physical damage. The target must succeed on a Strength Reaction Roll or have the poisoned and paralyzed conditions until the end of the scene. The affected creature can repeat the Reaction Roll each time they act, ending both the poisoned and paralyzed conditions on itself on a success."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 3d10+2 physical damage. The target must succeed on a Strength Reaction Roll or are poisoned (disadvantage on action rolls) and paralyzed (Restrained and Vulnerable) until the end of the scene. The affected creature can repeat the Reaction Roll each time they act, ending both the poisoned and paralyzed conditions on itself on a success."
           },
           {
             "name": "Water Jet",
@@ -164147,7 +164147,7 @@
           },
           {
             "name": "Steel",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 2d6+4 physical damage. Once on each of his turns, Strongheart can also cause the blade to gleam with holy light. If he does so, the target is blinded (Vulnerable) until the start of Strongheart's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 2d6+4 physical damage. Once on each of his turns, Strongheart can also cause the blade to gleam with holy light. If he does so, the target is blinded (Vulnerable) until Strongheart is next spotlighted."
           },
           {
             "name": "Revivify",
@@ -167148,11 +167148,11 @@
           },
           {
             "name": "Claw",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 4d10 physical damage. If the target is a creature, it is addled by recursive thoughts, reducing its speed to 0 until the start of Tanazir's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Very Close range. On a success, deal 4d10 physical damage. If the target is a creature, it is addled by recursive thoughts, reducing its speed to 0 until Tanazir is next spotlighted."
           },
           {
             "name": "Diminution Breath",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Tanazir exhales a weakening equation in a cone (Far range). Each creature in that area must make a Strength Reaction Roll. On a failure, a creature takes 4d8+12 magic damage and 4d8+12 magic damage (psychic) and is weakened until the start of Tanazir's next turn. While weakened, it has disadvantage on the following rolls that rely on Strength: attacks, ability checks, and Reaction Rolls. On a successful Reaction Roll, a creature takes half as much damage and isn't weakened."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Tanazir exhales a weakening equation in a cone (Far range). Each creature in that area must make a Strength Reaction Roll. On a failure, a creature takes 4d8+12 magic damage and 4d8+12 magic damage (psychic) and is weakened until Tanazir is next spotlighted. While weakened, it has disadvantage on the following rolls that rely on Strength: attacks, ability checks, and Reaction Rolls. On a successful Reaction Roll, a creature takes half as much damage and isn't weakened."
           },
           {
             "name": "Spellcasting",
@@ -167506,7 +167506,7 @@
           },
           {
             "name": "World-Shaking Movement",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The tarrasque moves up to its Speed. At the end of this movement, the tarrasque creates an instantaneous shock wave in a Emanation (Far range) originating from itself. Creatures in that area lose Concentration and, if Medium or smaller, have the Prone condition. The tarrasque can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The tarrasque moves up to its Speed. At the end of this movement, the tarrasque creates an instantaneous shock wave in a Emanation (Far range) originating from itself. Creatures in that area lose Concentration and, if Medium or smaller, have the Prone condition."
           },
           {
             "name": "Momentum",
@@ -167713,7 +167713,7 @@
           },
           {
             "name": "Psychic Whip",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Tasha psychically lashes out at one creature she can see within Far range of herself. The target must make a Knowledge Reaction Roll. On a failure, the target takes 4d8+12 magic damage (psychic) and is stunned (Restrained and Vulnerable) until the start of Tasha's next turn. On a successful Reaction Roll, the target takes half as much damage only."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Tasha psychically lashes out at one creature she can see within Far range of herself. The target must make a Knowledge Reaction Roll. On a failure, the target takes 4d8+12 magic damage (psychic) and is stunned (Restrained and Vulnerable) until Tasha is next spotlighted. On a successful Reaction Roll, the target takes half as much damage only."
           },
           {
             "name": "Spellcasting",
@@ -174936,7 +174936,7 @@
           },
           {
             "name": "Touch of Order",
-            "description": "<strong>Action:</strong> Make an attack against a target within Melee range. On a success, deal 4d8+12 magic damage (radiant). Trostani can choose one magic item she can see in the target's possession. Unless it's an artifact, the item's magic is suppressed until the start of Trostani's next turn."
+            "description": "<strong>Action:</strong> Make an attack against a target within Melee range. On a success, deal 4d8+12 magic damage (radiant). Trostani can choose one magic item she can see in the target's possession. Unless it's an artifact, the item's magic is suppressed until Trostani is next spotlighted."
           },
           {
             "name": "Wrath of Mat'Selesnya",
@@ -176870,7 +176870,7 @@
           },
           {
             "name": "Shimmering Aura",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The councilor channels positive energy into its Aura of Radiance. Until the councilor is next spotlighted, it sheds bright light in a radius (Close range) and dim light for an additional Close range. Any creature that starts its turn in the bright light must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until the councilor is next spotlighted."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The councilor channels positive energy into its Aura of Radiance. Until the end of the councilor's next turn, it sheds bright light in a radius (Close range) and dim light for an additional Close range. Any creature that starts its turn in the bright light must succeed on a Strength Reaction Roll or be blinded (Vulnerable) until the councilor is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -177008,7 +177008,7 @@
           },
           {
             "name": "Shimmering Shield",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The unicorn targets itself or one creature it can see within Far range of itself. The target gains 3d6 temporary HP, and its Difficulty increases by 2 until the unicorn is next spotlighted. The unicorn can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The unicorn targets itself or one creature it can see within Far range of itself. The target gains 3d6 temporary HP, and its Difficulty increases by 2 until the unicorn is next spotlighted."
           },
           {
             "name": "Momentum",
@@ -178143,7 +178143,7 @@
           },
           {
             "name": "Dreadful Glare",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Valin targets one creature she can see within Far range of her. If the target can see Valin, it must succeed on an Instinct Reaction Roll against this magic or become frightened (Vulnerable) until the end of Valin's next turn. If the target fails the Reaction Roll by 5 or more, it is also paralyzed for the same duration. A target that succeeds on the Reaction Roll is immune to the Dreadful Glare of all mummies and mummy lords for the next 24 hours."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Valin targets one creature she can see within Far range of her. If the target can see Valin, it must succeed on an Instinct Reaction Roll against this magic or become frightened (Vulnerable) until Valin is next spotlighted. If the target fails the Reaction Roll by 5 or more, it is also paralyzed for the same duration. A target that succeeds on the Reaction Roll is immune to the Dreadful Glare of all mummies and mummy lords for the next 24 hours."
           },
           {
             "name": "Blinding Dust",
@@ -178151,11 +178151,11 @@
           },
           {
             "name": "Blasphemous Word",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Valin utters a blasphemous word. Each non-undead creature within Very Close range of Valin that can hear the magical utterance must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the end of Valin's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Valin utters a blasphemous word. Each non-undead creature within Very Close range of Valin that can hear the magical utterance must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Valin is next spotlighted."
           },
           {
             "name": "Channel Negative Energy",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Valin magically unleashes negative energy. Creatures within Far range of Valin, including ones behind barriers and around corners, can't regain HP until the end of Valin's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Valin magically unleashes negative energy. Creatures within Far range of Valin, including ones behind barriers and around corners, can't regain HP until Valin is next spotlighted."
           },
           {
             "name": "Whirlwind of Sand",
@@ -178226,7 +178226,7 @@
           },
           {
             "name": "Paralyzing Touch",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 4d6 magic damage (cold). The target is paralyzed (Restrained and Vulnerable) until the start of Valindra's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Melee range. On a success, deal 4d6 magic damage (cold). The target is paralyzed (Restrained and Vulnerable) until Valindra is next spotlighted."
           },
           {
             "name": "Deathly Grasp",
@@ -178594,7 +178594,7 @@
           },
           {
             "name": "Beguile",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The vampire casts Command, requiring no spell components and using Charisma as the spellcasting ability. The vampire can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The vampire casts Command, requiring no spell components and using Charisma as the spellcasting ability."
           },
           {
             "name": "Momentum",
@@ -178736,7 +178736,7 @@
           },
           {
             "name": "Infernal Majesty",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the vampire must make a Presence Reaction Roll. Targets who fail take 2d6 magic damage (psychic), and the target is frightened (Vulnerable) until they next act. Targets who succeed take half damage. Either way, The vampire can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Each creature in a Emanation (Close range) originating from the vampire must make a Presence Reaction Roll. Targets who fail take 2d6 magic damage (psychic), and the target is frightened (Vulnerable) until they next act. Targets who succeed take half damage. Either way,"
           },
           {
             "name": "Teleport",
@@ -178957,7 +178957,7 @@
           },
           {
             "name": "Beguile",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The vampire casts Command, requiring no spell components and using Charisma as the spellcasting ability. The vampire can't take this action again until they next act."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. The vampire casts Command, requiring no spell components and using Charisma as the spellcasting ability."
           },
           {
             "name": "Momentum",
@@ -180429,7 +180429,7 @@
           },
           {
             "name": "Chill Touch (Cantrip)",
-            "description": "<strong>Action:</strong> Make an attack against a target within Far range. On a success, deal 2d10 magic damage (necrotic). The target can't regain HP until the start of Vellynne's next turn."
+            "description": "<strong>Action:</strong> Make an attack against a target within Far range. On a success, deal 2d10 magic damage (necrotic). The target can't regain HP until Vellynne is next spotlighted."
           },
           {
             "name": "Wand of Magic Missiles",
@@ -182507,7 +182507,7 @@
           },
           {
             "name": "Vengeful Glare",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Vladimir can target Strahd within Close range provided he can see Strahd. Strahd must make an Instinct Reaction Roll. On a failure, Strahd is paralyzed (Restrained and Vulnerable) until Vladimir deals damage to him, or until the end of Vladimir's next turn. When the paralysis ends, Strahd is frightened (Vulnerable) of Vladimir until the end of the scene. Strahd can repeat the Reaction Roll each time they act, with disadvantage if he can see Vladimir, ending the frightened condition on itself on a success."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Vladimir can target Strahd within Close range provided he can see Strahd. Strahd must make an Instinct Reaction Roll. On a failure, Strahd is paralyzed (Restrained and Vulnerable) until Vladimir deals damage to him, or until Vladimir is next spotlighted. When the paralysis ends, Strahd is frightened (Vulnerable) of Vladimir until the end of the scene. Strahd can repeat the Reaction Roll each time they act, with disadvantage if he can see Vladimir, ending the frightened condition on itself on a success."
           },
           {
             "name": "Momentum",
@@ -187053,7 +187053,7 @@
           },
           {
             "name": "Dragon's Fury",
-            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Windfall targets one creature she can see within Far range of herself and unleashes a burst of magical ire. The target must make an Instinct Reaction Roll. On a failure, the target takes 4d12+19 magic damage (psychic) and is frightened (Vulnerable) until the start of Windfall's next turn. On a successful Reaction Roll, the target takes half as much damage only."
+            "description": "<strong>Action:</strong> Mark a Stress to use this ability. Windfall targets one creature she can see within Far range of herself and unleashes a burst of magical ire. The target must make an Instinct Reaction Roll. On a failure, the target takes 4d12+19 magic damage (psychic) and is frightened (Vulnerable) until Windfall is next spotlighted. On a successful Reaction Roll, the target takes half as much damage only."
           },
           {
             "name": "Spellcasting",
@@ -187061,7 +187061,7 @@
           },
           {
             "name": "Stunning Scintillation",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Windfall emits an overwhelming array of colors from her coat. Each creature within Close range of Windfall that can see her must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until the start of Windfall's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Windfall emits an overwhelming array of colors from her coat. Each creature within Close range of Windfall that can see her must succeed on a Strength Reaction Roll or be stunned (Restrained and Vulnerable) until Windfall is next spotlighted."
           },
           {
             "name": "Dragon's Flare",
@@ -188996,7 +188996,7 @@
           },
           {
             "name": "Eye Rays",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Xanathar shoots three of the following magical eye rays at random (reroll duplicates), choosing one to three targets it can see within Far range of it:1. Charm Ray. The targeted creature must succeed on an Instinct Reaction Roll or be charmed by Xanathar for 1 hour, or until Xanathar harms the creature.2. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.3. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.4. Slowing Ray. The targeted creature must succeed on an Agility Reaction Roll. On a failure, the target's speed is halved until the end of the scene. In addition, the creature can't take reactions, and it can take either an action or its action on its turn, not both. They can clear it with a successful Agility Roll each time they act.5. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 3d12+4 magic damage (necrotic) on a failure, or half as much damage on a successful one.6. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll or Xanathar moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until the start of Xanathar's next turn or until Xanathar is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Xanathar can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container.7. Sleep Ray. The targeted creature must succeed on an Instinct Reaction Roll or fall asleep and remain unconscious until the end of the scene. The target awakens if it takes damage or another creature takes an action to wake it. This ray has no effect on constructs and undead.8. Petrification Ray. The targeted creature must make an Agility Reaction Roll. On a failure, the creature begins to turn to stone and is Restrained. It must repeat the Reaction Roll at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified until freed by the greater restoration spell or other magic.9. Disintegration Ray. If the target is a creature, it must succeed on an Agility Reaction Roll or take 3d12+4 magic damage. If this damage reduces the creature to 0 HP, its body becomes a pile of fine gray dust. If the target is a Large or smaller non-magical object or creation of magical force, it is disintegrated without a Reaction Roll. If the target is a Huge or larger object or creation of magical force, this ray disintegrates a cube (Very Close range) of it.10. Death Ray. The targeted creature must succeed on an Agility Reaction Roll or take 3d12+4 magic damage (necrotic). The target dies if the ray reduces it to 0 HP."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Xanathar shoots three of the following magical eye rays at random (reroll duplicates), choosing one to three targets it can see within Far range of it:1. Charm Ray. The targeted creature must succeed on an Instinct Reaction Roll or be charmed by Xanathar for 1 hour, or until Xanathar harms the creature.2. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.3. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.4. Slowing Ray. The targeted creature must succeed on an Agility Reaction Roll. On a failure, the target's speed is halved until the end of the scene. In addition, the creature can't take reactions, and it can take either an action or its action on its turn, not both. They can clear it with a successful Agility Roll each time they act.5. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 3d12+4 magic damage (necrotic) on a failure, or half as much damage on a successful one.6. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll or Xanathar moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until Xanathar is next spotlighted or until Xanathar is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Xanathar can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container.7. Sleep Ray. The targeted creature must succeed on an Instinct Reaction Roll or fall asleep and remain unconscious until the end of the scene. The target awakens if it takes damage or another creature takes an action to wake it. This ray has no effect on constructs and undead.8. Petrification Ray. The targeted creature must make an Agility Reaction Roll. On a failure, the creature begins to turn to stone and is Restrained. It must repeat the Reaction Roll at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified until freed by the greater restoration spell or other magic.9. Disintegration Ray. If the target is a creature, it must succeed on an Agility Reaction Roll or take 3d12+4 magic damage. If this damage reduces the creature to 0 HP, its body becomes a pile of fine gray dust. If the target is a Large or smaller non-magical object or creation of magical force, it is disintegrated without a Reaction Roll. If the target is a Huge or larger object or creation of magical force, this ray disintegrates a cube (Very Close range) of it.10. Death Ray. The targeted creature must succeed on an Agility Reaction Roll or take 3d12+4 magic damage (necrotic). The target dies if the ray reduces it to 0 HP."
           },
           {
             "name": "Eye Ray",
@@ -189287,7 +189287,7 @@
           },
           {
             "name": "Eye Rays",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Xazax shoots three of the following magical eye rays at random (reroll duplicates), choosing one to three targets it can see within Far range of it:1. Charm Ray. The targeted creature must succeed on an Instinct Reaction Roll or be charmed by Xazax for 1 hour, or until Xazax harms the creature.2. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.3. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.4. Slowing Ray. The targeted creature must succeed on an Agility Reaction Roll. On a failure, the target's speed is halved until the end of the scene. In addition, the creature can't take reactions, and it can take either an action or its action on its turn, not both. They can clear it with a successful Agility Roll each time they act.5. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 3d12+4 magic damage (necrotic) on a failure, or half as much damage on a successful one.6. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll or Xazax moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until the start of Xazax's next turn or until Xazax is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Xazax can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container.7. Sleep Ray. The targeted creature must succeed on an Instinct Reaction Roll or fall asleep and remain unconscious until the end of the scene. The target awakens if it takes damage or another creature takes an action to wake it. This ray has no effect on constructs and undead.8. Petrification Ray. The targeted creature must make an Agility Reaction Roll. On a failure, the creature begins to turn to stone and is Restrained. It must repeat the Reaction Roll at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified until freed by the greater restoration spell or other magic.9. Disintegration Ray. If the target is a creature, it must succeed on an Agility Reaction Roll or take 3d12+4 magic damage. If this damage reduces the creature to 0 HP, its body becomes a pile of fine gray dust. If the target is a Large or smaller non-magical object or creation of magical force, it is disintegrated without a Reaction Roll. If the target is a Huge or larger object or creation of magical force, this ray disintegrates a cube (Very Close range) of it.10. Death Ray. The targeted creature must succeed on an Agility Reaction Roll or take 3d12+4 magic damage (necrotic). The target dies if the ray reduces it to 0 HP."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Xazax shoots three of the following magical eye rays at random (reroll duplicates), choosing one to three targets it can see within Far range of it:1. Charm Ray. The targeted creature must succeed on an Instinct Reaction Roll or be charmed by Xazax for 1 hour, or until Xazax harms the creature.2. Paralyzing Ray. The targeted creature must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until they clear it with a successful Strength Roll.3. Fear Ray. The targeted creature must succeed on an Instinct Reaction Roll or be frightened (Vulnerable) until they clear it with a successful Strength Roll.4. Slowing Ray. The targeted creature must succeed on an Agility Reaction Roll. On a failure, the target's speed is halved until the end of the scene. In addition, the creature can't take reactions, and it can take either an action or its action on its turn, not both. They can clear it with a successful Agility Roll each time they act.5. Enervation Ray. The targeted creature must make a Strength Reaction Roll, taking 3d12+4 magic damage (necrotic) on a failure, or half as much damage on a successful one.6. Telekinetic Ray. If the target is a creature, it must succeed on a Strength Reaction Roll or Xazax moves it up to Close range in any direction. It is Restrained by the ray's telekinetic grip until Xazax is next spotlighted or until Xazax is incapacitated (can't act). If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to Close range in any direction. Xazax can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container.7. Sleep Ray. The targeted creature must succeed on an Instinct Reaction Roll or fall asleep and remain unconscious until the end of the scene. The target awakens if it takes damage or another creature takes an action to wake it. This ray has no effect on constructs and undead.8. Petrification Ray. The targeted creature must make an Agility Reaction Roll. On a failure, the creature begins to turn to stone and is Restrained. It must repeat the Reaction Roll at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified until freed by the greater restoration spell or other magic.9. Disintegration Ray. If the target is a creature, it must succeed on an Agility Reaction Roll or take 3d12+4 magic damage. If this damage reduces the creature to 0 HP, its body becomes a pile of fine gray dust. If the target is a Large or smaller non-magical object or creation of magical force, it is disintegrated without a Reaction Roll. If the target is a Huge or larger object or creation of magical force, this ray disintegrates a cube (Very Close range) of it.10. Death Ray. The targeted creature must succeed on an Agility Reaction Roll or take 3d12+4 magic damage (necrotic). The target dies if the ray reduces it to 0 HP."
           },
           {
             "name": "Eye Ray",
@@ -190536,7 +190536,7 @@
           },
           {
             "name": "Thundercrack",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Yan-C-Bin unleashes a terrible thundercrack in a sphere (Far range) centered on himself. All other creatures in the area must succeed on a Strength Reaction Roll or take 4d10+10 magic damage (thunder) and be deafened until the end of the scene. On a successful Reaction Roll, a creature takes half as much damage and is deafened until the start of Yan-C-Bin's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Yan-C-Bin unleashes a terrible thundercrack in a sphere (Far range) centered on himself. All other creatures in the area must succeed on a Strength Reaction Roll or take 4d10+10 magic damage (thunder) and be deafened until the end of the scene. On a successful Reaction Roll, a creature takes half as much damage and is deafened until Yan-C-Bin is next spotlighted."
           },
           {
             "name": "Change Shape",
@@ -190815,7 +190815,7 @@
           },
           {
             "name": "Flail",
-            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Close range. On a success, deal 4d8+2 magic damage plus 3d6+2 magic damage. If it's his turn, Yeenoghu can cause the target to suffer one of the following additional effects, each of which he can apply only once per turnConfusion. The target must succeed on an Instinct Reaction Roll or be affected by the confusion spell until the start of Yeenoghu's next turn. Force. The target takes an extra .Paralysis. The target must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until the start of Yeenoghu's next turn."
+            "description": "<strong>Action:</strong> Mark a Stress to make an attack against a target within Close range. On a success, deal 4d8+2 magic damage plus 3d6+2 magic damage. If it's his turn, Yeenoghu can cause the target to suffer one of the following additional effects, each of which he can apply only once per turnConfusion. The target must succeed on an Instinct Reaction Roll or be affected by the confusion spell until Yeenoghu is next spotlighted. Force. The target takes an extra .Paralysis. The target must succeed on a Strength Reaction Roll or be paralyzed (Restrained and Vulnerable) until Yeenoghu is next spotlighted."
           },
           {
             "name": "Bite",
@@ -191487,7 +191487,7 @@
           },
           {
             "name": "Mesmerizing Chirr",
-            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Yorb makes a chirring noise to which grungs are immune. Each humanoid or beast that is within Close range of Yorb and able to hear it must succeed on an Instinct Reaction Roll or be stunned (Restrained and Vulnerable) until the end of Yorb's next turn."
+            "description": "<strong>Action:</strong> Spend a Fear to use this ability. Yorb makes a chirring noise to which grungs are immune. Each humanoid or beast that is within Close range of Yorb and able to hear it must succeed on an Instinct Reaction Roll or be stunned (Restrained and Vulnerable) until Yorb is next spotlighted."
           }
         ]
       }
@@ -195638,7 +195638,7 @@
           },
           {
             "name": "Gore",
-            "description": "<strong>Action:</strong> Make an attack against a target within Very Close range. On a success, deal 4d10+2 magic damage. A Very Close-radius invisible sphere of antimagic, like that created by an Antimagic Field spell, surrounds the target. The sphere is centered on the target, moves with the target, and lasts until the end of Zargon's next turn."
+            "description": "<strong>Action:</strong> Make an attack against a target within Very Close range. On a success, deal 4d10+2 magic damage. A Very Close-radius invisible sphere of antimagic, like that created by an Antimagic Field spell, surrounds the target. The sphere is centered on the target, moves with the target, and lasts until Zargon is next spotlighted."
           },
           {
             "name": "Slime Wave",

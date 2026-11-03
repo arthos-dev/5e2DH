@@ -1,10 +1,11 @@
 // Calibration report: official Daggerheart adversaries (SRD snapshot) vs converted 5e adversaries, per tier and role.
 // Prints markdown tables of median (min–max) per stat. Optional: compare the ids with an older adversaries.json.
-//   node scripts/calibration-report.js [--ids old-adversaries.json] [--roles] [--tiers]
+//   node scripts/calibration-report.js [--data adversaries.json] [--ids old-adversaries.json] [--tiers] [--mix] [--roles]
 import fs from "node:fs";
 
 const args = process.argv.slice(2);
-const data = JSON.parse(fs.readFileSync("src/data/adversaries.json", "utf8"));
+const dataFile = args.includes("--data") ? args[args.indexOf("--data") + 1] : "src/data/adversaries.json";
+const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 
 const avgDice = (s) => {
   const m = String(s).match(/(\d+)d(\d+)(?:\s*([+-])\s*(\d+))?/);

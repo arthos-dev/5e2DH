@@ -1041,7 +1041,7 @@ function rewrite2024Save(text) {
 function dhText(text) {
     let t = toDaggerheartText(text.replace(/([a-z)])\.([A-Z][a-z])/g, '$1. $2'));
     t = rewrite2024Save(t);
-    t = t.replace(/\s*(?:The|the) [\w\s'-]+? can't take this action again until the start of (?:its|his|her|their) next turn\./g, '');
+    t = t.replace(/\s*(?:The|the) [\w\s'-]+? can't take this action again until (?:the start of (?:its|his|her|their) next turn|they next act|[\w\s'-]+? is next spotlighted)\./g, '');
     t = t.replace(/\battack rolls?\b/gi, (m) => (/s$/i.test(m) ? 'attacks' : 'attack'));
     return t.replace(/(^|[.!?]\s+)([a-z])/g, (_, p, c) => p + c.toUpperCase()).trim();
 }
