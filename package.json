@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "convert": "node scripts/convert.js",
     "preview": "vite preview",
     "prebuild": "node scripts/publish-data.js",
     "predev": "node scripts/publish-data.js"
