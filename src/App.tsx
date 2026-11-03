@@ -16,7 +16,7 @@ import { debounce } from './utils/debounce'
 import { VALID_ROLES, VALID_CATEGORIES, VALID_BIOMES, normalizeRole, normalizeCategory } from './constants'
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage'
 import { initializeRunningEncounter } from './utils/runningEncounterUtils'
-import { loadEncounterFromUrl, updateUrlWithEncounter } from './utils/encounterUrl'
+import { loadEncounterFromUrl, updateUrlWithEncounter, clearEncounterHashFromUrl } from './utils/encounterUrl'
 import { adversariesFor, upgradeLegacyIds } from './utils/encounterUtils'
 
 // Cast data to aligned types if strictly needed
@@ -74,6 +74,14 @@ function App() {
   // Ref to track if we're loading from URL (to prevent infinite loop)
   const isLoadingFromUrl = useRef(false);
 
+  // Open the running view for an encounter; its own stat blocks (customAdversaries) come along.
+  const startRunning = (encounter: Encounter) => {
+    const pool = adversariesFor(encounter, allAdversaries);
+    setRunningAdversaries(pool);
+    setRunningEncounter(initializeRunningEncounter(encounter, pool));
+    setIsRunningEncounter(true);
+  };
+
   // Load saved encounters on mount
   useEffect(() => {
     const saved = getAllSavedEncounters();
@@ -83,8 +91,10 @@ function App() {
   // Load encounter from URL on mount
   useEffect(() => {
     const fromUrl = loadEncounterFromUrl();
-    const urlEncounter = fromUrl && upgradeLegacyIds(fromUrl, allAdversaries);
-    if (urlEncounter) {
+    const urlEncounter = fromUrl && upgradeLegacyIds(fromUrl.encounter, allAdversaries);
+    // The link has been read: drop #encounter=… so a reload doesn't import it again or restart a fight.
+    clearEncounterHashFromUrl();
+    if (fromUrl && urlEncounter) {
       const known = adversariesFor(urlEncounter, allAdversaries);
       isLoadingFromUrl.current = true;
       
@@ -107,7 +117,15 @@ function App() {
       if (urlEncounter.adversaries.length > 0 || missingAdversaries.length === 0) {
         setCurrentEncounter(urlEncounter);
         setActiveTab('edit');
-        showToast(`Encounter "${urlEncounter.name}" loaded from URL`, 'success');
+        if (fromUrl.autoRun && urlEncounter.adversaries.length > 0) {
+          // Same as pressing "Run encounter"; stopping the fight leaves it in the builder.
+          startRunning(urlEncounter);
+          // ?encounter=… stays as the builder's state, but without autoRun, so a reload opens the builder.
+          if (fromUrl.source === 'query') updateUrlWithEncounter(urlEncounter);
+          showToast(`Running encounter "${urlEncounter.name}"`, 'info');
+        } else {
+          showToast(`Encounter "${urlEncounter.name}" loaded from URL`, 'success');
+        }
       } else {
         showToast('Shared encounter contains no valid adversaries', 'error');
       }
@@ -285,10 +303,7 @@ function App() {
 
   const handleRunEncounter = () => {
     if (currentEncounter.adversaries.length === 0) return;
-    const running = initializeRunningEncounter(currentEncounter, adversariesFor(currentEncounter, allAdversaries));
-    setRunningAdversaries(adversariesFor(currentEncounter, allAdversaries));
-    setRunningEncounter(running);
-    setIsRunningEncounter(true);
+    startRunning(currentEncounter);
   };
 
   // Run encounter from Manage tab (loads encounter first)
@@ -296,10 +311,7 @@ function App() {
     const stored = loadEncounter(id);
     const loaded = stored && upgradeLegacyIds(stored, allAdversaries);
     if (loaded && loaded.adversaries.length > 0) {
-      const running = initializeRunningEncounter(loaded, adversariesFor(loaded, allAdversaries));
-      setRunningAdversaries(adversariesFor(loaded, allAdversaries));
-      setRunningEncounter(running);
-      setIsRunningEncounter(true);
+      startRunning(loaded);
       showToast(`Running encounter "${loaded.name}"`, 'info');
     } else {
       showToast('Cannot run encounter with no adversaries', 'error');
