@@ -15,6 +15,7 @@
   --accent-text: #a16207;
   --hp: #e5484d;
   --stress: #7c66dc;
+  --fear: #c026d3;
   --danger: #dc2626;
 }
 
@@ -32,6 +33,7 @@
     --accent-text: #e9b949;
     --hp: #e5484d;
     --stress: #8e7cf0;
+    --fear: #e879f9;
     --danger: #f87171;
   }
 }
@@ -49,6 +51,7 @@
   --color-accent-text: var(--accent-text);
   --color-hp: var(--hp);
   --color-stress: var(--stress);
+  --color-fear: var(--fear);
   --color-danger: var(--danger);
   --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
 }
@@ -90,6 +93,24 @@
   }
   .label {
     @apply text-xs text-muted;
+  }
+}
+
+/* A hit in the running view: the row flashes the HP color. */
+@keyframes hit {
+  from {
+    background: color-mix(in srgb, var(--hp) 28%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+.animate-hit {
+  animation: hit 700ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-hit {
+    animation: none;
   }
 }
 

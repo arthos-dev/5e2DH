@@ -5,7 +5,7 @@ This project is a React-based tool that converts D&D 5e adversaries (from a CSV 
 
 ## The app
 
-One screen: the bestiary on the left, the encounter on the right. Click an adversary to see its stat block and add it at any tier. Run the encounter to track HP and Stress per adversary. Saved encounters save themselves on every change; the address bar always holds the current encounter, so copying it shares it.
+One screen: the bestiary on the left, the encounter on the right. Click an adversary to see its stat block and add it at any tier. Run the encounter to open the battle console: every adversary grouped by line with HP and Stress to mark, a damage box per copy that applies the thresholds (below Major marks 1 HP, Major 2, Severe 3; any damage defeats a minion, and the toast says how many more its Minion (X) feature takes down), Undo on every hit, the GM's Fear (0–12) in the header, and the focused adversary's stat block beside the roster. The fight in progress survives a reload until it's ended. Saved encounters save themselves on every change; the address bar always holds the current encounter, so copying it shares it.
 
 Shortcuts: `/` focuses search, `Esc` closes the stat block.
 
@@ -65,7 +65,7 @@ https://5e2dh.vercel.app/#encounter=<base64url JSON>
   - `Library` — search, filters, the adversary list.
   - `AdversarySheet` — one stat block, with quantity and tier to add it.
   - `EncounterPanel` — the encounter: name, players, difficulty, lines, saved encounters, Run.
-  - `RunView` — the running fight.
+  - `RunView` — the running fight: roster, damage boxes, Fear, stat block pane.
   - `StatBlock` — stats, experiences, motives and features, scaled by tier; used by the sheet and the running view.
   - `ui` — icons and the stepper. `Toaster` — toasts (`useToast()`). `Dice3D` — the 3D dice layer.
 - `src/hooks/useRoll.ts`: `roll(expression, label, element)` rolls the 3D dice and shows the result.

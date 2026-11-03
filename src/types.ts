@@ -76,4 +76,5 @@ export interface RunningEncounter {
     playerCount: number;
     battlePointModifier: number;
     instances: EncounterInstance[]; // expanded instances from adversaries
+    fear?: number; // the GM's Fear, 0-12
 }

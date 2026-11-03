@@ -7,7 +7,7 @@ import { RunView } from './components/RunView';
 import { BudgetBar } from './components/ui';
 import { useToast } from './hooks/useToast';
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage';
-import { initializeRunningEncounter } from './utils/runningEncounterUtils';
+import { initializeRunningEncounter, loadFight, saveFight } from './utils/runningEncounterUtils';
 import { loadEncounterFromUrl, updateUrlWithEncounter, clearEncounterHashFromUrl } from './utils/encounterUrl';
 import { adversariesFor, calculateAvailableBattlePoints, calculateSpentBattlePoints, getDifficultyLevel, upgradeLegacyIds } from './utils/encounterUtils';
 
@@ -24,7 +24,7 @@ export default function App() {
   const [encounter, setEncounter] = useState<Encounter>(blankEncounter);
   const [saved, setSaved] = useState(savedNewestFirst);
   const [selected, setSelected] = useState<Adversary | null>(null);
-  const [running, setRunning] = useState<{ encounter: RunningEncounter; adversaries: Adversary[] } | null>(null);
+  const [running, setRunning] = useState<{ encounter: RunningEncounter; adversaries: Adversary[]; source: Encounter } | null>(null);
   const [panelOpen, setPanelOpen] = useState(false); // mobile only
   // A #encounter= link is dropped from the URL once read, so the first sync after importing one is skipped.
   const skipUrlSync = useRef(false);
@@ -33,8 +33,15 @@ export default function App() {
 
   const run = useCallback((enc: Encounter, all: Adversary[]) => {
     const adversaries = adversariesFor(enc, all);
-    setRunning({ encounter: initializeRunningEncounter(enc, adversaries), adversaries });
+    const encounter = initializeRunningEncounter(enc, adversaries);
+    saveFight({ encounter: enc, running: encounter });
+    setRunning({ encounter, adversaries, source: enc });
   }, []);
+
+  const endFight = () => {
+    saveFight(null);
+    setRunning(null);
+  };
 
   // Load the bestiary, then the encounter link if there is one.
   useEffect(() => {
@@ -45,6 +52,13 @@ export default function App() {
         setBestiary(all);
         const link = loadEncounterFromUrl();
         clearEncounterHashFromUrl();
+        // A fight in progress when the page was reloaded picks up where it was, unless a link starts a new one.
+        const fight = !link?.autoRun && loadFight();
+        if (fight) {
+          const enc = upgradeLegacyIds(fight.encounter, all);
+          if (!link) setEncounter(enc);
+          setRunning({ encounter: fight.running, adversaries: adversariesFor(enc, all), source: enc });
+        }
         if (!link) return;
         const enc = upgradeLegacyIds(link.encounter, all);
         const known = adversariesFor(enc, all);
@@ -163,7 +177,12 @@ export default function App() {
 
   if (running) {
     return (
-      <RunView running={running.encounter} adversaries={running.adversaries} onExit={() => setRunning(null)} />
+      <RunView
+        running={running.encounter}
+        adversaries={running.adversaries}
+        onChange={(encounter) => saveFight({ encounter: running.source, running: encounter })}
+        onExit={endFight}
+      />
     );
   }
 
