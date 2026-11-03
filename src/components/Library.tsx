@@ -2,11 +2,16 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import type { Adversary } from '../types';
 import { VALID_BIOMES, VALID_CATEGORIES, VALID_ROLES, normalizeCategory, normalizeRole } from '../constants';
 import { signed, useRoll } from '../hooks/useRoll';
+import { getBattlePointsForRole } from '../utils/encounterUtils';
 import { Icon } from './ui';
 
 interface Props {
   bestiary: Adversary[] | null;
   onSelect: (adversary: Adversary) => void;
+  /** How many of each adversary (by id) the encounter holds. */
+  counts: Map<string, number>;
+  /** Adds one at base tier, without opening the sheet. */
+  onQuickAdd: (adversary: Adversary) => void;
 }
 
 const PAGE = 100;
@@ -28,11 +33,11 @@ const FILTERS: { key: keyof FilterState; name: string; options: (bestiary: Adver
   },
 ];
 
-// Columns: name, role, tier, difficulty, HP, attack. Role is hidden on narrow screens.
-const ROW = 'grid grid-cols-[minmax(0,1fr)_2rem_2.5rem_2.5rem_2.5rem] items-center gap-3 px-4 md:grid-cols-[minmax(0,1fr)_6rem_2rem_2.5rem_2.5rem_2.5rem] md:px-6';
+// Columns: name, role, tier, difficulty, HP, attack, add. Role is hidden on narrow screens.
+const ROW = 'grid grid-cols-[minmax(0,1fr)_2rem_2.5rem_2.5rem_2.5rem_2.25rem] items-center gap-3 px-4 md:grid-cols-[minmax(0,1fr)_6rem_2rem_2.5rem_2.5rem_2.5rem_2.25rem] md:px-6 md:pr-4';
 
 /** Search, filters and the adversary list. */
-export function Library({ bestiary, onSelect }: Props) {
+export function Library({ bestiary, onSelect, counts, onQuickAdd }: Props) {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState(EMPTY);
   const search = useDeferredValue(query.trim().toLowerCase());
@@ -137,6 +142,7 @@ export function Library({ bestiary, onSelect }: Props) {
           <span className="text-right">Diff</span>
           <span className="text-right">HP</span>
           <span className="text-right">Atk</span>
+          <span />
         </div>
       </div>
 
@@ -168,10 +174,26 @@ export function Library({ bestiary, onSelect }: Props) {
             >
               {signed(a.stats.attack_mod)}
             </button>
+            <QuickAdd adversary={a} count={counts.get(a.id) ?? 0} onAdd={onQuickAdd} />
           </li>
         ))}
       </ul>
       {count < results.length && <div ref={end} className="h-10" />}
     </>
+  );
+}
+
+/** Adds one to the encounter; shows how many are in it once added. */
+function QuickAdd({ adversary, count, onAdd }: { adversary: Adversary; count: number; onAdd: (a: Adversary) => void }) {
+  const cost = getBattlePointsForRole(adversary.role);
+  return (
+    <button
+      className={`btn btn-icon relative justify-self-end tabular-nums ${count ? 'bg-accent text-accent-fg hover:brightness-105' : 'btn-ghost'}`}
+      onClick={() => onAdd(adversary)}
+      aria-label={`Add ${adversary.name} (${cost} battle points)${count ? `, ${count} in encounter` : ''}`}
+      title={`Add · ${cost} BP`}
+    >
+      {count ? count : <Icon name="plus" />}
+    </button>
   );
 }

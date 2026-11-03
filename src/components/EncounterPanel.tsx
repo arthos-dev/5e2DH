@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Adversary, Encounter, EncounterAdversary } from '../types';
 import { calculateAvailableBattlePoints, calculateSpentBattlePoints, getDifficultyLevel } from '../utils/encounterUtils';
 import { getEffectiveTier } from '../utils/scalingUtils';
-import { Icon, Stepper } from './ui';
+import { BudgetBar, Icon, Stepper } from './ui';
 
 interface Props {
   encounter: Encounter;
@@ -45,14 +45,15 @@ export function EncounterPanel(props: Props) {
         </button>
       </header>
 
-      <div className="flex items-center justify-between gap-2 px-4 py-3">
+      <div className="flex items-center justify-between gap-2 px-4 pt-3 pb-2">
         <Stepper value={encounter.playerCount} onChange={(n) => onChange({ playerCount: n })} min={1} label="players">
           {encounter.playerCount} {encounter.playerCount === 1 ? 'player' : 'players'}
         </Stepper>
         <span className="text-sm tabular-nums" title="Battle points spent / available">
-          {getDifficultyLevel(spent, available)} <span className="text-muted">{spent}/{available}</span>
+          {getDifficultyLevel(spent, available)} <span className={spent > available ? 'text-danger' : 'text-muted'}>{spent}/{available}</span>
         </span>
       </div>
+      <BudgetBar spent={spent} available={available} className="mx-4 mb-3" />
 
       <ul className="flex-1 overflow-y-auto border-t border-line py-1">
         {encounter.adversaries.length === 0 && <li className="py-16 text-center text-sm text-faint">No adversaries</li>}

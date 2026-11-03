@@ -62,3 +62,21 @@ export function Stepper({ value, onChange, min, max = Infinity, label, removes, 
     </div>
   );
 }
+
+/** Battle points spent against the budget; turns red past it. */
+export function BudgetBar({ spent, available, className = '' }: { spent: number; available: number; className?: string }) {
+  const over = spent > available;
+  const width = available > 0 ? Math.min(100, (spent / available) * 100) : spent ? 100 : 0;
+  return (
+    <div
+      className={`h-1 overflow-hidden rounded-full bg-line ${className}`}
+      role="meter"
+      aria-valuemin={0}
+      aria-valuemax={available}
+      aria-valuenow={spent}
+      aria-label={`${spent} of ${available} battle points`}
+    >
+      <div className={`h-full rounded-full transition-[width] duration-300 ${over ? 'bg-danger' : 'bg-accent'}`} style={{ width: `${width}%` }} />
+    </div>
+  );
+}

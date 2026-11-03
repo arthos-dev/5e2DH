@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Adversary, Encounter, EncounterAdversary, RunningEncounter } from './types';
 import { Library } from './components/Library';
 import { AdversarySheet } from './components/AdversarySheet';
 import { EncounterPanel } from './components/EncounterPanel';
 import { RunView } from './components/RunView';
+import { BudgetBar } from './components/ui';
 import { useToast } from './hooks/useToast';
 import { saveEncounter, getAllSavedEncounters, loadEncounter, deleteEncounter } from './utils/encounterStorage';
 import { initializeRunningEncounter } from './utils/runningEncounterUtils';
@@ -85,6 +86,22 @@ export default function App() {
     setSelected(null);
   };
 
+  // One click from the list: copies share one plain line (base tier, no custom name) per adversary.
+  const quickAdd = (adversary: Adversary) => {
+    const plain = encounter.adversaries.find((l) => l.adversaryId === adversary.id && !l.customName && l.upscaling === 0);
+    change({
+      adversaries: plain
+        ? encounter.adversaries.map((l) => (l === plain ? { ...l, quantity: l.quantity + 1 } : l))
+        : [...encounter.adversaries, { id: `${adversary.id}-${Date.now()}`, adversaryId: adversary.id, quantity: 1, upscaling: 0 }],
+    });
+  };
+
+  const counts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const l of encounter.adversaries) map.set(l.adversaryId, (map.get(l.adversaryId) ?? 0) + l.quantity);
+    return map;
+  }, [encounter.adversaries]);
+
   const remove = (line: EncounterAdversary) => {
     const before = encounter;
     change({ adversaries: encounter.adversaries.filter((l) => l.id !== line.id) });
@@ -152,12 +169,13 @@ export default function App() {
 
   const count = encounter.adversaries.reduce((n, l) => n + l.quantity, 0);
   const available = calculateAvailableBattlePoints(encounter.playerCount, encounter.battlePointModifier);
-  const difficulty = getDifficultyLevel(calculateSpentBattlePoints(encounter.adversaries, pool), available);
+  const spent = calculateSpentBattlePoints(encounter.adversaries, pool);
+  const difficulty = getDifficultyLevel(spent, available);
 
   return (
     <div className="flex h-dvh">
       <main className="min-w-0 flex-1 overflow-y-auto pb-20 md:pb-0">
-        <Library bestiary={bestiary} onSelect={setSelected} />
+        <Library bestiary={bestiary} onSelect={setSelected} counts={counts} onQuickAdd={quickAdd} />
         <footer className="px-4 py-10 text-xs leading-relaxed text-faint md:px-6">
           Official Daggerheart adversaries and environments are from the Daggerheart SRD 2.0 (© Critical Role, LLC), via{' '}
           <a href="https://github.com/callmepartario/og-dhsrd" className="underline hover:text-muted" target="_blank" rel="noreferrer">
@@ -193,13 +211,14 @@ export default function App() {
 
       {!panelOpen && (
         <button
-          className="fixed inset-x-3 bottom-3 z-30 flex h-12 items-center gap-3 rounded-xl border border-line bg-panel px-4 text-sm shadow-lg md:hidden mb-[env(safe-area-inset-bottom)]"
+          className="fixed inset-x-3 bottom-3 z-30 flex h-12 overflow-hidden items-center gap-3 rounded-xl border border-line bg-panel px-4 text-sm shadow-lg md:hidden mb-[env(safe-area-inset-bottom)]"
           onClick={() => setPanelOpen(true)}
         >
           <span className="truncate font-semibold">{encounter.name || 'Untitled'}</span>
           <span className="ml-auto shrink-0 text-muted tabular-nums">
             {count} · {difficulty}
           </span>
+          <BudgetBar spent={spent} available={available} className="absolute inset-x-4 bottom-1.5" />
         </button>
       )}
 
