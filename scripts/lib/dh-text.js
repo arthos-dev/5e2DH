@@ -228,3 +228,36 @@ export function convertTerminology(text) {
 
 // The whole pipeline for free text.
 export const toDaggerheartText = (text) => convertDurations(convertConditions(convertDamageText(convertDistances(convertSaves(convertTerminology(text))))));
+
+// 5e Regeneration ("regains 10 hit points at the start of its turn"; trolls "die only if they start their turn at
+// 0 hit points") → Daggerheart: it clears HP when spotlighted, the 5e weakness stops that, and the "dies only if…"
+// clause becomes a Fear-cost refusal to fall unless the weakness was used. 1 HP, or 2 for 20+ 5e hit points a turn.
+export function rewriteRegeneration(text) {
+  const main = /^(.*?)\bregains? (\d+) hit points? at the start of (?:each of )?(?:its|his|her|their) turns?((?:,? (?:if|as long as|while) [^.]+)?)\./i;
+  const m = text.match(main);
+  if (!m) return text;
+  const [whole, lead, amount, rawCond] = m;
+  const clear = Number(amount) >= 20 ? 2 : 1;
+  // "if it has at least 1 hit point" is implied; keep any other condition ("isn't in sunlight", "touches the ground").
+  const cond = rawCond
+    .replace(/ if (?:it|he|she|they) (?:has|have) at least 1 hit points?( and)?/i, (_, and) => (and ? " if it" : ""))
+    .replace(/ but at least 1 hit points?/i, "");
+  const when = cond ? `${cond.replace(/^,/, "")}` : "";
+  let out = `${lead}clears ${clear} HP when spotlighted (once per GM turn)${when}.`;
+  let rest = text.slice(whole.length);
+
+  let weakness = null;
+  rest = rest.replace(
+    /\s*If (?:the [\w\s'’-]+?|[\w'’-]+|it|he|she|they) takes? ([\w\s,]+?) damage(?: or ([^,.]+?))?, (?:this trait doesn't function (?:at the start of|on) [^.]+?next turn|(?:it|he|she|they) regains? only \d+ hit points? at the start of [^.]+?next turn)\./i,
+    (_, types, other) => {
+      weakness = (types + (other ? ` damage or ${other}` : "")).trim().toLowerCase();
+      return ` If it took ${weakness}${other ? "" : " damage"} since it was last spotlighted, it can't clear HP this way.`;
+    },
+  );
+  rest = rest.replace(
+    /\s*(?:(?:The|A|An) [\w\s'’-]+?|[\w'’-]+|It|He|She|They) dies? only if (?:(?:it|he|she|they) starts? (?:its|his|her|their) turn with 0 hit points and doesn't regenerate|(?:it|he|she|they) (?:is|are) hit by an attack that deals \d+ or more [^.]+? while [^.]+? has 0 hit points)\./i,
+    () =>
+      ` When it marks its last HP, you can spend a Fear to have it clear 1 HP instead${weakness ? `, unless that damage was ${weakness.replace(/ damage or .*/, "")}` : ""}.`,
+  );
+  return out + rest;
+}

@@ -14,6 +14,7 @@ import path from "node:path";
 import { loadSrd, SRD_DIR } from "./lib/srd.js";
 import { convertFeature, cleanHtml, stripTags } from "./lib/srd-html.js";
 import { slug } from "./lib/stable-id.js";
+import { srdCategory } from "./lib/srd-category.js";
 
 const OUT_DIR = path.resolve("data/srd");
 const ADV_OUT = path.join(OUT_DIR, "adversaries.json");
@@ -65,7 +66,7 @@ export function convertSrdAdversary(a) {
     name: a.label,
     tier: num(a.tier) ?? 1,
     role,
-    category: a.category || "Unknown",
+    category: srdCategory(a.label, stripTags(cleanHtml(a.summary || ""))),
     biome: "Unknown",
     stats: {
       difficulty: num(a.difficulty) ?? 10,

@@ -6,6 +6,7 @@ import { assignStableIds } from './lib/stable-id.js';
 import {
     toDaggerheartText, feetToRange, formatDamage, parseAttack, extractDamages, isPhysicalType,
     stripUsageTag, usageTagCostsFear,
+    rewriteRegeneration,
 } from './lib/dh-text.js';
 
 // ============================================================================
@@ -704,6 +705,9 @@ function classifyFeature(description) {
     if (!description) return "Passive";
     
     const descLower = description.toLowerCase();
+
+    // Converted 5e Regeneration (rewriteRegeneration) is always on, even though its text says "when".
+    if (/clears \d+ HP when spotlighted/i.test(description)) return "Passive";
     
     // Reaction keywords - highest priority (check first). "Reaction Roll" (converted saving throws) is not a trigger.
     const triggerText = descLower.replace(/reaction rolls?/g, "");
@@ -1039,7 +1043,7 @@ function rewrite2024Save(text) {
 
 // Full text pipeline for a feature body.
 function dhText(text) {
-    let t = toDaggerheartText(text.replace(/([a-z)])\.([A-Z][a-z])/g, '$1. $2'));
+    let t = toDaggerheartText(rewriteRegeneration(text).replace(/([a-z)])\.([A-Z][a-z])/g, '$1. $2'));
     t = rewrite2024Save(t);
     t = t.replace(/\s*(?:The|the) [\w\s'-]+? can't take this action again until (?:the start of (?:its|his|her|their) next turn|they next act|[\w\s'-]+? is next spotlighted)\./g, '');
     t = t.replace(/\battack rolls?\b/gi, (m) => (/s$/i.test(m) ? 'attacks' : 'attack'));

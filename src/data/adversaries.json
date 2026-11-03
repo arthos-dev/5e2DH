@@ -470,7 +470,7 @@
         "entries": [
           {
             "name": "Regeneration (Slaad Only)",
-            "description": "<strong>Passive:</strong> The spirit regains 5 HP at the start of its turn if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The spirit clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Whispering Aura (Mind Flayer Only)",
@@ -3202,7 +3202,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The drone regains 10 HP at the start of its turn if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The drone clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Spell Storing",
@@ -6722,7 +6722,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Anastrasya regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Anastrasya takes radiant damage or damage from holy water, this trait doesn't function at the start of Anastrasya's next turn."
+            "description": "<strong>Passive:</strong> Anastrasya clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -10765,7 +10765,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           },
           {
             "name": "Water Breathing",
@@ -11473,7 +11473,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Zariel regains 20 HP at the start of her turn. If she takes radiant damage, this trait doesn't function at the start of her next turn. Zariel dies only if she starts her turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Zariel clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Relentless (3)",
@@ -15779,7 +15779,7 @@
         "entries": [
           {
             "name": "Heat Regeneration",
-            "description": "<strong>Passive:</strong> If the temperature around it is 100 degrees Fahrenheit or higher, Aurnozci regains 15 HP at the start of its turn. If it takes cold or radiant damage, this trait doesn't function at the start of its next turn. Aurnozci dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> If the temperature around it is 100 degrees Fahrenheit or higher, Aurnozci clears 1 HP when spotlighted (once per GM turn). If it took cold or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold or radiant."
           },
           {
             "name": "Legendary Resistance",
@@ -18055,7 +18055,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Bael regains 20 HP at the start of his turn. If he takes cold or radiant damage, this trait doesn't function at the start of his next turn. Bael dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Bael clears 2 HP when spotlighted (once per GM turn). If it took cold or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold or radiant."
           },
           {
             "name": "Relentless (2)",
@@ -20431,7 +20431,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The beast regains 20 HP at the start of its turn. If the beast takes Radiant damage or damage from a Critical Hit, this trait doesn't function at the start of the beast's next turn. The beast dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The beast clears 2 HP when spotlighted (once per GM turn). If it took radiant damage or damage from a critical hit since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Amphibious (Sea Form Only)",
@@ -21050,7 +21050,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Belashyrra regains 20 HP at the start of its turn. If it takes radiant damage, this trait doesn't function at the start of its next turn. Belashyrra dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Belashyrra clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Teleport",
@@ -23387,7 +23387,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -24206,7 +24206,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The slaad regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The slaad clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -25679,7 +25679,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The worm regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The worm clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Tunneler",
@@ -25996,7 +25996,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Augustus regains 10 HP at the start of his turn. If he takes damage from a silver weapon, this trait doesn't function at the start of his next turn. Augustus dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Augustus clears 1 HP when spotlighted (once per GM turn). If he takes damage from a silver weapon, this trait doesn't function at the start of his next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -26079,7 +26079,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Delour regains 10 HP at the start of his turn. If he takes damage from a silver weapon, this trait doesn't function at the start of his next turn. Delour dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Delour clears 1 HP when spotlighted (once per GM turn). If he takes damage from a silver weapon, this trait doesn't function at the start of his next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -26762,7 +26762,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Bray regains 10 HP at the start of its turn. If Bray takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Bray's next turn. Bray dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Bray clears 1 HP when spotlighted (once per GM turn). If Bray takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Bray's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -27189,7 +27189,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Brom regains 10 HP at the start of its turn. If Brom takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Brom's next turn. Brom dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Brom clears 1 HP when spotlighted (once per GM turn). If Brom takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Brom's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -34525,7 +34525,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The ghost regains 10 HP at the start of its turn. If the ghost takes radiant damage or damage from a magic weapon, this trait doesn't function at the start of the ghost's next turn. The ghost dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The ghost clears 1 HP when spotlighted (once per GM turn). If it took radiant damage or damage from a magic weapon since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           }
         ]
       },
@@ -36481,7 +36481,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The shark regains 10 HP at the start of its turn. If the shark takes radiant damage or suffers a critical hit, this trait doesn't function at the start of its next turn. The shark dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The shark clears 1 HP when spotlighted (once per GM turn). If it took radiant damage or suffers a critical hit since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Water Breathing",
@@ -38936,7 +38936,7 @@
         "entries": [
           {
             "name": "Determined Survivor",
-            "description": "<strong>Passive:</strong> The cultist regains 10 HP each time they act if it is Bloodied and has at least 1 HP."
+            "description": "<strong>Passive:</strong> The cultist clears 1 HP when spotlighted (once per GM turn) if it is Bloodied and has at least 1 HP."
           }
         ]
       },
@@ -40172,7 +40172,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Danika regains 10 HP at the start of its turn. If Danika takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Danika's next turn. Danika dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Danika clears 1 HP when spotlighted (once per GM turn). If Danika takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Danika's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -40910,7 +40910,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Davian regains 10 HP at the start of its turn. If Davian takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Davian's next turn. Davian dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Davian clears 1 HP when spotlighted (once per GM turn). If Davian takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Davian's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -41749,7 +41749,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The slaad regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The slaad clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -43365,7 +43365,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The demogorgon regains 10 HP at the start of its turn. If the demogorgon takes acid or fire damage, this trait doesn't function at the start of the demogorgon's next turn. The demogorgon dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The demogorgon clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -43502,7 +43502,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The spawn regains 5 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The spawn clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Running Leap",
@@ -44300,7 +44300,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The lich regains 10 HP at the start of its turn. If the lich takes fire or radiant damage, this trait doesn't function at the start of the lich's next turn. The lich dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The lich clears 1 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire or radiant."
           },
           {
             "name": "Spellcasting",
@@ -44839,7 +44839,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, it regains only 5 HP at the start of its next turn. The troll dies only if it is hit by an attack that deals 10 or more acid or fire damage while the troll has 0 HP."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -46255,7 +46255,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Doru regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Doru takes radiant damage or damage from holy water, this trait doesn't function at the start of Doru's next turn."
+            "description": "<strong>Passive:</strong> Doru clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -48161,7 +48161,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The abomination regains 10 HP at the start of its turns if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The abomination clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -48314,7 +48314,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The dragonpriest regains 5 HP at the start of its turn. If the dragonpriest takes acid or fire damage, this trait doesn't function at the start of the dragonpriest's next turn. The dragonpriest dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The dragonpriest clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -53222,7 +53222,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Dyrrn regains 20 HP at the start of its turn. If Dyrrn takes radiant damage, this trait doesn't function at the start of its next turn. Dyrrn dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Dyrrn clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Teleport",
@@ -57515,7 +57515,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Escher regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Escher takes radiant damage or damage from holy water, this trait doesn't function at the start of Escher's next turn."
+            "description": "<strong>Passive:</strong> Escher clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -60565,7 +60565,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The fensir regains 10 HP at the start of its turn if it isn't in sunlight. If the fensir takes acid or fire damage, this trait doesn't function at the start of the fensir's next turn. The fensir dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The fensir clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight. If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           },
           {
             "name": "Sunlight Hypersensitivity",
@@ -60632,7 +60632,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The fensir regains 10 HP at the start of its turn if it isn't in sunlight. If the fensir takes acid or fire damage, this trait doesn't function at the start of the fensir's next turn. The fensir dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The fensir clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight. If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           },
           {
             "name": "Sunlight Hypersensitivity",
@@ -62851,7 +62851,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -65018,7 +65018,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -65813,7 +65813,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The giant regains 10 HP at the start of its turn. If the giant takes acid or fire damage, this trait doesn't function at the start of its next turn. The giant dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The giant clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -68354,7 +68354,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Geryon regains 20 HP at the start of his turn. If he takes radiant damage, this trait doesn't function at the start of his next turn. Geryon dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Geryon clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Relentless (3)",
@@ -72094,7 +72094,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Gideon regains 10 HP each time they act. If he takes radiant damage, this trait doesn't function at the start of his next turn. Gideon is destroyed only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Gideon clears 1 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. Gideon is destroyed only if he starts his turn with 0 HP and doesn't regenerate."
           }
         ]
       },
@@ -74050,7 +74050,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The golem regains 10 HP at the start of its turn. If the golem takes bludgeoning or thunder damage, this trait doesn't function at the start of the golem's next turn. The golem is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The golem clears 1 HP when spotlighted (once per GM turn). If it took bludgeoning or thunder damage since it was last spotlighted, it can't clear HP this way. The golem is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Unusual Nature",
@@ -74725,7 +74725,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vampire regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If the vampire takes radiant damage or damage from holy water, this trait doesn't function at the start of the vampire's next turn."
+            "description": "<strong>Passive:</strong> The vampire clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Unusual Nature",
@@ -77090,7 +77090,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The slaad regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The slaad clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -77894,7 +77894,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The slaad regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The slaad clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -82807,7 +82807,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Helga regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Helga takes radiant damage or damage from holy water, this trait doesn't function at the start of Helga's next turn."
+            "description": "<strong>Passive:</strong> Helga clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -87113,7 +87113,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Hutijin regains 20 HP at the start of his turn. If he takes radiant damage, this trait doesn't function at the start of his next turn. Hutijin dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Hutijin clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Relentless (3)",
@@ -88344,7 +88344,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The ice troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The ice troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The ice troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -88406,7 +88406,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -92385,7 +92385,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The jabberwock regains 10 HP at the start of its turn. If the jabberwock takes slashing damage, this trait doesn't function at the start of its next turn. The jabberwock dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The jabberwock clears 1 HP when spotlighted (once per GM turn). If it took slashing damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was slashing."
           },
           {
             "name": "Uncanny Tracker",
@@ -93333,7 +93333,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Jarad regains 25 HP at the start of his turn. If he takes fire or radiant damage, this trait doesn't function at the start of his next turn. He dies only if he starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Jarad clears 2 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire or radiant."
           },
           {
             "name": "Spellcasting",
@@ -94729,7 +94729,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Juiblex regains 20 HP at the start of its turn. If it takes fire or radiant damage, this trait doesn't function at the start of its next turn. Juiblex dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Juiblex clears 2 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire or radiant."
           },
           {
             "name": "Spider Climb",
@@ -96596,7 +96596,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Kas regains 20 HP at the start of his turn if he has at least 1 HP. If he takes radiant damage, this trait doesn't function at the start of his next turn."
+            "description": "<strong>Passive:</strong> Kas clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -96943,7 +96943,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Kaylan regains 20 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Kaylan takes radiant damage or damage from holy water, this trait doesn't function at the start of Kaylan's next turn."
+            "description": "<strong>Passive:</strong> Kaylan clears 2 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -97682,7 +97682,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Keresta regains 20 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Keresta takes radiant damage or damage from holy water, this trait doesn't function at the start of Keresta's next turn."
+            "description": "<strong>Passive:</strong> Keresta clears 2 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spellcasting",
@@ -99262,7 +99262,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The knight regains 10 HP at the start of its turn. If the knight takes fire or radiant damage, this trait doesn't function at the start of the knight's next turn. The knight's body is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The knight clears 1 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. The knight's body is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Rejuvenation",
@@ -99912,7 +99912,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vampire regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If the vampire takes radiant damage or damage from holy water, this trait doesn't function at the start of its next turn."
+            "description": "<strong>Passive:</strong> The vampire clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Unusual Nature",
@@ -101574,7 +101574,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Kupalué regains 3 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of Kupalué's next turn. Kupalué dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Kupalué clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. Kupalué dies only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Minion (4)",
@@ -104255,7 +104255,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Lhammaruntosz regains 5 HP at the start of her turn."
+            "description": "<strong>Passive:</strong> Lhammaruntosz clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Spellcasting",
@@ -105299,7 +105299,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The doll regains 5 HP at the start of its turn. If the doll takes fire or psychic damage, this trait doesn't function at the start of the doll's next turn. The doll is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The doll clears 1 HP when spotlighted (once per GM turn). If it took fire or psychic damage since it was last spotlighted, it can't clear HP this way. The doll is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Unusual Nature",
@@ -106860,7 +106860,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Lorry regains 20 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Lorry takes radiant damage or damage from holy water, this trait doesn't function at the start of Lorry's next turn."
+            "description": "<strong>Passive:</strong> Lorry clears 2 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -107175,7 +107175,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The loup garou regains 10 HP each time they act. If the loup garou takes damage from a silver weapon, this trait doesn't function at the start of the loup garou's next turn. The loup garou dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The loup garou clears 1 HP when spotlighted (once per GM turn). If the loup garou takes damage from a silver weapon, this trait doesn't function at the start of the loup garou's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           },
           {
             "name": "Relentless (2)",
@@ -107400,7 +107400,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Ludmilla regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Ludmilla takes radiant damage or damage from holy water, this trait doesn't function at the start of Ludmilla's next turn."
+            "description": "<strong>Passive:</strong> Ludmilla clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -113709,7 +113709,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Action:</strong> The servant regains 10 HP at the start of its turn. If it is reduced to 0 HP, this trait doesn't function until an attuned creature spends 24 hours repairing the artifact or until the artifact is subjected to lightning damage."
+            "description": "<strong>Passive:</strong> The servant clears 1 HP when spotlighted (once per GM turn). If it is reduced to 0 HP, this trait doesn't function until an attuned creature spends 24 hours repairing the artifact or until the artifact is subjected to lightning damage."
           },
           {
             "name": "Standing Leap",
@@ -113783,7 +113783,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Miirym regains 40 HP at the start of her turn. If Miirym takes damage from a magic weapon or a spell, this trait doesn't function at the start of Miirym's next turn. Miirym dies only if she starts her turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Miirym clears 2 HP when spotlighted (once per GM turn). If Miirym takes damage from a magic weapon or a spell, this trait doesn't function at the start of Miirym's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           },
           {
             "name": "X-Ray Vision",
@@ -116221,7 +116221,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Moloch regains 20 HP at the start of his turn. If he takes radiant damage, this trait doesn't function at the start of his next turn. Moloch dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Moloch clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Relentless (3)",
@@ -123523,7 +123523,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The nosferatu regains 10 HP each time they act if it has at least 1 HP and isn't in sunlight. If the nosferatu takes radiant damage, this trait doesn't function until the nosferatu is next spotlighted."
+            "description": "<strong>Passive:</strong> The nosferatu clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight. If the nosferatu takes radiant damage, this trait doesn't function until the nosferatu is next spotlighted."
           },
           {
             "name": "Spider Climb",
@@ -126262,7 +126262,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The oni regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The oni clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -130768,7 +130768,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The pest regains 5 HP at the start of its turn if it has at least 1 HP. If it takes fire damage, this trait doesn't function at the start of the pest's next turn."
+            "description": "<strong>Passive:</strong> The pest clears 1 HP when spotlighted (once per GM turn). If it took fire damage since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spiny Hide",
@@ -138834,7 +138834,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The slaad regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The slaad clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -140852,7 +140852,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The pudding regains 10 HP at the start of its turn. If the pudding takes fire damage, this trait doesn't function at the start of the pudding's next turn. The pudding dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The pudding clears 1 HP when spotlighted (once per GM turn). If it took fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire."
           },
           {
             "name": "Spider Climb",
@@ -141436,7 +141436,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The juggernaut regains 20 HP at the start of its turn. If the juggernaut takes radiant damage, this trait doesn't function at the start of its next turn. The juggernaut dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The juggernaut clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Unusual Nature",
@@ -142535,7 +142535,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The revenant regains 10 HP each time they act. If the revenant takes Fire or Radiant damage, this trait doesn't function at the start of its next turn. Its body is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The revenant clears 1 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. Its body is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Undead Restoration",
@@ -147148,7 +147148,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Sandesyl regains 20 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Sandesyl takes radiant damage or damage from holy water, this trait doesn't function at the start of Sandesyl's next turn."
+            "description": "<strong>Passive:</strong> Sandesyl clears 2 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -147243,7 +147243,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Sangora regains 20 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Sangora takes radiant damage or damage from holy water, this trait doesn't function at the start of Sangora's next turn."
+            "description": "<strong>Passive:</strong> Sangora clears 2 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -149194,7 +149194,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -149991,7 +149991,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> A Selenelion twin regains 5 HP at the start of her turn as long as both twins are alive and within Far range of each other. A twin dies only if she starts her turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> A Selenelion twin clears 1 HP when spotlighted (once per GM turn) as long as both twins are alive and within Far range of each other. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           },
           {
             "name": "Twin Bond",
@@ -150213,7 +150213,7 @@
         "entries": [
           {
             "name": "Cold Regeneration",
-            "description": "<strong>Passive:</strong> If the temperature around him is 0 degrees Fahrenheit or lower, Sephek regains 5 HP at the start of his turn. If he takes fire damage, this trait doesn't function at the start of Sephek's next turn. Sephek dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> If the temperature around him is 0 degrees Fahrenheit or lower, Sephek clears 1 HP when spotlighted (once per GM turn). If it took fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire."
           },
           {
             "name": "Innate Spellcasting",
@@ -153015,7 +153015,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The guardian regains 10 HP each time they act if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The guardian clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Spell Storing",
@@ -154576,7 +154576,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The knight regains 10 HP at the start of its turn. If the knight takes fire or radiant damage, this trait doesn't function at the start of the knight's next turn. The knight's body is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The knight clears 1 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. The knight's body is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Rejuvenation",
@@ -158507,7 +158507,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The spawn of Kyuss regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or a body of running water. If the spawn takes acid, fire, or radiant damage, this trait doesn't function at the start of the spawn's next turn. The spawn is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The spawn of Kyuss clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or a body of running water. If it took acid, fire, or radiant damage since it was last spotlighted, it can't clear HP this way. The spawn is destroyed only if it starts its turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Unusual Nature",
@@ -160237,7 +160237,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Action:</strong> The troll regains 10 HP each time they act. If the troll takes psychic or force damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took psychic or force damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was psychic or force."
           }
         ]
       },
@@ -163740,7 +163740,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Strahd regains 20 HP at the start of his turn if he has at least 1 HP and isn't in running water or sunlight. If he takes radiant damage or damage from holy water, this trait doesn't function at the start of his next turn."
+            "description": "<strong>Passive:</strong> Strahd clears 2 HP when spotlighted (once per GM turn) if it isn't in running water or sunlight. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spellcasting",
@@ -163905,7 +163905,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Strahd regains 20 HP at the start of his turn if he has at least 1 HP. If he takes radiant damage, this trait doesn't function at the start of his next turn."
+            "description": "<strong>Passive:</strong> Strahd clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -168832,7 +168832,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The Bagman regains 10 HP at the start of its turn. If the Bagman takes acid or fire damage, this trait doesn't function at the start of the Bagman's next turn. The Bagman dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The Bagman clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -169918,7 +169918,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The thorny regains 5 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the thorny's next turn. The thorny dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The thorny clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold, fire, or necrotic."
           },
           {
             "name": "Thorny Body",
@@ -170858,7 +170858,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Tiamat regains 30 HP at the start of her turn."
+            "description": "<strong>Passive:</strong> Tiamat clears 2 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Relentless (3)",
@@ -171304,7 +171304,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Titivilus regains 10 HP at the start of his turn. If he takes cold or radiant damage, this trait doesn't function at the start of his next turn. Titivilus dies only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Titivilus clears 1 HP when spotlighted (once per GM turn). If it took cold or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold or radiant."
           },
           {
             "name": "Ventriloquism",
@@ -171466,7 +171466,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The shield guardian regains 10 HP at the start of its turn if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The shield guardian clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -171591,7 +171591,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The tlexolotl regains 10 HP at the start of its turn. If the tlexolotl takes cold damage or is immersed in water, this trait doesn't function at the start of the tlexolotl's next turn. The tlexolotl dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The tlexolotl clears 1 HP when spotlighted (once per GM turn). If it took cold damage or is immersed in water since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold."
           }
         ]
       },
@@ -171707,7 +171707,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vampire regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If the vampire takes radiant damage or damage from holy water, this trait doesn't function at the start of the vampire's next turn."
+            "description": "<strong>Passive:</strong> The vampire clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -173887,7 +173887,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -174560,7 +174560,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 15 HP each time they act. If the troll takes Acid or Fire damage, this trait doesn't function on the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -174626,7 +174626,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The amalgam regains 15 HP at the start of its turn. If the amalgam takes acid or fire damage, it regains only 5 HP at the start of its next turn. The amalgam dies only if it takes 20 or more acid or fire damage while it has 0 HP."
+            "description": "<strong>Passive:</strong> The amalgam clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. The amalgam dies only if it takes 20 or more acid or fire damage while it has 0 HP."
           },
           {
             "name": "Relentless (2)",
@@ -174684,7 +174684,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The limb regains 5 HP each time they act. If the limb takes Acid or Fire damage, this trait doesn't function on the limb's next turn. The limb dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The limb clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           },
           {
             "name": "Troll Spawn",
@@ -174734,7 +174734,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The mutate regains 10 HP at the start of its turn. If the mutate takes acid or fire damage, this trait doesn't function at the start of the mutate's next turn. The mutate dies only if it starts its turn with 0 HP and doesn't regenerate. If the mutate starts its turn with 0 HP and regenerates, it randomly gains a mutation it doesn't already have (up to a maximum of four mutations)."
+            "description": "<strong>Passive:</strong> The mutate clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire. If the mutate starts its turn with 0 HP and regenerates, it randomly gains a mutation it doesn't already have (up to a maximum of four mutations)."
           },
           {
             "name": "Amorphous (Elastic Body Only)",
@@ -175498,7 +175498,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -175564,7 +175564,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The typhon regains 20 HP at the start of its turn. If it takes radiant damage, this trait doesn't function at the start of its next turn. The typhon dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The typhon clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Relentless (2)",
@@ -177249,7 +177249,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Urwin regains 10 HP at the start of its turn. If Urwin takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Urwin's next turn. Urwin dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Urwin clears 1 HP when spotlighted (once per GM turn). If Urwin takes damage from a silvered weapon or a spell, this trait doesn't function at the start of Urwin's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -179988,7 +179988,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vegepygmy regains 3 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the vegepygmy's next turn. The vegepygmy dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The vegepygmy clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold, fire, or necrotic."
           }
         ]
       },
@@ -180043,7 +180043,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vegepygmy regains 5 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the vegepygmy's next turn. The vegepygmy dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The vegepygmy clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold, fire, or necrotic."
           }
         ]
       },
@@ -180106,7 +180106,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vegepygmy regains 7 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the vegepygmy's next turn. The vegepygmy dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The vegepygmy clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold, fire, or necrotic."
           }
         ]
       },
@@ -180165,7 +180165,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vegepygmy regains 3 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the vegepygmy's next turn. The vegepygmy dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The vegepygmy clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold, fire, or necrotic."
           }
         ]
       },
@@ -180228,7 +180228,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The vegepygmy regains 5 HP at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the vegepygmy's next turn. The vegepygmy dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The vegepygmy clears 1 HP when spotlighted (once per GM turn). If it took cold, fire, or necrotic damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold, fire, or necrotic."
           },
           {
             "name": "Thorny Body",
@@ -180608,7 +180608,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The troll regains 10 HP each time they act. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The troll clears 1 HP when spotlighted (once per GM turn). If it took acid or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was acid or fire."
           }
         ]
       },
@@ -181856,7 +181856,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Virruza regains 10 HP at the start of its turn if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> Virruza clears 1 HP when spotlighted (once per GM turn)."
           }
         ]
       },
@@ -182474,7 +182474,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Vladimir regains 10 HP at the start of his turn. If he takes fire or radiant damage, this trait doesn't function at the start of his next turn. Vladimir's body is destroyed only if he starts his turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Vladimir clears 1 HP when spotlighted (once per GM turn). If it took fire or radiant damage since it was last spotlighted, it can't clear HP this way. Vladimir's body is destroyed only if he starts his turn with 0 HP and doesn't regenerate."
           },
           {
             "name": "Rejuvenation",
@@ -182791,7 +182791,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Volenta regains 10 HP at the start of its turn if it has at least 1 HP and isn't in sunlight or running water. If Volenta takes radiant damage or damage from holy water, this trait doesn't function at the start of Volenta's next turn."
+            "description": "<strong>Passive:</strong> Volenta clears 1 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -184295,7 +184295,7 @@
           },
           {
             "name": "Survivor",
-            "description": "<strong>Passive:</strong> The warlord regains 10 HP at the start of its turn if it has fewer than half its HP but at least 1 HP."
+            "description": "<strong>Passive:</strong> The warlord clears 1 HP when spotlighted (once per GM turn) if it has fewer than half its HP."
           },
           {
             "name": "Relentless (2)",
@@ -185661,7 +185661,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The wereraven regains 10 HP at the start of its turn. If the wereraven takes damage from a silvered weapon or a spell, this trait doesn't function at the start of the wereraven's next turn. The wereraven dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The wereraven clears 1 HP when spotlighted (once per GM turn). If the wereraven takes damage from a silvered weapon or a spell, this trait doesn't function at the start of the wereraven's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -185777,7 +185777,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The werevulture regains 10 HP at the start of its turn. If the werevulture takes radiant damage, this trait doesn't function at the start of the werevulture's next turn. The werevulture dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The werevulture clears 1 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           }
         ]
       },
@@ -187704,7 +187704,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The apprentice regains 5 HP at the start of its turn if it has at least 1 HP."
+            "description": "<strong>Passive:</strong> The apprentice clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Verdant Talisman",
@@ -187763,7 +187763,7 @@
         "entries": [
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> As long as the pledgemage has at least 1 HP remaining, the pledgemage regains 5 HP at the start of its turn."
+            "description": "<strong>Passive:</strong> As long as the pledgemage has at least 1 HP remaining, the pledgemage clears 1 HP when spotlighted (once per GM turn)."
           },
           {
             "name": "Verdant Talisman",
@@ -188341,7 +188341,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The wood woad regains 10 HP at the start of its turn if it is in contact with the ground. If the wood woad takes fire damage, this trait doesn't function at the start of the wood woad's next turn. The wood woad dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The wood woad clears 1 HP when spotlighted (once per GM turn) if it is in contact with the ground. If it took fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire."
           },
           {
             "name": "Tree Stride",
@@ -190877,7 +190877,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The creeper regains 10 HP at the start of its turn. If the creeper takes fire, necrotic, or radiant damage, this trait doesn't function at the start of its next turn. The creeper dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The creeper clears 1 HP when spotlighted (once per GM turn). If it took fire, necrotic, or radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was fire, necrotic, or radiant."
           }
         ]
       },
@@ -193802,7 +193802,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> The wereraven regains 10 HP at the start of its turn. If the wereraven takes damage from a silvered weapon or a spell, this trait doesn't function at the start of the wereraven's next turn. The wereraven dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> The wereraven clears 1 HP when spotlighted (once per GM turn). If the wereraven takes damage from a silvered weapon or a spell, this trait doesn't function at the start of the wereraven's next turn. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead."
           }
         ]
       },
@@ -195605,7 +195605,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Zargon regains 20 HP each time they act. If Zargon takes cold or fire damage, this trait doesn't function at the start of Zargon's next turn. Zargon dies only if it starts its turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Zargon clears 2 HP when spotlighted (once per GM turn). If it took cold or fire damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was cold or fire."
           },
           {
             "name": "Shrouded Being",
@@ -195704,7 +195704,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Zariel regains 20 HP at the start of her turn. If she takes radiant damage, this trait doesn't function at the start of her next turn. Zariel dies only if she starts her turn with 0 HP and doesn't regenerate."
+            "description": "<strong>Passive:</strong> Zariel clears 2 HP when spotlighted (once per GM turn). If it took radiant damage since it was last spotlighted, it can't clear HP this way. When it marks its last HP, you can spend a Fear to have it clear 1 HP instead, unless that damage was radiant."
           },
           {
             "name": "Relentless (3)",
@@ -197393,7 +197393,7 @@
           },
           {
             "name": "Regeneration",
-            "description": "<strong>Passive:</strong> Zorak regains 20 HP at the start of his turn if he has at least 1 HP and isn't in sunlight or running water. If Zorak takes radiant damage or damage from holy water, this trait doesn't function at the start of Zorak's next turn."
+            "description": "<strong>Passive:</strong> Zorak clears 2 HP when spotlighted (once per GM turn) if it isn't in sunlight or running water. If it took radiant damage or damage from holy water since it was last spotlighted, it can't clear HP this way."
           },
           {
             "name": "Spider Climb",
@@ -197986,7 +197986,7 @@
     "name": "Acid Burrower",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -198048,7 +198048,7 @@
     "name": "Adult Flickerfly",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -198118,7 +198118,7 @@
     "name": "Ahuizotl",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -198180,7 +198180,7 @@
     "name": "Apprentice Assassin",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -198234,7 +198234,7 @@
     "name": "Arch-Necromancer",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 21,
@@ -198299,7 +198299,7 @@
     "name": "Archer Guard",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -198344,7 +198344,7 @@
     "name": "Archer Squadron",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -198397,7 +198397,7 @@
     "name": "Archmage",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -198463,7 +198463,7 @@
     "name": "Assassin Poisoner",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -198521,7 +198521,7 @@
     "name": "Atototl",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -198583,7 +198583,7 @@
     "name": "Banshee",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -198649,7 +198649,7 @@
     "name": "Basilisk",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -198693,7 +198693,7 @@
     "name": "Battle Box",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -198755,7 +198755,7 @@
     "name": "Bear",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -198817,7 +198817,7 @@
     "name": "Berserker Alpha",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -198879,7 +198879,7 @@
     "name": "Berserker Initiate",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -198933,7 +198933,7 @@
     "name": "Bladed Guard",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -198987,7 +198987,7 @@
     "name": "Brawny Zombie",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -199049,7 +199049,7 @@
     "name": "Bugboar",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -199107,7 +199107,7 @@
     "name": "Catrin",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -199169,7 +199169,7 @@
     "name": "Cave Ogre",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -199231,7 +199231,7 @@
     "name": "Centaur Warden",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -199297,7 +199297,7 @@
     "name": "Cephilith Abomination",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -199363,7 +199363,7 @@
     "name": "Cephilith Hatchling",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -199421,7 +199421,7 @@
     "name": "Cephilith Novitiate",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -199479,7 +199479,7 @@
     "name": "Cephilith Priest",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -199532,7 +199532,7 @@
     "name": "Cephilith Titan",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -199607,7 +199607,7 @@
     "name": "Chaos Skull",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -199664,7 +199664,7 @@
     "name": "Chicken-Foot Hut",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -199722,7 +199722,7 @@
     "name": "Chimera",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -199784,7 +199784,7 @@
     "name": "Cipactli",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -199858,7 +199858,7 @@
     "name": "Cloud Titan",
     "tier": 4,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -199927,7 +199927,7 @@
     "name": "Common Ruffian",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -199976,7 +199976,7 @@
     "name": "Conscript",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -200025,7 +200025,7 @@
     "name": "Construct",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -200086,7 +200086,7 @@
     "name": "Courtesan",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -200135,7 +200135,7 @@
     "name": "Courtier",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -200185,7 +200185,7 @@
     "name": "Crimson Lepus",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -200255,7 +200255,7 @@
     "name": "Cryptimoth",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -200318,7 +200318,7 @@
     "name": "Cult Adept",
     "tier": 2,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -200379,7 +200379,7 @@
     "name": "Cult Fang",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -200428,7 +200428,7 @@
     "name": "Cult Initiate",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -200477,7 +200477,7 @@
     "name": "Cursed Merfolk",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -200535,7 +200535,7 @@
     "name": "Darkweave Crawler",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -200597,7 +200597,7 @@
     "name": "Darkweave Queen",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -200668,7 +200668,7 @@
     "name": "Darkweave Spinner",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -200721,7 +200721,7 @@
     "name": "Darkweave Swarmlings",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -200775,7 +200775,7 @@
     "name": "Deep Dweller",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -200836,7 +200836,7 @@
     "name": "Deeproot Defender",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -200885,7 +200885,7 @@
     "name": "Demon of Avarice",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -200943,7 +200943,7 @@
     "name": "Demon of Despair",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -201005,7 +201005,7 @@
     "name": "Demon of Hubris",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -201071,7 +201071,7 @@
     "name": "Demon of Jealousy",
     "tier": 3,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -201133,7 +201133,7 @@
     "name": "Demon of Wrath",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -201195,7 +201195,7 @@
     "name": "Demon Lord Berzug",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -201261,7 +201261,7 @@
     "name": "Demonic Hound Pack",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -201319,7 +201319,7 @@
     "name": "Dire Bat",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -201377,7 +201377,7 @@
     "name": "Dire Pangolati",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -201443,7 +201443,7 @@
     "name": "Dire Wolf",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -201497,7 +201497,7 @@
     "name": "Doppelhound",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -201551,7 +201551,7 @@
     "name": "Dragon Knight",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -201609,7 +201609,7 @@
     "name": "Dragon Mother Mitera",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -201679,7 +201679,7 @@
     "name": "Drake",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -201733,7 +201733,7 @@
     "name": "Dryad",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -201786,7 +201786,7 @@
     "name": "Dullahan",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -201848,7 +201848,7 @@
     "name": "Electric Eels",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -201897,7 +201897,7 @@
     "name": "Elemental Spark",
     "tier": 3,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -201946,7 +201946,7 @@
     "name": "Elephant",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -201999,7 +201999,7 @@
     "name": "Elite Soldier",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -202043,7 +202043,7 @@
     "name": "Elk",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -202101,7 +202101,7 @@
     "name": "Entombed Cat Beast",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -202167,7 +202167,7 @@
     "name": "Entombed Elite Guard",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -202221,7 +202221,7 @@
     "name": "Entombed Empress",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -202295,7 +202295,7 @@
     "name": "Entombed Necropriest",
     "tier": 2,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -202352,7 +202352,7 @@
     "name": "Entombed Skin Beetles",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -202411,7 +202411,7 @@
     "name": "Entombed Stonemason",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -202469,7 +202469,7 @@
     "name": "Failed Experiment",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -202527,7 +202527,7 @@
     "name": "Falcon",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -202585,7 +202585,7 @@
     "name": "Fallen Shock Troop",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -202638,7 +202638,7 @@
     "name": "Fallen Sorcerer",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -202695,7 +202695,7 @@
     "name": "Fallen Warlord: Realm-Breaker",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -202773,7 +202773,7 @@
     "name": "Fallen Warlord: Undefeated Champion",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -202855,7 +202855,7 @@
     "name": "Fellmounted Shadow King",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -202921,7 +202921,7 @@
     "name": "Fire Titan",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -202995,7 +202995,7 @@
     "name": "Fire Titan Warlord",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 21,
@@ -203061,7 +203061,7 @@
     "name": "Flock of Feather Fiends",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -203119,7 +203119,7 @@
     "name": "Fowlbear",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -203181,7 +203181,7 @@
     "name": "Frost Titan",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -203251,7 +203251,7 @@
     "name": "Fungispunj Sporeling",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -203309,7 +203309,7 @@
     "name": "Fungispunj Sporophore",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -203370,7 +203370,7 @@
     "name": "Gargantuan Sea Turtle",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -203436,7 +203436,7 @@
     "name": "Gargantuan War Machine",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -203502,7 +203502,7 @@
     "name": "Gargoyle",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -203564,7 +203564,7 @@
     "name": "Ghastly Legion",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -203622,7 +203622,7 @@
     "name": "Giant Beastmaster",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -203680,7 +203680,7 @@
     "name": "Giant Brawler",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -203733,7 +203733,7 @@
     "name": "Giant Eagle",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -203790,7 +203790,7 @@
     "name": "Giant Mosquitoes",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -203848,7 +203848,7 @@
     "name": "Giant Octopus",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -203910,7 +203910,7 @@
     "name": "Giant Rat",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -203964,7 +203964,7 @@
     "name": "Giant Recruit",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -204013,7 +204013,7 @@
     "name": "Giant Scorpion",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -204066,7 +204066,7 @@
     "name": "Glass Snake",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -204120,7 +204120,7 @@
     "name": "Gobstalker",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -204182,7 +204182,7 @@
     "name": "Gorgon",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -204248,7 +204248,7 @@
     "name": "Greater Earth Elemental",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -204309,7 +204309,7 @@
     "name": "Greater Water Elemental",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -204357,7 +204357,7 @@
     "name": "Green Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -204419,7 +204419,7 @@
     "name": "Tiny Green Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -204464,7 +204464,7 @@
     "name": "Griffin",
     "tier": 4,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -204522,7 +204522,7 @@
     "name": "Grimmling Warband",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -204576,7 +204576,7 @@
     "name": "Guahalan Alebrujo",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -204646,7 +204646,7 @@
     "name": "Guahalan Fang Lord",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -204712,7 +204712,7 @@
     "name": "Guahalan Shifter",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -204765,7 +204765,7 @@
     "name": "Guahalan Spirit Beast",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -204822,7 +204822,7 @@
     "name": "Guahalan Spirit Singer",
     "tier": 2,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -204883,7 +204883,7 @@
     "name": "Hallowed Archer",
     "tier": 4,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -204932,7 +204932,7 @@
     "name": "Hallowed Choir",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -204990,7 +204990,7 @@
     "name": "Hallowed Soldier",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -205043,7 +205043,7 @@
     "name": "Harbinger of Death",
     "tier": 4,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -205113,7 +205113,7 @@
     "name": "Harbinger of Famine",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -205187,7 +205187,7 @@
     "name": "Harbinger of Pestilence",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -205253,7 +205253,7 @@
     "name": "Harbinger of War",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 21,
@@ -205319,7 +205319,7 @@
     "name": "Harpy",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -205373,7 +205373,7 @@
     "name": "Harrier",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -205427,7 +205427,7 @@
     "name": "Head Guard",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -205484,7 +205484,7 @@
     "name": "Head Vampire",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -205550,7 +205550,7 @@
     "name": "High Seraph",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -205616,7 +205616,7 @@
     "name": "Hill Titan",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -205687,7 +205687,7 @@
     "name": "Hive Walker",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -205736,7 +205736,7 @@
     "name": "Huge Green Ooze",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -205798,7 +205798,7 @@
     "name": "Hydra",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -205859,7 +205859,7 @@
     "name": "Jack-o'-Lantern",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -205912,7 +205912,7 @@
     "name": "Jagged Knife Bandit",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -205967,7 +205967,7 @@
     "name": "Jagged Knife Hexer",
     "tier": 1,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -206016,7 +206016,7 @@
     "name": "Jagged Knife Kneebreaker",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -206074,7 +206074,7 @@
     "name": "Jagged Knife Lackey",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -206128,7 +206128,7 @@
     "name": "Jagged Knife Lieutenant",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -206185,7 +206185,7 @@
     "name": "Jagged Knife Shadow",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -206239,7 +206239,7 @@
     "name": "Jagged Knife Sniper",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -206289,7 +206289,7 @@
     "name": "Juvenile Flickerfly",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -206346,7 +206346,7 @@
     "name": "Knight of the Realm",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -206416,7 +206416,7 @@
     "name": "Kelpie",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -206482,7 +206482,7 @@
     "name": "Kraken",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -206548,7 +206548,7 @@
     "name": "Lamia",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -206601,7 +206601,7 @@
     "name": "Lamplight Beguiler",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -206658,7 +206658,7 @@
     "name": "Landshark",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -206720,7 +206720,7 @@
     "name": "Landshark Behemoth",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -206786,7 +206786,7 @@
     "name": "Manticore",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -206860,7 +206860,7 @@
     "name": "Masked Thief",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -206909,7 +206909,7 @@
     "name": "Masque Muerte",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -206979,7 +206979,7 @@
     "name": "Master Assassin",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -207045,7 +207045,7 @@
     "name": "Mechanorb",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -207099,7 +207099,7 @@
     "name": "Merchant",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -207153,7 +207153,7 @@
     "name": "Merchant Baron",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -207206,7 +207206,7 @@
     "name": "Minor Chaos Elemental",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -207267,7 +207267,7 @@
     "name": "Minor Demon",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -207328,7 +207328,7 @@
     "name": "Minor Fire Elemental",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -207389,7 +207389,7 @@
     "name": "Minor Treant",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -207438,7 +207438,7 @@
     "name": "Minotaur Wrecker",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -207496,7 +207496,7 @@
     "name": "Monarch",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -207553,7 +207553,7 @@
     "name": "Mortal Hunter",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -207615,7 +207615,7 @@
     "name": "Mountain Troll",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -207677,7 +207677,7 @@
     "name": "Night Children",
     "tier": 3,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -207735,7 +207735,7 @@
     "name": "Octopus",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -207788,7 +207788,7 @@
     "name": "Oak Treant",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -207846,7 +207846,7 @@
     "name": "Oracle of Doom",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -207916,7 +207916,7 @@
     "name": "Outer Realms Abomination",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -207973,7 +207973,7 @@
     "name": "Outer Realms Corruptor",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -208022,7 +208022,7 @@
     "name": "Outer Realms Thrall",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -208071,7 +208071,7 @@
     "name": "Owl Witch",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -208141,7 +208141,7 @@
     "name": "Pain Priest",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -208190,7 +208190,7 @@
     "name": "Panther",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -208248,7 +208248,7 @@
     "name": "Patchwork Zombie Hulk",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -208314,7 +208314,7 @@
     "name": "Perfected Zombie",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -208371,7 +208371,7 @@
     "name": "Petty Noble",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -208429,7 +208429,7 @@
     "name": "Phantom",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -208487,7 +208487,7 @@
     "name": "Phoenix",
     "tier": 3,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -208549,7 +208549,7 @@
     "name": "Plesiosaurus",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -208603,7 +208603,7 @@
     "name": "Pirate Captain",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -208669,7 +208669,7 @@
     "name": "Pirate Raiders",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -208723,7 +208723,7 @@
     "name": "Pirate Tough",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -208777,7 +208777,7 @@
     "name": "Poltergeist",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -208835,7 +208835,7 @@
     "name": "Rabble Mawb",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -208889,7 +208889,7 @@
     "name": "Ravenous Mockery",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -208946,7 +208946,7 @@
     "name": "Red Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -209004,7 +209004,7 @@
     "name": "Tiny Red Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Mnoster",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -209044,7 +209044,7 @@
     "name": "Redcap Biters",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -209098,7 +209098,7 @@
     "name": "Redcap Breaker",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -209147,7 +209147,7 @@
     "name": "Redcap Butcher",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -209196,7 +209196,7 @@
     "name": "Redcap Candlemaker",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -209254,7 +209254,7 @@
     "name": "Redcap Skinner",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -209312,7 +209312,7 @@
     "name": "Roc",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -209378,7 +209378,7 @@
     "name": "Rotted Zombie",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -209427,7 +209427,7 @@
     "name": "Royal Advisor",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -209489,7 +209489,7 @@
     "name": "Ruby Dragon",
     "tier": 4,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -209555,7 +209555,7 @@
     "name": "Rugaru",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -209621,7 +209621,7 @@
     "name": "Rust Eater",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -209675,7 +209675,7 @@
     "name": "Sandwyrm",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -209728,7 +209728,7 @@
     "name": "Sawtoothed Gillbeast",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -209781,7 +209781,7 @@
     "name": "Scarecrow",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -209839,7 +209839,7 @@
     "name": "Secret-Keeper",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -209901,7 +209901,7 @@
     "name": "Sellsword",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -209950,7 +209950,7 @@
     "name": "Severed Shadow",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -210003,7 +210003,7 @@
     "name": "Shambling Zombie",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -210052,7 +210052,7 @@
     "name": "Shapeshifting Fiend",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -210122,7 +210122,7 @@
     "name": "Shapeshifting Fiend Revealed",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -210196,7 +210196,7 @@
     "name": "Shark",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -210254,7 +210254,7 @@
     "name": "Siren",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -210308,7 +210308,7 @@
     "name": "Skeleton Archer",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -210357,7 +210357,7 @@
     "name": "Skeleton Dredge",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -210406,7 +210406,7 @@
     "name": "Skeleton Knight",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -210459,7 +210459,7 @@
     "name": "Skeleton Warrior",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -210508,7 +210508,7 @@
     "name": "Spectral Archer",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -210562,7 +210562,7 @@
     "name": "Spectral Captain",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -210624,7 +210624,7 @@
     "name": "Spectral Guardian",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -210678,7 +210678,7 @@
     "name": "Spellblade",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -210740,7 +210740,7 @@
     "name": "Sprite",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -210802,7 +210802,7 @@
     "name": "Spy",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -210851,7 +210851,7 @@
     "name": "Soul-Shattered Mage",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -210909,7 +210909,7 @@
     "name": "Spellbound Armor",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -210963,7 +210963,7 @@
     "name": "Stag Knight",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -211021,7 +211021,7 @@
     "name": "Stone Titan",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -211087,7 +211087,7 @@
     "name": "Stonewraith",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -211149,7 +211149,7 @@
     "name": "Storm Titan",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -211215,7 +211215,7 @@
     "name": "Supreme Demiurge Adonix",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -211277,7 +211277,7 @@
     "name": "Swarm of Rats",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -211326,7 +211326,7 @@
     "name": "Sylvan Soldier",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -211384,7 +211384,7 @@
     "name": "Tangle Bramble",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -211437,7 +211437,7 @@
     "name": "Tangle Bramble Swarm",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -211495,7 +211495,7 @@
     "name": "Temporal Enforcer",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -211561,7 +211561,7 @@
     "name": "Treant Sapling",
     "tier": 3,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -211610,7 +211610,7 @@
     "name": "Triceratops",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -211668,7 +211668,7 @@
     "name": "Tyrannosaurus",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -211721,7 +211721,7 @@
     "name": "Unicorn",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -211787,7 +211787,7 @@
     "name": "Urco",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -211853,7 +211853,7 @@
     "name": "Valdenhax",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -211910,7 +211910,7 @@
     "name": "Vampire",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -211959,7 +211959,7 @@
     "name": "Vampire Bat Swarm",
     "tier": 3,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -212017,7 +212017,7 @@
     "name": "Vampire Lord",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -212095,7 +212095,7 @@
     "name": "Vault Guardian Gaoler",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -212144,7 +212144,7 @@
     "name": "Vault Guardian Sentinel",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -212201,7 +212201,7 @@
     "name": "Vault Guardian Turret",
     "tier": 3,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -212258,7 +212258,7 @@
     "name": "Viper",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -212316,7 +212316,7 @@
     "name": "Viscera Sucker",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -212374,7 +212374,7 @@
     "name": "Volcanic Dragon: Obsidian Predator",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -212444,7 +212444,7 @@
     "name": "Volcanic Dragon: Molten Scourge",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -212518,7 +212518,7 @@
     "name": "Volcanic Dragon: Ashen Tyrant",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -212592,7 +212592,7 @@
     "name": "War Wizard",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -212662,7 +212662,7 @@
     "name": "Water Mother",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -212724,7 +212724,7 @@
     "name": "Waxwork Creation",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -212790,7 +212790,7 @@
     "name": "Weaponmaster",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -212838,7 +212838,7 @@
     "name": "Whisper Wraith",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -212896,7 +212896,7 @@
     "name": "Will-o'-the-Wisps",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -212954,7 +212954,7 @@
     "name": "Wyrmfiend",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -213012,7 +213012,7 @@
     "name": "Wyrmlings",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -213070,7 +213070,7 @@
     "name": "Wyvern",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -213124,7 +213124,7 @@
     "name": "Yufo",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -213190,7 +213190,7 @@
     "name": "Young Dryad",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -213243,7 +213243,7 @@
     "name": "Young Fire Dragon",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -213313,7 +213313,7 @@
     "name": "Young Ice Dragon",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -213387,7 +213387,7 @@
     "name": "Xero the Castle Killer",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -213457,7 +213457,7 @@
     "name": "Zombie Legion",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -213515,7 +213515,7 @@
     "name": "Zombie Pack",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,

@@ -4,7 +4,7 @@
     "name": "Acid Burrower",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -66,7 +66,7 @@
     "name": "Adult Flickerfly",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -136,7 +136,7 @@
     "name": "Ahuizotl",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -198,7 +198,7 @@
     "name": "Apprentice Assassin",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -252,7 +252,7 @@
     "name": "Arch-Necromancer",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 21,
@@ -317,7 +317,7 @@
     "name": "Archer Guard",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -362,7 +362,7 @@
     "name": "Archer Squadron",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -415,7 +415,7 @@
     "name": "Archmage",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -481,7 +481,7 @@
     "name": "Assassin Poisoner",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -539,7 +539,7 @@
     "name": "Atototl",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -601,7 +601,7 @@
     "name": "Banshee",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -667,7 +667,7 @@
     "name": "Basilisk",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -711,7 +711,7 @@
     "name": "Battle Box",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -773,7 +773,7 @@
     "name": "Bear",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -835,7 +835,7 @@
     "name": "Berserker Alpha",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -897,7 +897,7 @@
     "name": "Berserker Initiate",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -951,7 +951,7 @@
     "name": "Bladed Guard",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -1005,7 +1005,7 @@
     "name": "Brawny Zombie",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -1067,7 +1067,7 @@
     "name": "Bugboar",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -1125,7 +1125,7 @@
     "name": "Catrin",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -1187,7 +1187,7 @@
     "name": "Cave Ogre",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -1249,7 +1249,7 @@
     "name": "Centaur Warden",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -1315,7 +1315,7 @@
     "name": "Cephilith Abomination",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -1381,7 +1381,7 @@
     "name": "Cephilith Hatchling",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -1439,7 +1439,7 @@
     "name": "Cephilith Novitiate",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -1497,7 +1497,7 @@
     "name": "Cephilith Priest",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -1550,7 +1550,7 @@
     "name": "Cephilith Titan",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -1625,7 +1625,7 @@
     "name": "Chaos Skull",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -1682,7 +1682,7 @@
     "name": "Chicken-Foot Hut",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -1740,7 +1740,7 @@
     "name": "Chimera",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -1802,7 +1802,7 @@
     "name": "Cipactli",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -1876,7 +1876,7 @@
     "name": "Cloud Titan",
     "tier": 4,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -1945,7 +1945,7 @@
     "name": "Common Ruffian",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -1994,7 +1994,7 @@
     "name": "Conscript",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -2043,7 +2043,7 @@
     "name": "Construct",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -2104,7 +2104,7 @@
     "name": "Courtesan",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -2153,7 +2153,7 @@
     "name": "Courtier",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -2203,7 +2203,7 @@
     "name": "Crimson Lepus",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -2273,7 +2273,7 @@
     "name": "Cryptimoth",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -2336,7 +2336,7 @@
     "name": "Cult Adept",
     "tier": 2,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -2397,7 +2397,7 @@
     "name": "Cult Fang",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -2446,7 +2446,7 @@
     "name": "Cult Initiate",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -2495,7 +2495,7 @@
     "name": "Cursed Merfolk",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -2553,7 +2553,7 @@
     "name": "Darkweave Crawler",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -2615,7 +2615,7 @@
     "name": "Darkweave Queen",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -2686,7 +2686,7 @@
     "name": "Darkweave Spinner",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -2739,7 +2739,7 @@
     "name": "Darkweave Swarmlings",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -2793,7 +2793,7 @@
     "name": "Deep Dweller",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -2854,7 +2854,7 @@
     "name": "Deeproot Defender",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -2903,7 +2903,7 @@
     "name": "Demon of Avarice",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -2961,7 +2961,7 @@
     "name": "Demon of Despair",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -3023,7 +3023,7 @@
     "name": "Demon of Hubris",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -3089,7 +3089,7 @@
     "name": "Demon of Jealousy",
     "tier": 3,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -3151,7 +3151,7 @@
     "name": "Demon of Wrath",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -3213,7 +3213,7 @@
     "name": "Demon Lord Berzug",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -3279,7 +3279,7 @@
     "name": "Demonic Hound Pack",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -3337,7 +3337,7 @@
     "name": "Dire Bat",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -3395,7 +3395,7 @@
     "name": "Dire Pangolati",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -3461,7 +3461,7 @@
     "name": "Dire Wolf",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -3515,7 +3515,7 @@
     "name": "Doppelhound",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -3569,7 +3569,7 @@
     "name": "Dragon Knight",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -3627,7 +3627,7 @@
     "name": "Dragon Mother Mitera",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -3697,7 +3697,7 @@
     "name": "Drake",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -3751,7 +3751,7 @@
     "name": "Dryad",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -3804,7 +3804,7 @@
     "name": "Dullahan",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -3866,7 +3866,7 @@
     "name": "Electric Eels",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -3915,7 +3915,7 @@
     "name": "Elemental Spark",
     "tier": 3,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -3964,7 +3964,7 @@
     "name": "Elephant",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -4017,7 +4017,7 @@
     "name": "Elite Soldier",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -4061,7 +4061,7 @@
     "name": "Elk",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -4119,7 +4119,7 @@
     "name": "Entombed Cat Beast",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -4185,7 +4185,7 @@
     "name": "Entombed Elite Guard",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -4239,7 +4239,7 @@
     "name": "Entombed Empress",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -4313,7 +4313,7 @@
     "name": "Entombed Necropriest",
     "tier": 2,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -4370,7 +4370,7 @@
     "name": "Entombed Skin Beetles",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -4429,7 +4429,7 @@
     "name": "Entombed Stonemason",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -4487,7 +4487,7 @@
     "name": "Failed Experiment",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -4545,7 +4545,7 @@
     "name": "Falcon",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -4603,7 +4603,7 @@
     "name": "Fallen Shock Troop",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -4656,7 +4656,7 @@
     "name": "Fallen Sorcerer",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -4713,7 +4713,7 @@
     "name": "Fallen Warlord: Realm-Breaker",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -4791,7 +4791,7 @@
     "name": "Fallen Warlord: Undefeated Champion",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -4873,7 +4873,7 @@
     "name": "Fellmounted Shadow King",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -4939,7 +4939,7 @@
     "name": "Fire Titan",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -5013,7 +5013,7 @@
     "name": "Fire Titan Warlord",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 21,
@@ -5079,7 +5079,7 @@
     "name": "Flock of Feather Fiends",
     "tier": 2,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -5137,7 +5137,7 @@
     "name": "Fowlbear",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -5199,7 +5199,7 @@
     "name": "Frost Titan",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -5269,7 +5269,7 @@
     "name": "Fungispunj Sporeling",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -5327,7 +5327,7 @@
     "name": "Fungispunj Sporophore",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -5388,7 +5388,7 @@
     "name": "Gargantuan Sea Turtle",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -5454,7 +5454,7 @@
     "name": "Gargantuan War Machine",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -5520,7 +5520,7 @@
     "name": "Gargoyle",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -5582,7 +5582,7 @@
     "name": "Ghastly Legion",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -5640,7 +5640,7 @@
     "name": "Giant Beastmaster",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -5698,7 +5698,7 @@
     "name": "Giant Brawler",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -5751,7 +5751,7 @@
     "name": "Giant Eagle",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -5808,7 +5808,7 @@
     "name": "Giant Mosquitoes",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -5866,7 +5866,7 @@
     "name": "Giant Octopus",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -5928,7 +5928,7 @@
     "name": "Giant Rat",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -5982,7 +5982,7 @@
     "name": "Giant Recruit",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -6031,7 +6031,7 @@
     "name": "Giant Scorpion",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -6084,7 +6084,7 @@
     "name": "Glass Snake",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -6138,7 +6138,7 @@
     "name": "Gobstalker",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -6200,7 +6200,7 @@
     "name": "Gorgon",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -6266,7 +6266,7 @@
     "name": "Greater Earth Elemental",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -6327,7 +6327,7 @@
     "name": "Greater Water Elemental",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -6375,7 +6375,7 @@
     "name": "Green Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -6437,7 +6437,7 @@
     "name": "Tiny Green Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -6482,7 +6482,7 @@
     "name": "Griffin",
     "tier": 4,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -6540,7 +6540,7 @@
     "name": "Grimmling Warband",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -6594,7 +6594,7 @@
     "name": "Guahalan Alebrujo",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -6664,7 +6664,7 @@
     "name": "Guahalan Fang Lord",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -6730,7 +6730,7 @@
     "name": "Guahalan Shifter",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -6783,7 +6783,7 @@
     "name": "Guahalan Spirit Beast",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -6840,7 +6840,7 @@
     "name": "Guahalan Spirit Singer",
     "tier": 2,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -6901,7 +6901,7 @@
     "name": "Hallowed Archer",
     "tier": 4,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -6950,7 +6950,7 @@
     "name": "Hallowed Choir",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -7008,7 +7008,7 @@
     "name": "Hallowed Soldier",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -7061,7 +7061,7 @@
     "name": "Harbinger of Death",
     "tier": 4,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -7131,7 +7131,7 @@
     "name": "Harbinger of Famine",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -7205,7 +7205,7 @@
     "name": "Harbinger of Pestilence",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -7271,7 +7271,7 @@
     "name": "Harbinger of War",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 21,
@@ -7337,7 +7337,7 @@
     "name": "Harpy",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -7391,7 +7391,7 @@
     "name": "Harrier",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -7445,7 +7445,7 @@
     "name": "Head Guard",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -7502,7 +7502,7 @@
     "name": "Head Vampire",
     "tier": 3,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -7568,7 +7568,7 @@
     "name": "High Seraph",
     "tier": 4,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -7634,7 +7634,7 @@
     "name": "Hill Titan",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -7705,7 +7705,7 @@
     "name": "Hive Walker",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -7754,7 +7754,7 @@
     "name": "Huge Green Ooze",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -7816,7 +7816,7 @@
     "name": "Hydra",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -7877,7 +7877,7 @@
     "name": "Jack-o'-Lantern",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -7930,7 +7930,7 @@
     "name": "Jagged Knife Bandit",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -7985,7 +7985,7 @@
     "name": "Jagged Knife Hexer",
     "tier": 1,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -8034,7 +8034,7 @@
     "name": "Jagged Knife Kneebreaker",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -8092,7 +8092,7 @@
     "name": "Jagged Knife Lackey",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -8146,7 +8146,7 @@
     "name": "Jagged Knife Lieutenant",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -8203,7 +8203,7 @@
     "name": "Jagged Knife Shadow",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -8257,7 +8257,7 @@
     "name": "Jagged Knife Sniper",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -8307,7 +8307,7 @@
     "name": "Juvenile Flickerfly",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -8364,7 +8364,7 @@
     "name": "Knight of the Realm",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -8434,7 +8434,7 @@
     "name": "Kelpie",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -8500,7 +8500,7 @@
     "name": "Kraken",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -8566,7 +8566,7 @@
     "name": "Lamia",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -8619,7 +8619,7 @@
     "name": "Lamplight Beguiler",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -8676,7 +8676,7 @@
     "name": "Landshark",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -8738,7 +8738,7 @@
     "name": "Landshark Behemoth",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -8804,7 +8804,7 @@
     "name": "Manticore",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -8878,7 +8878,7 @@
     "name": "Masked Thief",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -8927,7 +8927,7 @@
     "name": "Masque Muerte",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -8997,7 +8997,7 @@
     "name": "Master Assassin",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -9063,7 +9063,7 @@
     "name": "Mechanorb",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -9117,7 +9117,7 @@
     "name": "Merchant",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -9171,7 +9171,7 @@
     "name": "Merchant Baron",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -9224,7 +9224,7 @@
     "name": "Minor Chaos Elemental",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -9285,7 +9285,7 @@
     "name": "Minor Demon",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -9346,7 +9346,7 @@
     "name": "Minor Fire Elemental",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Elemental",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -9407,7 +9407,7 @@
     "name": "Minor Treant",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -9456,7 +9456,7 @@
     "name": "Minotaur Wrecker",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -9514,7 +9514,7 @@
     "name": "Monarch",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -9571,7 +9571,7 @@
     "name": "Mortal Hunter",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -9633,7 +9633,7 @@
     "name": "Mountain Troll",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -9695,7 +9695,7 @@
     "name": "Night Children",
     "tier": 3,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -9753,7 +9753,7 @@
     "name": "Octopus",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -9806,7 +9806,7 @@
     "name": "Oak Treant",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -9864,7 +9864,7 @@
     "name": "Oracle of Doom",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -9934,7 +9934,7 @@
     "name": "Outer Realms Abomination",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -9991,7 +9991,7 @@
     "name": "Outer Realms Corruptor",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -10040,7 +10040,7 @@
     "name": "Outer Realms Thrall",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -10089,7 +10089,7 @@
     "name": "Owl Witch",
     "tier": 4,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -10159,7 +10159,7 @@
     "name": "Pain Priest",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -10208,7 +10208,7 @@
     "name": "Panther",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -10266,7 +10266,7 @@
     "name": "Patchwork Zombie Hulk",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -10332,7 +10332,7 @@
     "name": "Perfected Zombie",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -10389,7 +10389,7 @@
     "name": "Petty Noble",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -10447,7 +10447,7 @@
     "name": "Phantom",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -10505,7 +10505,7 @@
     "name": "Phoenix",
     "tier": 3,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -10567,7 +10567,7 @@
     "name": "Plesiosaurus",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -10621,7 +10621,7 @@
     "name": "Pirate Captain",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -10687,7 +10687,7 @@
     "name": "Pirate Raiders",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -10741,7 +10741,7 @@
     "name": "Pirate Tough",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -10795,7 +10795,7 @@
     "name": "Poltergeist",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -10853,7 +10853,7 @@
     "name": "Rabble Mawb",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -10907,7 +10907,7 @@
     "name": "Ravenous Mockery",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -10964,7 +10964,7 @@
     "name": "Red Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -11022,7 +11022,7 @@
     "name": "Tiny Red Ooze",
     "tier": 1,
     "role": "SKULK",
-    "category": "Mnoster",
+    "category": "Ooze",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -11062,7 +11062,7 @@
     "name": "Redcap Biters",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -11116,7 +11116,7 @@
     "name": "Redcap Breaker",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -11165,7 +11165,7 @@
     "name": "Redcap Butcher",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -11214,7 +11214,7 @@
     "name": "Redcap Candlemaker",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -11272,7 +11272,7 @@
     "name": "Redcap Skinner",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -11330,7 +11330,7 @@
     "name": "Roc",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -11396,7 +11396,7 @@
     "name": "Rotted Zombie",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -11445,7 +11445,7 @@
     "name": "Royal Advisor",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -11507,7 +11507,7 @@
     "name": "Ruby Dragon",
     "tier": 4,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -11573,7 +11573,7 @@
     "name": "Rugaru",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -11639,7 +11639,7 @@
     "name": "Rust Eater",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -11693,7 +11693,7 @@
     "name": "Sandwyrm",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -11746,7 +11746,7 @@
     "name": "Sawtoothed Gillbeast",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -11799,7 +11799,7 @@
     "name": "Scarecrow",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -11857,7 +11857,7 @@
     "name": "Secret-Keeper",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -11919,7 +11919,7 @@
     "name": "Sellsword",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -11968,7 +11968,7 @@
     "name": "Severed Shadow",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -12021,7 +12021,7 @@
     "name": "Shambling Zombie",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -12070,7 +12070,7 @@
     "name": "Shapeshifting Fiend",
     "tier": 3,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -12140,7 +12140,7 @@
     "name": "Shapeshifting Fiend Revealed",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -12214,7 +12214,7 @@
     "name": "Shark",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -12272,7 +12272,7 @@
     "name": "Siren",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -12326,7 +12326,7 @@
     "name": "Skeleton Archer",
     "tier": 1,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -12375,7 +12375,7 @@
     "name": "Skeleton Dredge",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
@@ -12424,7 +12424,7 @@
     "name": "Skeleton Knight",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -12477,7 +12477,7 @@
     "name": "Skeleton Warrior",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -12526,7 +12526,7 @@
     "name": "Spectral Archer",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -12580,7 +12580,7 @@
     "name": "Spectral Captain",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -12642,7 +12642,7 @@
     "name": "Spectral Guardian",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -12696,7 +12696,7 @@
     "name": "Spellblade",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -12758,7 +12758,7 @@
     "name": "Sprite",
     "tier": 2,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -12820,7 +12820,7 @@
     "name": "Spy",
     "tier": 2,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -12869,7 +12869,7 @@
     "name": "Soul-Shattered Mage",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -12927,7 +12927,7 @@
     "name": "Spellbound Armor",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -12981,7 +12981,7 @@
     "name": "Stag Knight",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -13039,7 +13039,7 @@
     "name": "Stone Titan",
     "tier": 2,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -13105,7 +13105,7 @@
     "name": "Stonewraith",
     "tier": 2,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -13167,7 +13167,7 @@
     "name": "Storm Titan",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Giant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -13233,7 +13233,7 @@
     "name": "Supreme Demiurge Adonix",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Aberration",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -13295,7 +13295,7 @@
     "name": "Swarm of Rats",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 10,
@@ -13344,7 +13344,7 @@
     "name": "Sylvan Soldier",
     "tier": 1,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -13402,7 +13402,7 @@
     "name": "Tangle Bramble",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -13455,7 +13455,7 @@
     "name": "Tangle Bramble Swarm",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 12,
@@ -13513,7 +13513,7 @@
     "name": "Temporal Enforcer",
     "tier": 4,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -13579,7 +13579,7 @@
     "name": "Treant Sapling",
     "tier": 3,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -13628,7 +13628,7 @@
     "name": "Triceratops",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -13686,7 +13686,7 @@
     "name": "Tyrannosaurus",
     "tier": 2,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -13739,7 +13739,7 @@
     "name": "Unicorn",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Celestial",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -13805,7 +13805,7 @@
     "name": "Urco",
     "tier": 2,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -13871,7 +13871,7 @@
     "name": "Valdenhax",
     "tier": 2,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -13928,7 +13928,7 @@
     "name": "Vampire",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -13977,7 +13977,7 @@
     "name": "Vampire Bat Swarm",
     "tier": 3,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 15,
@@ -14035,7 +14035,7 @@
     "name": "Vampire Lord",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -14113,7 +14113,7 @@
     "name": "Vault Guardian Gaoler",
     "tier": 3,
     "role": "SUPPORT",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -14162,7 +14162,7 @@
     "name": "Vault Guardian Sentinel",
     "tier": 3,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -14219,7 +14219,7 @@
     "name": "Vault Guardian Turret",
     "tier": 3,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -14276,7 +14276,7 @@
     "name": "Viper",
     "tier": 1,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -14334,7 +14334,7 @@
     "name": "Viscera Sucker",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Fiend",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -14392,7 +14392,7 @@
     "name": "Volcanic Dragon: Obsidian Predator",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 19,
@@ -14462,7 +14462,7 @@
     "name": "Volcanic Dragon: Molten Scourge",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -14536,7 +14536,7 @@
     "name": "Volcanic Dragon: Ashen Tyrant",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -14610,7 +14610,7 @@
     "name": "War Wizard",
     "tier": 2,
     "role": "RANGED",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -14680,7 +14680,7 @@
     "name": "Water Mother",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Beast",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -14742,7 +14742,7 @@
     "name": "Waxwork Creation",
     "tier": 1,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Construct",
     "biome": "Unknown",
     "stats": {
       "difficulty": 13,
@@ -14808,7 +14808,7 @@
     "name": "Weaponmaster",
     "tier": 1,
     "role": "BRUISER",
-    "category": "Unknown",
+    "category": "Humanoid",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -14856,7 +14856,7 @@
     "name": "Whisper Wraith",
     "tier": 3,
     "role": "SKULK",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -14914,7 +14914,7 @@
     "name": "Will-o'-the-Wisps",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Fey",
     "biome": "Unknown",
     "stats": {
       "difficulty": 9,
@@ -14972,7 +14972,7 @@
     "name": "Wyrmfiend",
     "tier": 4,
     "role": "MINION",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -15030,7 +15030,7 @@
     "name": "Wyrmlings",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -15088,7 +15088,7 @@
     "name": "Wyvern",
     "tier": 3,
     "role": "STANDARD",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 16,
@@ -15142,7 +15142,7 @@
     "name": "Yufo",
     "tier": 1,
     "role": "SOCIAL",
-    "category": "Unknown",
+    "category": "Monstrosity",
     "biome": "Unknown",
     "stats": {
       "difficulty": 14,
@@ -15208,7 +15208,7 @@
     "name": "Young Dryad",
     "tier": 1,
     "role": "LEADER",
-    "category": "Unknown",
+    "category": "Plant",
     "biome": "Unknown",
     "stats": {
       "difficulty": 11,
@@ -15261,7 +15261,7 @@
     "name": "Young Fire Dragon",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -15331,7 +15331,7 @@
     "name": "Young Ice Dragon",
     "tier": 3,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Dragon",
     "biome": "Unknown",
     "stats": {
       "difficulty": 18,
@@ -15405,7 +15405,7 @@
     "name": "Xero the Castle Killer",
     "tier": 4,
     "role": "SOLO",
-    "category": "Unknown",
+    "category": "Daggerheart",
     "biome": "Unknown",
     "stats": {
       "difficulty": 20,
@@ -15475,7 +15475,7 @@
     "name": "Zombie Legion",
     "tier": 4,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 17,
@@ -15533,7 +15533,7 @@
     "name": "Zombie Pack",
     "tier": 1,
     "role": "HORDE",
-    "category": "Unknown",
+    "category": "Undead",
     "biome": "Unknown",
     "stats": {
       "difficulty": 8,
