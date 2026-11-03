@@ -25,7 +25,18 @@ The conversion from D\&D Challenge Rating (CR) to DaggerHeart Tier follows this 
 | 8 \- 14 | 3 | Levels 5-7 |
 | 15+ | 4 | Levels 8-10 |
 
-## 
+## **How scripts/convert.js applies these rules**
+
+The tables below are the original by-CR guidelines. The converter follows them for **tier**, but takes every number from the **role tables in "Making Custom Adversaries.md"** (the same ranges as the official adversaries), placing the value inside the range by the creature's CR within its tier. Where this document and the code disagree, the code is the reference:
+
+* **Tier:** CR 0–2 → T1, 3–7 → T2, 8–14 → T3, 15+ → T4. A CR of "None" (adventure NPCs such as the Bryn Shander townsfolk in *Storm King's Thunder*, summoned spirits) is estimated from HP, using the median HP of each CR in Bestiary.csv.
+* **Difficulty, thresholds, HP, Stress, ATK, damage dice:** role table for the tier (the by-CR tables below are not used). HP is D\&D HP ÷ the conversion factor, then clamped to the role's HP range; Stress comes from Intelligence, then clamped to the role's range. Minions have no thresholds and deal flat damage (2 / 5 / 7 / 11 by tier, like the official minions).
+* **Damage type:** the stat-block damage ends in `phy` or `mag`, from the creature's first attack (spell attacks and attacks whose first damage is not bludgeoning/piercing/slashing are `mag`). In features, 5e damage becomes "XdY+Z physical damage" or "XdY+Z magic damage (fire)".
+* **Roles** (first match wins): CR 20+, Gargantuan CR 10+, titans and 300+ HP at CR 10+ → **Solo**; Legendary Actions (or CR 15+ with breath/recharge/multiattack) → **Solo**; Large-or-bigger **giants** (ogres, trolls, ettins, cyclopes, fomorians, the true giants) → **Bruiser**, or **Leader** when their name carries a rank (king, jarl, thane, chief, duke, countess, imperator, captain, sergeant...); nobles/merchants → Social; CR below 1/2 with under 10 HP → Minion; swarms → Horde; named captains/commanders/warlords → Leader; **Ranged** only when the creature's best ranged attack out-damages its best melee attack (or it is an archer/sniper); then Support, Leader, Bruiser, Skulk, Standard. There is no Legendary or Colossal role: neither exists in Daggerheart, and neither has a Battle Point cost.
+* **Role features:** Bruisers get Momentum (and Heavy Hitter from CR 5); Leaders get Momentum and Tactician; Minions get Minion (X) and Group Attack; Hordes get Horde (X); Supports get Harass; Solos get **Relentless (X)** (X = 2, or 3 at CR 20+) when they are CR 15+ or have Legendary Actions.
+* **Features:** saving throws become Reaction Rolls against the adversary's Difficulty (the 5e DC is dropped): Strength → Strength, Dexterity → Agility, Constitution → Strength, Intelligence → Knowledge, Wisdom → Instinct, Charisma → Presence. Distances become range bands: 5 ft Melee, up to 10 ft Very Close, up to 30 ft Close, up to 120 ft Far, beyond that Very Far. Prone becomes Vulnerable, grappled becomes Restrained; advantage and disadvantage are kept (Daggerheart has them too).
+* **Actions:** plain attacks are free ("Make an attack against a target within Close range. On a success, deal ..."); attacks with a rider (conditions, forced movement, swallowing) mark a Stress; Multiattack marks a Stress for N standard attacks; area attacks with damage, breath weapons, frightful presence, summons, Recharge and X/Day abilities and Legendary Actions spend a Fear (the "(Recharge 5–6)" tags are removed from the names); other actions mark a Stress. Legendary Actions that only repeat another attack or a Perception check are dropped (Relentless covers the extra turns). The Reactions column becomes Reactions that mark a Stress. Legendary Resistance becomes "spend a Fear to succeed on a failed Reaction Roll".
+* **Spellcasting** becomes one action listing the spells by frequency (at will and spell levels 1–3: mark a Stress; X/day and level 4+: spend a Fear), each spell with its level, range band and, for combat spells, a one-line summary.
 
 ## **Converting Basic Statistics**
 
@@ -136,9 +147,11 @@ In DaggerHeart, adversaries are classified into types that represent their role 
 | Skulks are highly mobile, maneuvering to ambush | Skulk |
 | Groups of weak monsters | Horde |
 | Monsters with support/control abilities | Leader |
-| Monsters with ranged attacks | Sniper |
-| Monsters with high mobility | Skirmisher |
-| Unique and powerful monsters | Solo or Legendary |
+| Monsters whose ranged attack is their best attack | Ranged |
+| Monsters with high mobility, stealth or ambush tactics | Skulk |
+| Unique and powerful monsters (Legendary Actions, CR 20+) | Solo (with Relentless) |
+
+*Daggerheart's roles are Bruiser, Horde, Leader, Minion, Ranged, Skulk, Social, Solo, Standard and Support. "Sniper", "Skirmisher" and "Legendary" are not Daggerheart roles; the converter maps them to Ranged, Skulk and Solo.*
 
 ## **Converting Special Abilities**
 
@@ -372,7 +385,7 @@ A green-skinned giant with sharp claws and a frightening ability to regenerate w
 
 **Regeneration** \- *Passive:* At the start of its turn, the Troll recovers 2 HP. If it took fire or acid damage since its last turn, this ability doesn't function.
 
-**Keen Smell** \- *Passive:* The Troll can detect hidden creatures by smell within medium range, ignoring darkness or cover.
+**Keen Smell** \- *Passive:* The Troll can detect hidden creatures by smell within Far range, ignoring darkness or cover.
 
 **Frenzy** \- *Action:* Spend a Fear to allow the Troll to make two attacks against the same target or different targets. The second attack deals 1d8+2 physical damage.
 
@@ -472,7 +485,7 @@ An imposing scaly creature with enormous wings and devastating fire breath. Its 
 
 **Frightful Presence** \- *Action:* Spend a Fear to force all creatures at Long range to make a test against the Dragon's Difficulty or become Shaken (suffer \-2 on all tests) for 3 rounds.
 
-**Fire Breath** \- *Action (Recharge 5-6):* Spend two Fear for the Dragon to exhale fire in a cone of Medium range. All in the area take 4d10+4 fire damage. A successful test against the Dragon's Difficulty reduces the damage by half.
+**Fire Breath** \- *Action (Recharge 5-6):* Spend two Fear for the Dragon to exhale fire in a cone within Far range. All in the area take 4d10+4 fire damage. A successful test against the Dragon's Difficulty reduces the damage by half.
 
 **Multiattack** \- *Action:* The Dragon makes two attacks: one with its bite and one with its claws (2d8+4 physical).
 
@@ -551,7 +564,7 @@ An imposing scaly creature with enormous wings and devastating fire breath. Its 
    * We choose this value to represent its devastating bite  
 8. **Adversary Type:**  
    * The Tarrasque is the most powerful creature in standard D\&D  
-   * Type in DaggerHeart: Legendary  
+   * Type in DaggerHeart: Solo (with Relentless)  
 9. **Experiences:**  
    * The Tarrasque has no specific skills in D\&D  
    * Experience in DaggerHeart: None (it's pure brute force)  
@@ -570,7 +583,7 @@ An imposing scaly creature with enormous wings and devastating fire breath. Its 
 ### **DaggerHeart Stat Block**
 
 **TARRASQUE**  
-*Tier 4 Legendary*
+*Tier 4 Solo*
 
 A colossal ancient creature, considered the most destructive force of nature. Its awakening marks the end of entire civilizations.
 

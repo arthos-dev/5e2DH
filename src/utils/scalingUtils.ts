@@ -119,7 +119,9 @@ export function scaleDamageDice(damageDice: string, tierDelta: number, _role: st
 
     // Handle negative modifiers
     const modifierStr = newModifier >= 0 ? `+${newModifier}` : `${newModifier}`;
-    return `${newDice}d${parsed.dieType}${modifierStr}`;
+    // Keep a trailing damage type ("2d8+3 phy" -> "3d8+5 phy"); the bestiary's damage dice carry phy/mag
+    const suffix = damageDice.replace(/^\s*\d+d\d+(?:[+-]\d+)?/, '');
+    return `${newDice}d${parsed.dieType}${modifierStr}${suffix}`;
 }
 
 /**

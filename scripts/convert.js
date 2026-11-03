@@ -3,6 +3,10 @@ import fs from 'fs';
 import Papa from 'papaparse';
 import path from 'path';
 import { assignStableIds } from './lib/stable-id.js';
+import {
+    toDaggerheartText, feetToRange, formatDamage, parseAttack, extractDamages, isPhysicalType,
+    stripUsageTag, usageTagCostsFear,
+} from './lib/dh-text.js';
 
 // ============================================================================
 // Constants
@@ -70,10 +74,12 @@ const ROLE_STAT_TABLES = {
         4: { difficulty: [19, 21], major: [30, 37], severe: [63, 70], hp: [7, 9], stress: [6, 8], atk: [8, 10], damage: ["4d12+6", "4d10+8", "4d8+10"] }
     },
     MINION: {
-        1: { difficulty: [10, 12], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-2, 0], damage: ["1-3"] },
-        2: { difficulty: [12, 14], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-1, 1], damage: ["2-4"] },
-        3: { difficulty: [14, 16], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [0, 2], damage: ["5-8"] },
-        4: { difficulty: [16, 18], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [1, 3], damage: ["10-12"] }
+        // Flat damage like the official minions (median of the core-rulebook minions per tier: 2, 5, 5-8, 11);
+        // the guide's "1-3"/"2-4" ranges were not rollable and ran low at Tier 2.
+        1: { difficulty: [10, 12], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-2, 0], damage: ["2"] },
+        2: { difficulty: [12, 14], major: null, severe: null, hp: [1, 1], stress: [1, 1], atk: [-1, 1], damage: ["5"] },
+        3: { difficulty: [14, 16], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [0, 2], damage: ["7"] },
+        4: { difficulty: [16, 18], major: null, severe: null, hp: [1, 1], stress: [1, 2], atk: [1, 3], damage: ["11"] }
     },
     RANGED: {
         1: { difficulty: [10, 12], major: [3, 5], severe: [6, 9], hp: [3, 4], stress: [2, 3], atk: [1, 2], damage: ["1d12+1", "1d10+3", "1d8+5"] },
@@ -185,6 +191,24 @@ function parseCR(crStr) {
     return isNaN(parsed) ? 0 : parsed;
 }
 
+// Median 5e HP per CR in Bestiary.csv; used to place stat blocks whose CR is "None" (adventure NPCs, summons).
+const MEDIAN_HP_BY_CR = [[0, 4], [0.125, 9], [0.25, 13], [0.5, 19], [1, 27], [2, 39], [3, 58], [4, 66], [5, 85], [7, 105],
+    [8, 111], [9, 139], [10, 153], [11, 168], [13, 189], [14, 195], [16, 212], [17, 241], [18, 250], [20, 323], [22, 333],
+    [23, 350], [24, 444], [25, 472], [26, 507], [27, 533], [28, 565], [30, 615]];
+function averageDice(dice) {
+    const m = String(dice).match(/^(\d+)d(\d+)(?:([+-])(\d+))?/);
+    if (!m) return parseInt(dice, 10) || 0;
+    return parseInt(m[1], 10) * (parseInt(m[2], 10) + 1) / 2 + (m[3] === "-" ? -1 : 1) * (parseInt(m[4] || "0", 10));
+}
+
+function estimateCRFromHP(hp) {
+    let best = MEDIAN_HP_BY_CR[0];
+    for (const entry of MEDIAN_HP_BY_CR) {
+        if (Math.abs(Math.log(entry[1]) - Math.log(hp)) < Math.abs(Math.log(best[1]) - Math.log(hp))) best = entry;
+    }
+    return best[0];
+}
+
 function parseHP(hpStr) {
     if (!hpStr) return 10;
     // "66 (12d8 + 12)" -> 66
@@ -210,13 +234,44 @@ function detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor) {
     const actions = row.Actions ? row.Actions.toLowerCase() : "";
     const traits = row.Traits ? row.Traits.toLowerCase() : "";
     
-    // Legendary (CR 20+) - highest priority
-    if (cr >= 20) return "LEGENDARY";
+    const sizeLower = row.Size ? row.Size.toLowerCase() : "";
+    // Attack lines in both the 2014 ("Melee Weapon Attack") and 2024 ("Melee Attack Roll") formats
+    // Best average damage of the melee-only and the ranged-only attacks
+    let bestMelee = -1, bestRanged = -1;
+    for (const line of (row.Actions || "").split("\n")) {
+        const dot = line.indexOf(".");
+        const atk = dot === -1 ? null : parseAttack(line.substring(dot + 1).trim());
+        if (!atk) continue;
+        const avg = atk.damages.reduce((sum, d) => sum + averageDice(d.dice), 0);
+        if (atk.kind === "ranged") bestRanged = Math.max(bestRanged, avg);
+        else bestMelee = Math.max(bestMelee, avg);
+    }
+
+    // CR 20+ and the colossal ones (Gargantuan, titans, 300+ HP at CR 10+) are bosses: Solo.
+    // (They used to get LEGENDARY / COLOSSAL, which are not Daggerheart roles, cost 2 Battle Points and,
+    // for COLOSSAL, used segment stats: e.g. King Hekaton had 5 HP and Difficulty 16.)
+    if (cr >= 20) return "SOLO";
+    if ((sizeLower === "gargantuan" && cr >= 10) || nameLower.includes("colossal") ||
+        /\btitan\b/.test(nameLower) || (hpRaw > 300 && cr >= 10)) {
+        return "SOLO";
+    }
     
-    // Colossal (Gargantuan size, very large creatures with multiple segments)
-    if (typeLower.includes("gargantuan") || nameLower.includes("colossal") || 
-        nameLower.includes("titan") || (hpRaw > 300 && cr >= 10)) {
-        return "COLOSSAL";
+    // Solo (has Legendary Actions, or high CR with complex abilities - these are unique powerful monsters)
+    // "Elite" from old system maps to Solo
+    if (row["Legendary Actions"] || 
+        (cr >= 15 && !typeLower.includes("swarm") && 
+         (actions.includes("multiattack") || actions.includes("breath") || 
+          actions.includes("recharge") || traits.includes("legendary")))) {
+        return "SOLO";
+    }
+
+    // Giants (ogres, trolls, ettins, cyclopes, fomorians, the true giants...): big bodies, so Bruisers,
+    // and Leaders when they hold a rank in the Ordning or a war band. Tier still comes from CR.
+    if (typeLower.includes("giant") && /^(large|huge|gargantuan)/.test(sizeLower)) {
+        if (/\b(king|queen|jarl|thane|chief|chieftain|subchief|duke|duchess|count|countess|imperator|lord|lady|warlord|captain|sergeant|boss|leader)\b/.test(nameLower)) {
+            return "LEADER";
+        }
+        return "BRUISER";
     }
     
     // Social (nobles, merchants, diplomats - non-combat focused)
@@ -230,15 +285,6 @@ function detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor) {
         return "SOCIAL";
     }
     
-    // Solo (has Legendary Actions, or high CR with complex abilities - these are unique powerful monsters)
-    // "Elite" from old system maps to Solo
-    if (row["Legendary Actions"] || 
-        (cr >= 15 && !typeLower.includes("swarm") && 
-         (actions.includes("multiattack") || actions.includes("breath") || 
-          actions.includes("recharge") || traits.includes("legendary")))) {
-        return "SOLO";
-    }
-    
     // Minion (very low CR, weak stats)
     if (cr < 0.5 && hpRaw < 10) {
         return "MINION";
@@ -249,9 +295,16 @@ function detectRole(row, cr, tier, hpRaw, int, acRaw, daggerHP, divisor) {
         return "HORDE";
     }
     
+    // Named leaders (captains, commanders, warlords...) lead even when their best attack is a pistol or a bow
+    if (/\b(commander|captain|leader|warlord|general|chieftain)\b/.test(nameLower)) {
+        return "LEADER";
+    }
+
     // Ranged (has ranged attacks, archer/sniper in name)
-    if (nameLower.includes("archer") || nameLower.includes("sniper") || 
-        actions.includes("ranged weapon attack") || actions.includes("ranged spell attack")) {
+    // Only creatures whose ranged attack is their best one: almost every 5e creature has *a* ranged option
+    // (javelins, crossbows, rocks), which used to make 28% of the bestiary Ranged (official Daggerheart: 7%)
+    // and the SKT giants into snipers.
+    if (/\b(archer|sniper|sharpshooter|marksman|arbalester)\b/.test(nameLower) || bestRanged > bestMelee) {
         return "RANGED";
     }
     
@@ -572,11 +625,12 @@ function classifyFeature(description) {
     
     const descLower = description.toLowerCase();
     
-    // Reaction keywords - highest priority (check first)
-    if (descLower.includes("when ") || descLower.includes("in response to") ||
-        descLower.includes("after being") || descLower.includes("reaction") ||
-        descLower.includes("if ") && descLower.includes("attacked") ||
-        descLower.includes("as a reaction")) {
+    // Reaction keywords - highest priority (check first). "Reaction Roll" (converted saving throws) is not a trigger.
+    const triggerText = descLower.replace(/reaction rolls?/g, "");
+    if (triggerText.includes("when ") || triggerText.includes("in response to") ||
+        triggerText.includes("after being") || triggerText.includes("its reaction") ||
+        (triggerText.includes("if ") && triggerText.includes("attacked")) ||
+        triggerText.includes("as a reaction")) {
         return "Reaction";
     }
     
@@ -600,40 +654,6 @@ function classifyFeature(description) {
     
     // Default to Passive for traits/abilities that are always active
     return "Passive";
-}
-
-function convertDnDTerminology(text) {
-    if (!text) return "";
-    
-    let newText = text;
-    
-    // Convert "saving throw" / "save" to "Reaction Roll" (but not if already converted)
-    newText = newText.replace(/\bsaving throw\b/gi, "Reaction Roll");
-    newText = newText.replace(/\b(?<!reaction\s)save\b/gi, "Reaction Roll");
-    
-    // Remove or simplify advantage/disadvantage references
-    newText = newText.replace(/\bhas advantage\b/gi, "has a bonus");
-    newText = newText.replace(/\bwith advantage\b/gi, "with a bonus");
-    newText = newText.replace(/\badvantage on\b/gi, "bonus on");
-    newText = newText.replace(/\bdisadvantage\b/gi, "penalty");
-    
-    // Convert "hit points" / "HP" terminology (keep HP but clarify context)
-    newText = newText.replace(/\bhit points\b/gi, "HP");
-    
-    // Convert common D&D damage types to Daggerheart format
-    // (Daggerheart uses: physical, magic, fire, cold, etc.)
-    // Most are already compatible, but we can ensure consistency
-    
-    // Convert "nonmagical" to "non-magical" for consistency
-    newText = newText.replace(/\bnonmagical\b/gi, "non-magical");
-    
-    // Remove or convert "creature" to more narrative language when appropriate
-    // (Keep it for clarity in some contexts)
-    
-    // Convert "target" to more narrative language in some contexts
-    // But keep for mechanical clarity
-    
-    return newText;
 }
 
 // Format Randomized Tactics feature to split moves onto separate lines
@@ -912,7 +932,7 @@ function convertMarkdownToHTML(text) {
     return result.join('\n');
 }
 
-function addRoleSpecificFeatures(features, role, cr, tier) {
+function addRoleSpecificFeatures(features, role, cr, tier, opts = {}) {
     const roleUpper = role.toUpperCase();
     const newFeatures = [];
     
@@ -966,8 +986,16 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
         }
     }
     
-    // MINION: Ensure Minion(X) passive exists
+    // MINION: Ensure Minion(X) passive exists, plus the shared Group Attack every core minion has
     if (roleUpper === "MINION") {
+        if (!hasFeature("group attack")) {
+            const flat = String(opts.damage || "").replace(/\s*(phy|mag)$/, "");
+            const kind = /mag$/.test(opts.damage || "") ? "magic" : "physical";
+            newFeatures.push({
+                name: "Group Attack",
+                description: convertMarkdownToHTML(`**Action:** Spend a Fear to choose a target and spotlight all of these Minions within Close range of them. Those Minions move into Melee range of the target and make one shared attack roll. On a success, they deal ${flat} ${kind} damage each. Combine this damage.`)
+            });
+        }
         if (!hasFeature("minion")) {
             // Determine X based on tier
             const minionValue = tier === 1 ? 3 : tier === 2 ? 5 : tier === 3 ? 7 : 9;
@@ -988,8 +1016,17 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
         }
     }
     
-    // SOLO/LEGENDARY: Add Relentless(X) for high-CR
-    if ((roleUpper === "SOLO" || roleUpper === "LEGENDARY") && cr >= 15) {
+    // HORDE: Horde (X) - the core hordes deal reduced damage once half their HP is marked
+    if (roleUpper === "HORDE" && !hasFeature("horde")) {
+        const hordeDamage = { 1: "1d4+2", 2: "2d4+3", 3: "3d4+2", 4: "4d4+4" }[tier];
+        newFeatures.push({
+            name: `Horde (${hordeDamage})`,
+            description: convertMarkdownToHTML(`**Passive:** When this Horde has marked half or more of their HP, their standard attack deals ${hordeDamage} damage instead.`)
+        });
+    }
+
+    // SOLO: Relentless (X) for high-CR solos and for any solo with 5e Legendary Actions (its extra turns)
+    if (roleUpper === "SOLO" && (cr >= 15 || opts.legendary)) {
         if (!hasFeature("relentless")) {
             const relentlessValue = cr >= 20 ? 3 : 2;
             newFeatures.push({
@@ -1028,447 +1065,137 @@ function addRoleSpecificFeatures(features, role, cr, tier) {
 // Enhanced Action Conversion to Daggerheart Format
 // ============================================================================
 
-function convertActionsToDaggerheart(text, role, cr, tier) {
+// Riders that make an attack worth a Stress (conditions, forced movement, swallowing...).
+const RIDER_COSTS_STRESS = /\b(poison|grappl|restrain|frighten|charm|swallow|prone|blind|stun|paraly|deafen|incapacitat|petrif|vulnerable|pushed|pulled|knocked|drained|reduc)/i;
+
+const NUMBER_WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8 };
+const toNumber = (w) => NUMBER_WORDS[w.toLowerCase()] ?? parseInt(w, 10);
+
+// "makes two attacks" -> 2; "makes one Bite attack and two Claw attacks" -> 3.
+function parseAttackCount(description) {
+    const direct = description.match(/\bmakes (one|two|three|four|five|six|seven|eight|\d+) (?:\w+ )?attacks\b/i);
+    if (direct) return toNumber(direct[1]);
+    let total = 0;
+    const re = /\b(one|two|three|four|five|six|seven|eight|\d+)\s+(?:[\w'-]+\s+){0,3}?attacks?\b/gi;
+    let m;
+    while ((m = re.exec(description)) !== null) total += toNumber(m[1]);
+    return total >= 2 ? total : 2;
+}
+
+const capitalize = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+const lowerFirst = (s) => (s ? s[0].toLowerCase() + s.slice(1) : s);
+
+// Legendary actions that only repeat another action or a skill check are covered by Relentless (X).
+function isTrivialLegendaryAction(description) {
+    return /^(?:the \w+|[A-Z][\w']+) (?:makes (?:one|a|an) [^.]*?(?:attack|check)|uses (?:its )?(?:Spellcasting|Multiattack)\b(?! to cast)|moves up to)/i.test(description.trim())
+        && description.trim().split(/\.\s/).length <= 2;
+}
+
+// 2024 save layout "Agility Reaction Roll: each creature in a Cone (Far range). Failure: ... Success: ..."
+// -> "Each creature in a Cone (Far range) must make an Agility Reaction Roll. Targets who fail take ... Targets who succeed take ..."
+function rewrite2024Save(text) {
+    return text
+        .replace(/\b(Strength|Agility|Knowledge|Instinct|Presence)(?: or (Strength|Agility|Knowledge|Instinct|Presence))? Reaction Roll: ([^.]+)\./g,
+            (_, a, b, who) => `${capitalize(who.trim())} must make ${/^[AI]/.test(a) ? 'an' : 'a'} ${a}${b ? ` or ${b}` : ''} Reaction Roll.`)
+        .replace(/\bFailure or Success:\s*/g, 'Either way, ')
+        .replace(/\bFailure:\s*(\d+d\d+(?:[+-]\d+)? (?:physical|magic) damage(?: \(\w+\))?)/g, 'Targets who fail take $1')
+        .replace(/\bSuccess:\s*Half damage(?: only)?\.?/gi, 'Targets who succeed take half damage.')
+        .replace(/\bFirst Failure:\s*/g, 'On a first failure: ')
+        .replace(/\bSecond Failure:\s*/g, 'On a second failure: ')
+        .replace(/\bFailure:\s*/g, 'On a failure: ')
+        .replace(/\bSuccess:\s*/g, 'On a success: ');
+}
+
+// Full text pipeline for a feature body.
+function dhText(text) {
+    let t = toDaggerheartText(text.replace(/([a-z)])\.([A-Z][a-z])/g, '$1. $2'));
+    t = rewrite2024Save(t);
+    t = t.replace(/\s*(?:The|the) [\w\s'-]+? can't take this action again until the start of (?:its|his|her|their) next turn\./g, '');
+    t = t.replace(/\battack rolls?\b/gi, (m) => (/s$/i.test(m) ? 'attacks' : 'attack'));
+    return t.replace(/(^|[.!?]\s+)([a-z])/g, (_, p, c) => p + c.toUpperCase()).trim();
+}
+
+function convertActionsToDaggerheart(text, role, cr, tier, opts = {}) {
     if (!text) return [];
-    
-    // Split by newlines - actions in CSV are typically on separate lines
     const lines = text.split('\n').filter(line => line.trim().length > 0);
-    const convertedActions = [];
-    const actionGroups = [];
-    
-    // First pass: parse and group related actions
-    let currentGroup = null;
+    const converted = [];
     for (const line of lines) {
         const firstPeriodIndex = line.indexOf('.');
         if (firstPeriodIndex === -1) continue;
-        
         const name = line.substring(0, firstPeriodIndex).trim();
         const description = line.substring(firstPeriodIndex + 1).trim();
-        const descLower = description.toLowerCase();
-        
-        // Check if this is a multiattack that groups other actions
-        if (name.toLowerCase().includes('multiattack') || (descLower.includes('makes') && descLower.includes('attacks'))) {
-            currentGroup = { type: 'multiattack', name, description: description, actions: [] };
-            actionGroups.push(currentGroup);
-        } else if (currentGroup && currentGroup.type === 'multiattack') {
-            // Add to current multiattack group only if it looks like an attack description
-            // Stop grouping if we hit a non-attack action (like a special ability)
-            if (descLower.includes('attack') || descLower.includes('hit:') || descLower.includes('melee') || descLower.includes('ranged')) {
-                currentGroup.actions.push({ name, description: description });
-            } else {
-                // Not part of multiattack, start new standalone action
-                actionGroups.push({ type: 'standalone', name, description: description });
-                currentGroup = null;
-            }
-        } else {
-            // Standalone action
-            actionGroups.push({ type: 'standalone', name, description: description });
-            currentGroup = null;
+        if (/^legendary action uses/i.test(name)) continue;
+        if (opts.legendary && isTrivialLegendaryAction(description)) continue;
+        if (/^multiattack/i.test(name)) {
+            converted.push(convertMultiattack(name, description));
+            continue;
         }
+        converted.push(convertSingleAction(name, description, role, cr, tier, opts));
     }
-    
-    // Second pass: convert each action/group to Daggerheart format
-    for (const group of actionGroups) {
-        if (group.type === 'multiattack') {
-            // Convert multiattack to a single Daggerheart action
-            const converted = convertMultiattack(group, role, cr, tier);
-            if (converted) convertedActions.push(converted);
-        } else {
-            // Convert standalone action
-            const converted = convertSingleAction(group.name, group.description, role, cr, tier);
-            if (converted) convertedActions.push(converted);
-        }
-    }
-    
-    return convertedActions;
+    return converted;
 }
 
-function convertMultiattack(group, role, cr, tier) {
-    // Multiattack becomes a Stress action that allows multiple attacks
-    const attackCount = Math.max(group.actions.length || 2, 2);
-    const name = group.name || "Multiattack";
-    
-    let description = `Mark a Stress to make ${attackCount} standard attacks.`;
-    
-    // Add special effects if the attacks have different properties
-    const hasDifferentAttacks = group.actions.some(a => {
-        const desc = a.description.toLowerCase();
-        return desc.includes('piercing') || desc.includes('slashing') || desc.includes('bludgeoning') ||
-               desc.includes('fire') || desc.includes('cold') || desc.includes('lightning');
-    });
-    
-    if (hasDifferentAttacks && group.actions.length > 0) {
-        const firstAction = group.actions[0];
-        const damageType = extractDamageType(firstAction.description);
-        if (damageType) {
-            description += ` Each attack deals the standard damage${damageType !== 'physical' ? ` (${damageType})` : ''}.`;
-        }
-    }
-    
+function convertMultiattack(name, description) {
+    const count = parseAttackCount(description);
+    // Keep extra clauses such as "It can replace one attack with a use of Spellcasting..."
+    const extra = description.split(/(?<=\.)\s+/).slice(1)
+        .filter(sentence => !/\battacks?\b/i.test(sentence) || /\b(replace|instead)\b/i.test(sentence)).join(' ');
+    const extraText = extra ? ' ' + dhText(extra) : '';
     return {
         name,
-        description: convertMarkdownToHTML(`**Action:** ${description}`)
+        description: convertMarkdownToHTML(`**Action:** Mark a Stress to make ${count} standard attacks, against one target or split between targets in range.${extraText}`)
     };
 }
 
-function convertSingleAction(name, description, role, cr, tier) {
-    const descLower = description.toLowerCase();
-    let converted = description;
-    
-    // Check if this is a Spellcasting action (handles both "Spellcasting" and "Innate Spellcasting")
-    // and enhance it with spell details
+function convertAttack(name, description, atk, fearFromTag) {
+    const band = atk.rangeFt ? feetToRange(atk.rangeFt) : null;
+    let where = band ? ` within ${band} range` : '';
+    if (atk.kind === 'both') {
+        const thrown = description.match(/range (\d+)(?:\/\d+)? ft/i);
+        const far = thrown ? feetToRange(thrown[1]) : null;
+        where = far && far !== band ? ` within ${band} range (or ${far} range if thrown)` : where;
+    }
+    const damage = atk.damages.map(d => formatDamage(d, atk.spell)).join(' plus ');
+    const rider = atk.rider ? ' ' + dhText(atk.rider) : '';
+    const body = `make an attack against a target${where}. On a success, deal ${damage || 'the standard damage'}.${rider}`;
+    let text;
+    if (fearFromTag) text = `Spend a Fear to ${body}`;
+    else if (atk.rider && RIDER_COSTS_STRESS.test(atk.rider)) text = `Mark a Stress to ${body}`;
+    else text = capitalize(body);
+    return { name, description: convertMarkdownToHTML(`**Action:** ${text}`) };
+}
+
+function convertSingleAction(name, description, role, cr, tier, opts = {}) {
+    const cleanName = stripUsageTag(name);
+    const fearFromTag = usageTagCostsFear(name) || /recharges? after a (short|long) rest/i.test(description);
+
     if (isSpellcastingAction(name)) {
-        converted = enhanceSpellcastingAction(name, converted, description);
+        return { name: cleanName, description: convertSpellcasting(description, opts.reaction ? 'Reaction' : 'Action') };
     }
-    
-    // Convert D&D terminology first
-    converted = convertDnDTerminology(converted);
-    converted = convertRangeText(converted);
-    
-    // Detect action type and convert accordingly
-    let needsFear = false;
-    let needsStress = false;
-    let actionType = "Action";
-    
-    // Movement/shock wave effects -> Stress or Fear actions
-    if ((name.toLowerCase().includes('movement') || name.toLowerCase().includes('stomp') || 
-         name.toLowerCase().includes('shake') || descLower.includes('shock wave') || 
-         descLower.includes('emanation')) && descLower.includes('move')) {
-        needsStress = true;
-        const range = extractRange(descLower);
-        const conditions = [];
-        if (descLower.includes('prone')) conditions.push('Prone');
-        if (descLower.includes('concentration')) {
-            converted = `Mark a Stress to move up to this adversary's Speed. At the end of this movement, create a shock wave in a ${range || '60-foot emanation'} originating from this adversary. Creatures in that area lose Concentration${conditions.length > 0 ? ` and, if Medium or smaller, have the ${conditions.join(' and ')} condition` : ''}.`;
-        } else {
-            converted = `Mark a Stress to move up to this adversary's Speed. At the end of this movement, create a shock wave in a ${range || '60-foot emanation'} originating from this adversary. Creatures in that area${conditions.length > 0 ? ` have the ${conditions.join(' and ')} condition` : ' are affected'}.`;
-        }
-    }
-    // Breath weapons and area effects -> Fear actions
-    // Check for cone/line/area effects first, including those with saving throws
-    else if (descLower.includes('breath') || descLower.includes('exhale') || 
-        descLower.includes('cone') || descLower.includes('line') ||
-        (descLower.includes('each creature') && (descLower.includes('cone') || descLower.includes('emanation') || descLower.includes('radius'))) ||
-        (descLower.includes('all') && descLower.includes('within') && descLower.includes('range'))) {
-        needsFear = true;
-        const range = extractRange(descLower);
-        const damage = extractDamage(description);
-        const damageType = extractDamageType(description);
-        const saveInfo = extractSaveInfo(description);
-        
-        // Extract conditions from description (like Deafened, Frightened)
-        const conditions = [];
-        if (descLower.includes('deafened')) conditions.push('Deafened');
-        if (descLower.includes('frightened')) conditions.push('Frightened');
-        if (descLower.includes('prone')) conditions.push('Prone');
-        if (descLower.includes('restrained')) conditions.push('Restrained');
-        if (descLower.includes('blinded')) conditions.push('Blinded');
-        
-        // Determine area type
-        let areaType = 'area';
-        if (descLower.includes('cone')) areaType = 'cone';
-        else if (descLower.includes('line')) areaType = 'line';
-        else if (descLower.includes('emanation') || descLower.includes('radius')) areaType = 'emanation';
-        
-        // Build the conversion
-        const actionName = name.toLowerCase();
-        let actionVerb = 'use this ability';
-        if (actionName.includes('breath') || actionName.includes('bellow') || actionName.includes('roar')) {
-            actionVerb = getBreathVerb(name);
-        } else if (actionName.includes('movement') || actionName.includes('stomp') || actionName.includes('shake')) {
-            actionVerb = 'create a shock wave';
-        }
-        
-        const fearCost = (damage && (damage.includes('d10') || damage.includes('d12'))) || 
-                        (damage && parseInt(damage.match(/\d+/)?.[0]) > 30) ? 2 : 1;
-        
-        converted = `Spend ${fearCost === 2 ? 'two' : 'a'} Fear to ${actionVerb} in a ${range ? range + ' ' + areaType : areaType + ' of Medium range'}. `;
-        converted += `All targets within that area must make ${saveInfo || 'a Reaction Roll against this adversary\'s Difficulty'}. `;
-        
-        if (damage) {
-            converted += `Targets who fail take ${damage}${damageType && damageType !== 'physical' ? ' ' + damageType : ''} damage`;
-            if (conditions.length > 0) {
-                converted += ` and have the ${conditions.join(' and ')} condition${conditions.length > 1 ? 's' : ''} until the end of their next turn`;
-            }
-            converted += '.';
-            if (saveInfo || descLower.includes('success') || descLower.includes('half')) {
-                converted += ` Targets who succeed take half damage${conditions.length > 0 ? ' only' : ''}.`;
-            }
-        } else {
-            converted += `Targets who fail take damage equal to this adversary's standard attack damage${damageType && damageType !== 'physical' ? ' (' + damageType + ')' : ''}`;
-            if (conditions.length > 0) {
-                converted += ` and have the ${conditions.join(' and ')} condition${conditions.length > 1 ? 's' : ''} until the end of their next turn`;
-            }
-            converted += '.';
-        }
-    }
-    
-    // Summoning -> Fear action (but not if it's a movement/shock wave)
-    else if ((descLower.includes('summon') || descLower.includes('conjure')) && 
-             !descLower.includes('shock wave') && !descLower.includes('emanation')) {
-        needsFear = true;
-        const summonCount = extractNumber(description, /(\d+)\s+(?:creature|ally|minion)/i) || 1;
-        const range = extractRange(descLower) || 'Far range';
-        converted = `Spend a Fear to summon ${summonCount} ${getSummonType(name, description)}${summonCount > 1 ? 's' : ''}, who appear at ${range}.`;
-    }
-    
-    // Multi-target attacks -> Stress action (but not if already handled as area effect)
-    else if ((descLower.includes('all targets') || descLower.includes('each creature')) && 
-             !descLower.includes('cone') && !descLower.includes('emanation') && !descLower.includes('radius') &&
-             !descLower.includes('saving throw')) {
-        needsStress = true;
-        const range = extractRange(descLower) || 'Close range';
-        converted = `Mark a Stress to make a standard attack against all targets within ${range}. `;
-        converted += `Targets this adversary succeeds against take the standard attack damage.`;
-    }
-    
-    // Single target weapon attacks -> can be standard or Stress-enhanced
-    else if (descLower.includes('melee weapon attack') || descLower.includes('ranged weapon attack') ||
-             descLower.includes('melee spell attack') || descLower.includes('ranged spell attack') ||
-             descLower.includes('melee attack roll') || descLower.includes('ranged attack roll')) {
-        // If it's a special attack (poison, grapple, swallow, etc.), make it a Stress action
-        if (descLower.includes('poison') || descLower.includes('grapple') || descLower.includes('restrain') ||
-            descLower.includes('frighten') || descLower.includes('charm') || descLower.includes('swallow') ||
-            descLower.includes('prone') || descLower.includes('blinded')) {
-            needsStress = true;
-            const effect = extractEffect(description);
-            const damage = extractDamage(description);
-            const damageType = extractDamageType(description);
-            converted = `Mark a Stress to make a standard attack against a target. On a success, the target takes ${damage || 'the standard attack'}${damageType && damageType !== 'physical' ? ' ' + damageType : ''} damage${effect ? ' and ' + effect : ''}.`;
-        } else {
-            // Regular attack - keep it but mark as optional/standard
-            const damage = extractDamage(description);
-            const damageType = extractDamageType(description);
-            if (damage && damage !== 'standard') {
-                converted = `Make a standard attack against a target. On a success, the target takes ${damage}${damageType && damageType !== 'physical' ? ' ' + damageType : ''} damage.`;
-            } else {
-                // This is a standard attack - still include it but note it's the basic attack
-                converted = `Make a standard attack against a target.`;
-            }
-        }
-    }
-    
-    // Spell-like effects -> Fear or Stress depending on power
-    else if (descLower.includes('spell') || descLower.includes('magic') || descLower.includes('cast')) {
-        const isPowerful = descLower.includes('damage') && (descLower.includes('d10') || descLower.includes('d12'));
-        if (isPowerful || descLower.includes('all') || descLower.includes('area')) {
-            needsFear = true;
-            converted = `Spend a Fear to ${getSpellAction(description)}. ${converted}`;
-        } else {
-            needsStress = true;
-            converted = `Mark a Stress to ${getSpellAction(description)}. ${converted}`;
-        }
-    }
-    
-    // Recharge abilities -> add recharge note (may already be a Fear action from above)
-    if (descLower.includes('recharge') && !converted.includes('Recharge')) {
-        const recharge = extractRecharge(description);
-        if (recharge) {
-            // If not already a Fear action, make it one
-            if (!needsFear && !needsStress) {
-                needsFear = true;
-                if (!converted.startsWith('Spend')) {
-                    converted = `Spend a Fear to ${converted.toLowerCase()}`;
-                }
-            }
-            converted += ` (Recharge ${recharge})`;
-        }
-    }
-    
-    // If no special conversion happened, check if it needs Fear/Stress
-    if (!needsFear && !needsStress && !converted.startsWith('*')) {
-        // Check if it's a powerful ability that should cost Fear
-        if (descLower.includes('frightful') || descLower.includes('fear') || descLower.includes('terror') ||
-            descLower.includes('legendary') || descLower.includes('lair') ||
-            (descLower.includes('damage') && (descLower.includes('d10') || descLower.includes('d12')))) {
-            needsFear = true;
-            converted = `Spend a Fear to ${converted.toLowerCase()}`;
-        }
-        // Otherwise, if it's an active ability, it might need Stress
-        else if (!descLower.includes('passive') && !descLower.includes('always') && 
-                 (descLower.includes('force') || descLower.includes('make') || descLower.includes('target') ||
-                  descLower.includes('move') || descLower.includes('creates') || descLower.includes('causes'))) {
-            needsStress = true;
-            converted = `Mark a Stress to ${converted.toLowerCase()}`;
-        }
-        // If it's still not converted and looks like an action, make it a Stress action by default
-        else if (!descLower.includes('passive') && !descLower.includes('always') && 
-                 description.length > 10) {
-            needsStress = true;
-            converted = `Mark a Stress to ${converted.toLowerCase()}`;
-        }
-    }
-    
-    // Add action type prefix if not present
-    if (!converted.startsWith('**')) {
-        if (needsFear || needsStress) {
-            actionType = "Action";
-        } else {
-            actionType = classifyFeature(converted);
-        }
-        converted = `**${actionType}:** ${converted}`;
-    }
-    
-    // Never return null - always return a converted action
-    return {
-        name,
-        description: convertMarkdownToHTML(converted)
-    };
-}
 
-// Helper functions for action conversion
-function extractRange(text) {
-    const rangeMatch = text.match(/(\d+)\s*ft|feet/);
-    if (rangeMatch) {
-        const feet = parseInt(rangeMatch[1]);
-        if (feet <= 5) return 'Melee';
-        if (feet <= 30) return 'Very Close range';
-        if (feet <= 60) return 'Close range';
-        if (feet <= 120) return 'Medium range';
-        return 'Far range';
-    }
-    if (text.includes('melee')) return 'Melee';
-    if (text.includes('close')) return 'Close range';
-    if (text.includes('medium')) return 'Medium range';
-    if (text.includes('far') || text.includes('long')) return 'Far range';
-    return null;
-}
+    const atk = parseAttack(description);
+    if (atk && !opts.reaction) return convertAttack(cleanName, description, atk, fearFromTag);
 
-function extractDamage(text) {
-    // Look for damage dice like "2d6+4" or "1d8" or "78 (12d12)"
-    // First try to find dice notation (preferred)
-    const damageMatch = text.match(/(\d+)d(\d+)(?:\s*\+\s*(\d+))?/);
-    if (damageMatch) {
-        const dice = damageMatch[1];
-        const die = damageMatch[2];
-        const mod = damageMatch[3] || '';
-        return `${dice}d${die}${mod ? '+' + mod : ''}`;
+    const text = dhText(description);
+    if (opts.reaction) {
+        const tr = description.match(/^Trigger:\s*(.*?)\.\s*Response:\s*(.*)$/s);
+        const body = tr ? `When ${lowerFirst(dhText(tr[1]))}, ${lowerFirst(dhText(tr[2]))}` : text;
+        return { name: cleanName, description: convertMarkdownToHTML(`**Reaction:** ${body} Mark a Stress to use this reaction.`) };
     }
-    // Look for average damage in format "78 (12d12)" - extract the dice part
-    const avgWithDiceMatch = text.match(/(\d+)\s*\((\d+)d(\d+)(?:\s*\+\s*(\d+))?\)/);
-    if (avgWithDiceMatch) {
-        const dice = avgWithDiceMatch[2];
-        const die = avgWithDiceMatch[3];
-        const mod = avgWithDiceMatch[4] || '';
-        return `${dice}d${die}${mod ? '+' + mod : ''}`;
-    }
-    // Look for just average damage number if no dice found
-    const avgMatch = text.match(/(\d+)\s+damage/);
-    if (avgMatch && parseInt(avgMatch[1]) > 5) {
-        return avgMatch[1];
-    }
-    return null;
-}
 
-function extractDamageType(text) {
-    const textLower = text.toLowerCase();
-    if (textLower.includes('fire')) return 'fire';
-    if (textLower.includes('cold') || textLower.includes('frost')) return 'cold';
-    if (textLower.includes('lightning') || textLower.includes('thunder')) return 'lightning';
-    if (textLower.includes('poison')) return 'poison';
-    if (textLower.includes('acid')) return 'acid';
-    if (textLower.includes('necrotic')) return 'necrotic';
-    if (textLower.includes('radiant')) return 'radiant';
-    if (textLower.includes('psychic')) return 'psychic';
-    if (textLower.includes('force') || textLower.includes('magic')) return 'magic';
-    return 'physical';
-}
-
-function extractSaveInfo(text) {
-    const abilityMap = {
-        'strength': 'Strength',
-        'dexterity': 'Agility',
-        'constitution': 'Finesse',
-        'intelligence': 'Instinct',
-        'wisdom': 'Presence',
-        'charisma': 'Presence'
-    };
-    
-    // Pattern 1: "Constitution Saving Throw: DC 27" (with colon)
-    let saveMatch = text.match(/(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s+Saving Throw:\s+DC\s+(\d+)/i);
-    if (saveMatch) {
-        const ability = abilityMap[saveMatch[1].toLowerCase()];
-        const dc = saveMatch[2];
-        return `${ability} Reaction Roll (${dc})`;
-    }
-    
-    // Pattern 2: "DC 27 Constitution saving throw" or "DC 27, Constitution saving throw"
-    saveMatch = text.match(/DC\s+(\d+)[,\s]+(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save)/i);
-    if (saveMatch) {
-        const dc = saveMatch[1];
-        const ability = abilityMap[saveMatch[2].toLowerCase()];
-        return `${ability} Reaction Roll (${dc})`;
-    }
-    
-    // Pattern 3: "Constitution saving throw: DC 27" (alternative format)
-    saveMatch = text.match(/(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save):\s*DC\s+(\d+)/i);
-    if (saveMatch) {
-        const ability = abilityMap[saveMatch[1].toLowerCase()];
-        const dc = saveMatch[2];
-        return `${ability} Reaction Roll (${dc})`;
-    }
-    
-    // Pattern 4: "Ability saving throw" without DC
-    saveMatch = text.match(/(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save)/i);
-    if (saveMatch) {
-        const ability = abilityMap[saveMatch[1].toLowerCase()];
-        return `${ability} Reaction Roll`;
-    }
-    
-    return null;
-}
-
-function extractEffect(text) {
-    const textLower = text.toLowerCase();
-    if (textLower.includes('poisoned')) return 'becomes *Poisoned*';
-    if (textLower.includes('frightened')) return 'becomes *Frightened*';
-    if (textLower.includes('restrained')) return 'becomes *Restrained*';
-    if (textLower.includes('charmed')) return 'becomes *Charmed*';
-    if (textLower.includes('stunned')) return 'becomes *Stunned*';
-    return null;
-}
-
-function extractRecharge(text) {
-    const rechargeMatch = text.match(/recharge\s*(\d+)[-\s]*(\d+)/i);
-    if (rechargeMatch) {
-        return `${rechargeMatch[1]}-${rechargeMatch[2]}`;
-    }
-    return null;
-}
-
-function extractNumber(text, pattern) {
-    const match = text.match(pattern);
-    return match ? parseInt(match[1]) : null;
-}
-
-function getBreathVerb(name) {
-    const nameLower = name.toLowerCase();
-    if (nameLower.includes('fire')) return 'exhale fire';
-    if (nameLower.includes('frost') || nameLower.includes('cold')) return 'exhale frost';
-    if (nameLower.includes('lightning') || nameLower.includes('thunder') || nameLower.includes('bellow')) return 'exhale thunder';
-    if (nameLower.includes('poison')) return 'exhale poison';
-    if (nameLower.includes('acid')) return 'exhale acid';
-    if (nameLower.includes('bellow') || nameLower.includes('roar')) return 'release a thunderous bellow';
-    return 'exhale destructive energy';
-}
-
-function getSummonType(name, description) {
     const descLower = description.toLowerCase();
-    if (descLower.includes('skeleton') || descLower.includes('zombie')) return 'undead minion';
-    if (descLower.includes('demon') || descLower.includes('devil')) return 'fiend';
-    if (descLower.includes('elemental')) return 'elemental';
-    if (descLower.includes('beast') || descLower.includes('animal')) return 'beast';
-    return 'ally';
+    const isArea = /\b(cone|line|cube|sphere|emanation|cylinder|radius)\b/.test(descLower) ||
+        (/\beach creature\b/.test(descLower) && /saving throw/.test(descLower));
+    const dealsDamage = /\d+d\d+/.test(description) && /damage/.test(descLower);
+    const needsFear = fearFromTag || opts.legendary ||
+        /\b(breath|exhale|frightful presence|summon|conjure|legendary|lair)\b/.test(descLower) ||
+        (isArea && dealsDamage);
+
+    const prefix = needsFear ? 'Spend a Fear to use this ability.' : 'Mark a Stress to use this ability.';
+    return { name: cleanName, description: convertMarkdownToHTML(`**Action:** ${prefix} ${text}`) };
 }
 
-function getSpellAction(description) {
-    const descLower = description.toLowerCase();
-    if (descLower.includes('cast')) {
-        return description.match(/cast\s+([^.]+)/i)?.[1] || 'use this ability';
-    }
-    return 'use this ability';
-}
-
+//
 // ============================================================================
 // Spell Parsing and Enhancement Functions
 // ============================================================================
@@ -1529,26 +1256,6 @@ function extractFunctionalSpellText(spellText) {
     // Fallback: return cleaned version of text, removing obvious narrative
     text = text.replace(/^(You|A|An|The|This spell)\s+/i, '');
     return text.trim();
-}
-
-// Clean spell description while preserving full text content
-// Only removes leading narrative pronouns for better readability in stat blocks
-function cleanSpellDescription(spellText) {
-    if (!spellText) return '';
-    
-    let text = spellText.trim();
-    
-    // Remove leading narrative pronouns at the start of the text for better flow in stat blocks
-    // This makes "You create..." become "create..." which reads better in adversary descriptions
-    text = text.replace(/^(You|A|An|The|This spell)\s+/i, '');
-    
-    // Capitalize the first letter if it's lowercase
-    if (text.length > 0 && text[0] === text[0].toLowerCase()) {
-        text = text[0].toUpperCase() + text.slice(1);
-    }
-    
-    // Preserve all other content including full descriptions, mechanics, and narrative
-    return text;
 }
 
 // Clean spell name by removing damage annotations and other parenthetical notes
@@ -1649,6 +1356,7 @@ function splitSpellList(spellListText) {
             lower.startsWith('and ') || 
             lower.startsWith('or ') ||
             lower.length < 2 ||
+            lower.length > 40 ||
             /^(the|a|an)\s+/i.test(spell)) {
             return false;
         }
@@ -1690,14 +1398,14 @@ function parseSpellNames(spellcastingText) {
     // The pattern should match until we see a frequency marker (X/day or Xst level) or end of string
     // But we need to be careful not to stop at digits inside parenthetical notes
     const atWillMatch = text.match(/at\s+will[:\s]+(.+?)(?=\s*\d+\/day(?:\s+each)?[:\s]|\s*\d+(?:st|nd|rd|th)\s+level[:\s]|$)/i);
-    if (atWillMatch) {
+    if (atWillMatch && !/cantrips?\s*\(at will\)/i.test(text)) {
         // Split by comma, but be smart about commas inside parentheses
         const spellList = splitSpellList(atWillMatch[1]);
         spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: 'At will' })));
     }
     
     // Pattern 2: "Cantrips (at will): spell1, spell2"
-    const cantripsMatch = text.match(/cantrips?\s*\([^)]*at will[^)]*\)[:\s]+([^0-9\n]+?)(?:\d+\/day|\d+st level|$)/i);
+    const cantripsMatch = text.match(/cantrips?\s*\([^)]*at will[^)]*\)[:\s]+([^\n]+?)(?=\s*\d+\/day|\s*\d+(?:st|nd|rd|th)\s+level|$)/i);
     if (cantripsMatch) {
         // Split by comma, but be smart about commas inside parentheses
         const spellList = splitSpellList(cantripsMatch[1]);
@@ -1716,12 +1424,12 @@ function parseSpellNames(spellcastingText) {
     }
     
     // Pattern 4: "1st level (4 slots): spell1, spell2"
-    const levelMatches = text.matchAll(/(\d+)(?:st|nd|rd|th)\s+level\s*\([^)]*\)[:\s]+([^0-9\n]+?)(?:\d+st level|$)/gi);
+    const levelMatches = text.matchAll(/(\d+)(?:st|nd|rd|th)\s+level\s*\([^)]*\)[:\s]+([^\n]+?)(?=\s*\d+(?:st|nd|rd|th)\s+level|\s*\d+\/day|$)/gi);
     for (const match of levelMatches) {
         const level = match[1];
         // Split by comma, but be smart about commas inside parentheses
         const spellList = splitSpellList(match[2]);
-        spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: `${level}st level` })));
+        spells.push(...spellList.map(name => ({ name: cleanSpellName(name), frequency: `${ordinal(level)} level` })));
     }
     
     // Pattern 5: Standalone spell names (for reactions, etc.)
@@ -1742,104 +1450,78 @@ function isSpellcastingAction(name) {
     return nameLower.includes('spellcasting');
 }
 
-// Enhance Spellcasting action description with spell details
-// Handles both regular "Spellcasting" and "Innate Spellcasting" - both types are enhanced the same way
-function enhanceSpellcastingAction(actionName, actionDescription, spellcastingText) {
-    // Use spellcastingText if provided, otherwise use actionDescription
-    const textToParse = spellcastingText || actionDescription;
-    
-    if (!textToParse || !textToParse.toLowerCase().includes('spell')) {
-        return actionDescription; // Not a spellcasting action
+const unknownSpells = new Set(); // spell names not in Spells.csv (listed by name only)
+
+const ordinal = (n) => {
+    const v = Number(n);
+    if (v % 100 >= 11 && v % 100 <= 13) return `${v}th`;
+    return `${v}${{ 1: 'st', 2: 'nd', 3: 'rd' }[v % 10] || 'th'}`;
+};
+
+// One-line mechanical summary of a spell for a stat block (the full text lives in the rulebook).
+function summarizeSpell(spell) {
+    // Utility spells (Detect Magic, Light...) are listed by name only; combat spells get their mechanics
+    if (!/\d+d\d+|saving throw|spell attack/i.test(spell.text || '')) return '';
+    const functional = extractFunctionalSpellText(spell.text || '').split(/\n/)[0];
+    let s = dhText(functional);
+    if (s.length > 160) {
+        const cut = s.slice(0, 160);
+        s = cut.slice(0, Math.max(cut.lastIndexOf('. ') + 1, cut.lastIndexOf(' '))).trim().replace(/[,;:]$/, '') + '…';
     }
-    
-    const parsedSpells = parseSpellNames(textToParse);
-    if (parsedSpells.length === 0) {
-        return actionDescription; // No spells found
+    return s;
+}
+
+function spellRange(range) {
+    if (!range) return '';
+    const r = range.trim();
+    if (/^touch$/i.test(r)) return 'Melee range';
+    if (/^self$/i.test(r)) return 'self';
+    if (/^sight$/i.test(r)) return 'Very Far range';
+    return dhText(r.replace(/^Self\s*\((.*)\)$/i, '$1')).replace(/^(\d+)\s*(miles?)$/i, '$1 $2');
+}
+
+// Spellcasting (and Innate Spellcasting) -> one DH action: Stress for at-will/low-level spells, Fear for daily/high-level ones,
+// with each spell as a short line instead of the full 5e spell text.
+function convertSpellcasting(description, featureType = 'Action') {
+    const parsed = parseSpellNames(description);
+    const seen = new Set();
+    const spells = parsed.filter(s => {
+        const key = `${s.frequency}|${s.name.toLowerCase()}`;
+        if (!s.name || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
+    if (spells.length === 0) {
+        return convertMarkdownToHTML(`**${featureType}:** Mark a Stress to use this ability. ${dhText(description)}`);
     }
-    
-    // Group spells by frequency
-    const spellsByFrequency = {};
-    for (const spellInfo of parsedSpells) {
-        if (!spellsByFrequency[spellInfo.frequency]) {
-            spellsByFrequency[spellInfo.frequency] = [];
-        }
-        spellsByFrequency[spellInfo.frequency].push(spellInfo.name);
+    const byFrequency = new Map();
+    for (const s of spells) {
+        if (!byFrequency.has(s.frequency)) byFrequency.set(s.frequency, []);
+        byFrequency.get(s.frequency).push(s.name);
     }
-    
-    // Look up each spell and format details
-    // First, clean up the original description by removing the raw spell list text
-    // This prevents duplication when we add the enhanced spell details
-    let enhancedDescription = actionDescription;
-    
-    // Remove the raw spell list from the description if it exists
-    // This handles cases where the description includes "At will: Spell1, Spell2" etc.
-    // We'll replace it with just the introductory text
-    // Match from the first frequency marker (at will, cantrips, X/day, or Xst level) to the end
-    const spellListPattern = /(at will|cantrips?\s*\([^)]*at will[^)]*\)|(?:\d+\/day(?:\s+each)?)|(?:\d+(?:st|nd|rd|th)\s+level\s*\([^)]*\)))[:\s]+.*$/i;
-    if (spellListPattern.test(enhancedDescription)) {
-        // Find where the spell list starts and remove it
-        // Keep everything up to (but not including) the first frequency marker
-        // Use a more careful pattern that handles cases with or without spaces
-        enhancedDescription = enhancedDescription.replace(/(.*?)(?:at will|cantrips?\s*\([^)]*at will[^)]*\)|(?:\d+\/day(?:\s+each)?)|(?:\d+(?:st|nd|rd|th)\s+level\s*\([^)]*\)))[:\s]+.*$/i, '$1').trim();
-        // Remove trailing punctuation that might be left (like colons or closing parens followed by colons)
-        enhancedDescription = enhancedDescription.replace(/[:;]\s*$/, '');
-        enhancedDescription = enhancedDescription.replace(/\)\s*:\s*$/, ')');
-    }
-    
-    // Ensure the description ends properly
-    enhancedDescription = enhancedDescription.trim();
-    
-    // Build spell details section
-    const spellDetails = [];
-    for (const [frequency, spellNames] of Object.entries(spellsByFrequency)) {
-        const frequencyHeader = `**${frequency}:**`;
-        const spellEntries = [];
-        
-        for (const spellName of spellNames) {
-            const spell = lookupSpell(spellName);
-            if (spell) {
-                // Use full spell description with minimal cleaning
-                const spellDescription = cleanSpellDescription(spell.text);
-                const spellEntry = `- **${spell.name}** (${spell.level}, ${spell.castingTime}, ${spell.duration}, ${spell.school}, ${spell.range})`;
-                
-                // Always include the spell description when found
-                if (spellDescription) {
-                    // Format with proper indentation and preserve newlines for UI rendering
-                    // Normalize whitespace but keep newlines so UI can convert them to <br/> tags
-                    let formattedDescription = spellDescription
-                        .replace(/\n\n+/g, '\n\n')  // Normalize multiple newlines to double newlines
-                        .replace(/[ \t]+/g, ' ')     // Normalize spaces and tabs (but keep newlines)
-                        .trim();
-                    
-                    // Ensure description starts with a capital letter
-                    if (formattedDescription.length > 0 && formattedDescription[0] === formattedDescription[0].toLowerCase()) {
-                        formattedDescription = formattedDescription[0].toUpperCase() + formattedDescription.slice(1);
-                    }
-                    
-                    // Add a line break and proper spacing for readability
-                    // Use single newline after spell entry header, then indented description
-                    spellEntries.push(`${spellEntry}\n  ${formattedDescription}`);
-                } else {
-                    // Fallback if description is empty (shouldn't happen, but be safe)
-                    spellEntries.push(spellEntry);
-                }
-            } else {
-                // Spell not found in database, just include the name
-                console.warn(`Spell not found in database: ${spellName}`);
-                spellEntries.push(`- **${spellName}**`);
+    const costOf = (freq) => {
+        if (/at will/i.test(freq)) return 'mark a Stress';
+        const level = freq.match(/^(\d+)\w* level/i);
+        if (level) return parseInt(level[1], 10) >= 4 ? 'spend a Fear' : 'mark a Stress';
+        return 'spend a Fear';
+    };
+    const sections = [];
+    for (const [freq, names] of byFrequency) {
+        const lines = names.map(n => {
+            const spell = lookupSpell(n);
+            if (!spell) {
+                unknownSpells.add(n);
+                return `- **${capitalize(n)}**`;
             }
-        }
-        
-        spellDetails.push(`${frequencyHeader}\n${spellEntries.join('\n\n')}`);
+            const lvl = /cantrip/i.test(spell.level) || spell.level === '0' ? 'cantrip' : `${spell.level} level`;
+            const range = spellRange(spell.range);
+            const summary = summarizeSpell(spell);
+            return `- **${spell.name}** (${[lvl, range].filter(Boolean).join(', ')})${summary ? ': ' + summary : ''}`;
+        });
+        sections.push(`**${freq} (${costOf(freq)}):**\n${lines.join('\n')}`);
     }
-    
-    // Append spell details to the action description with proper spacing
-    if (spellDetails.length > 0) {
-        // Add double newline for clear separation between description and spell list
-        enhancedDescription += '\n\n' + spellDetails.join('\n\n');
-    }
-    
-    return enhancedDescription;
+    const intro = `Cast one of the following spells. Spell attacks use this adversary's attack modifier and Reaction Rolls are made against its Difficulty.`;
+    return convertMarkdownToHTML(`**${featureType}:** ${intro}\n\n${sections.join('\n\n')}`);
 }
 
 // ============================================================================
@@ -2115,7 +1797,7 @@ function convertDaggerheartRow(row) {
     const biome = "Unknown";
     
     return {
-        id: row.Name + "_" + Math.random().toString(36).substr(2, 9),
+        id: "", // assigned by assignStableIds()
         name: row.Name,
         tier,
         role,
@@ -2131,8 +1813,9 @@ function convertDaggerheartRow(row) {
 }
 
 function convertRow(row) {
-    const cr = parseCR(row.CR);
     const hpRaw = parseHP(row.HP);
+    // "None" CR (adventure NPCs such as SKT's Bryn Shander townsfolk, summoned spirits): place by HP instead of CR 0
+    const cr = /^\s*none/i.test(row.CR || "") ? estimateCRFromHP(hpRaw) : parseCR(row.CR);
     const acRaw = parseAC(row.AC);
     const int = parseInt(row.Intelligence) || 10;
 
@@ -2158,6 +1841,7 @@ function convertRow(row) {
 
     // Calculate role-based stats
     const stats = calculateRoleStats(role, tier, cr, hpRaw, acRaw, int, isBeastOrPlant, hasPsychicResist);
+    stats.damage_dice = `${stats.damage_dice} ${primaryDamageKind(row.Actions)}`;
 
     // Biome/Environment
     let biome = "Unknown";
@@ -2180,8 +1864,11 @@ function convertRow(row) {
         allActions.push(...bonusActions);
     }
     if (row["Legendary Actions"]) {
-        const legendaryActions = convertActionsToDaggerheart(row["Legendary Actions"], role, cr, tier);
+        const legendaryActions = convertActionsToDaggerheart(row["Legendary Actions"], role, cr, tier, { legendary: true });
         allActions.push(...legendaryActions);
+    }
+    if (row.Reactions) {
+        allActions.push(...convertActionsToDaggerheart(row.Reactions, role, cr, tier, { reaction: true }));
     }
     
     if (allActions.length > 0) {
@@ -2189,7 +1876,10 @@ function convertRow(row) {
     }
     
     // Add role-specific features
-    const enhancedFeatures = addRoleSpecificFeatures(features, role, cr, tier);
+    const enhancedFeatures = addRoleSpecificFeatures(features, role, cr, tier, {
+        legendary: Boolean(row["Legendary Actions"]),
+        damage: stats.damage_dice,
+    });
 
     // Generate Motives & Tactics
     const motivesTactics = generateMotivesAndTactics(row, role, row.Type ? row.Type.split(' ')[0] : "");
@@ -2198,7 +1888,7 @@ function convertRow(row) {
     const experiences = convertExperiences(row);
 
     return {
-        id: row.Name + "_" + Math.random().toString(36).substr(2, 9),
+        id: "", // assigned by assignStableIds()
         name: row.Name,
         tier,
         role: role.toUpperCase(), // e.g. BRUISER, STANDARD, RANGED, SKULK, SOLO
@@ -2214,6 +1904,21 @@ function convertRow(row) {
     };
 }
 
+// "phy" or "mag" for the stat-block damage: taken from the creature's first attack
+// (spell attacks and attacks whose first damage is not bludgeoning/piercing/slashing are magic).
+function primaryDamageKind(actionsText) {
+    for (const line of (actionsText || "").split("\n")) {
+        const dot = line.indexOf(".");
+        if (dot === -1) continue;
+        const atk = parseAttack(line.substring(dot + 1).trim());
+        if (!atk) continue;
+        if (atk.spell) return "mag";
+        if (atk.damages.length) return isPhysicalType(atk.damages[0].type) ? "phy" : "mag";
+    }
+    const anyDamage = extractDamages(actionsText || "")[0];
+    return anyDamage && !isPhysicalType(anyDamage.type) ? "mag" : "phy";
+}
+
 function parseFeatureText(text) {
     if (!text) return [];
 
@@ -2223,85 +1928,27 @@ function parseFeatureText(text) {
     return lines.map(line => {
         // Find the first period which usually separates Name from Description
         const firstPeriodIndex = line.indexOf('.');
+        const name = firstPeriodIndex !== -1 ? line.substring(0, firstPeriodIndex).trim() : "";
+        const raw = firstPeriodIndex !== -1 ? line.substring(firstPeriodIndex + 1).trim() : line.trim();
 
-        if (firstPeriodIndex !== -1) {
-            const name = line.substring(0, firstPeriodIndex).trim();
-            let description = line.substring(firstPeriodIndex + 1).trim();
-            
-            // Check if this is a Spellcasting trait (handles both "Spellcasting" and "Innate Spellcasting")
-            // and enhance it with spell details
-            if (isSpellcastingAction(name)) {
-                description = enhanceSpellcastingAction(name, description, line);
-            }
-            
-            // Convert D&D terminology first, then range text
-            description = convertDnDTerminology(description);
-            description = convertRangeText(description);
-            
-            // Classify feature and add proper tag if not already present
-            const featureType = classifyFeature(description);
-            if (!description.startsWith("**Passive:**") && 
-                !description.startsWith("**Action:**") && 
-                !description.startsWith("**Reaction:**")) {
-                description = `**${featureType}:** ${description}`;
-            }
-            
-            return { name, description: convertMarkdownToHTML(description) };
-        } else {
-            // Fallback for lines without a period
-            let description = line.trim();
-            description = convertDnDTerminology(description);
-            description = convertRangeText(description);
-            
-            // Classify feature and add proper tag if not already present
-            const featureType = classifyFeature(description);
-            if (!description.startsWith("**Passive:**") && 
-                !description.startsWith("**Action:**") && 
-                !description.startsWith("**Reaction:**")) {
-                description = `**${featureType}:** ${description}`;
-            }
-            
-            return { name: "", description: convertMarkdownToHTML(description) };
+        // Spellcasting traits (2014 stat blocks) are actions in Daggerheart
+        if (isSpellcastingAction(name)) {
+            return { name: stripUsageTag(name), description: convertSpellcasting(raw) };
         }
+        // Adventure NPC flavour (SKT etc.): narrative, not a game feature
+        if (/^roleplaying information$/i.test(name)) {
+            const flavour = raw.replace(/\s*(Ideal|Bond|Flaw):\s*/g, (m, k) => `\n**${k}:** `);
+            return { name, description: convertMarkdownToHTML(flavour) };
+        }
+        // Daggerheart adversaries have no saving throws to auto-succeed; the closest equivalent spends Fear.
+        if (/^legendary resistance/i.test(name)) {
+            return { name: "Legendary Resistance", description: convertMarkdownToHTML("**Reaction:** When this adversary fails a Reaction Roll, you can spend a Fear to make it succeed instead.") };
+        }
+
+        const description = dhText(raw);
+        const featureType = classifyFeature(description);
+        return { name: stripUsageTag(name), description: convertMarkdownToHTML(`**${featureType}:** ${description}`) };
     });
-}
-
-function convertRangeText(text) {
-    if (!text) return "";
-
-    let newText = text;
-
-    // Map D&D abilities to Daggerheart abilities
-    const abilityMap = {
-        'strength': 'Strength',
-        'dexterity': 'Agility',
-        'constitution': 'Finesse',
-        'intelligence': 'Instinct',
-        'wisdom': 'Presence',
-        'charisma': 'Presence'
-    };
-
-    // Convert DC with ability to Daggerheart format
-    // Pattern 1: "DC X Ability saving throw" -> "Ability Reaction Roll (X)"
-    // Examples: "DC 15 Wisdom saving throw" -> "Presence Reaction Roll (15)"
-    newText = newText.replace(/\bDC\s+(\d+)\s+(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s*(?:saving throw|save)\b/gi,
-        (match, dc, ability) => {
-            const dhAbility = abilityMap[ability.toLowerCase()];
-            return `${dhAbility} Reaction Roll (${dc})`;
-        });
-
-    // Pattern 2: "Ability Saving Throw: DC X" -> "Ability Reaction Roll (X)"
-    // Examples: "Wisdom Saving Throw: DC 15" -> "Presence Reaction Roll (15)"
-    newText = newText.replace(/\b(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)\s+Saving Throw:\s+DC\s+(\d+)\b/gi,
-        (match, ability, dc) => {
-            const dhAbility = abilityMap[ability.toLowerCase()];
-            return `${dhAbility} Reaction Roll (${dc})`;
-        });
-
-    // Handle standalone "DC X" without ability - keep as generic "Difficulty (X)"
-    newText = newText.replace(/\bDC\s+(\d+)\b/gi, (match, dc) => `Difficulty (${dc})`);
-
-    return newText;
 }
 
 // ============================================================================
@@ -2345,6 +1992,8 @@ if (fs.existsSync(daggerheartCsvPath)) {
 } else {
     console.warn(`adversaries-extracted.csv not found at ${daggerheartCsvPath}`);
 }
+
+if (unknownSpells.size) console.warn(`Spells not in Spells.csv (listed by name only): ${[...unknownSpells].sort().join(", ")}`);
 
 // Stable ids (name + book), so encounters and the Codex keep pointing at the same adversary after a re-run.
 assignStableIds(allAdversaries);
